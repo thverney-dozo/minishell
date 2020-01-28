@@ -6,7 +6,7 @@
 /*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/27 18:43:30 by thverney          #+#    #+#             */
-/*   Updated: 2020/01/28 15:54:40 by thverney         ###   ########.fr       */
+/*   Updated: 2020/01/28 16:06:48 by thverney         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,17 +21,16 @@ void	loop_shell(t_env *env)
 	(void)env;
 	while ((ret = get_next_line(0, &line)) > 0)
 	{
-		// printf("|%s|\n", line);
+		is_command(line);
+		printf("minishell: command not found: %s\n", line);
 		if (line[0] == '\0')
 			return ;
 		if (!ft_strncmp(line, "exit", 5))
 			exit (1);
 		if (line[ft_strlen(line)] == '\0')
-		{
-			// env->exit = -1; 
 			break ;
-		}
 	}
+
 }
 
 int		main(void)
