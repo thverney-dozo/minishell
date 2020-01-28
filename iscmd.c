@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   iscmd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anloubie <anloubie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/28 16:08:15 by anloubie          #+#    #+#             */
-/*   Updated: 2020/01/28 17:09:12 by anloubie         ###   ########.fr       */
+/*   Updated: 2020/01/28 18:18:04 by thverney         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,6 @@ void        is_command(char *cmd)
 		exit (1);
     if (!(ft_strncmp(cmd, "echo ", 5)) || !ft_strncmp(cmd, "echo", 5))
         ft_echo(cmd);
-    else
+    else if (cmd[0] != '\0')
         ft_not_found(cmd);
 }
