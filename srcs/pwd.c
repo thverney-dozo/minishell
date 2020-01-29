@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
+/*   By: anloubie <anloubie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/29 13:22:22 by anloubie          #+#    #+#             */
-/*   Updated: 2020/01/29 14:56:52 by thverney         ###   ########.fr       */
+/*   Updated: 2020/01/29 16:21:13 by anloubie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,22 @@
 
 void        ft_pwd(void)
 {
-    char    path[4096];
+    char    *path;
+    char    *ret;
+	int		len;
+	char	*tmp;
     
-    getcwd(path, 4096);
+	len = 500;
+	if (!(path = (char*)malloc(sizeof(char) * len)))
+		return ;
+    while (!(ret = getcwd(path, len)))
+	{
+		len += 500;
+		tmp = path;
+		if (!(path = (char*)malloc(sizeof(char) * len)))
+			return ;
+		free(tmp);
+	}
     write(1, path, ft_strlen(path));
     write(1, "\n", 1);
 }
