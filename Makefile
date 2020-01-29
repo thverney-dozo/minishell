@@ -1,51 +1,62 @@
-CFLAGS = -Wall -Werror -Wextra
-NAME = Minishell
+NAME    =       Minishell
 
-SRC_FILE = main.c 			\
+# Sources
+
+SRC_FILE   =   main.c 			\
 			iscmd.c 		\
 			ft_echo.c		\
 			ft_not_found.c	\
 			pwd.c			\
 			cd.c			\
 
-GNL_FILE = get_next_line.c get_next_line_utils.c
+INCS_NAME   =   minishell.h
 
-LIB_PATH = libft/
-LIB_FILE = ft_split.c \
-ft_substr.c \
-ft_calloc.c \
-ft_bzero.c \
-ft_strjoin.c \
-ft_atoi.c \
-ft_putstr_fd.c \
-ft_putchar_fd.c \
-ft_strchr.c \
-ft_sdupfr.c \
-ft_isdigit.c \
-ft_strlen.c \
-ft_sjoin_free.c \
-ft_strncmp.c	\
+LIB_NAME    =   libft.a
 
-GNL_PATH = gnl/
-INC= minishell.h
-SRC = ${SRC_FILE} ${addprefix ${GNL_PATH}, $(GNL_FILE)} ${addprefix ${LIB_PATH}, $(LIB_FILE)}
-OBJS = ${SRC:%.c=%.o}
+# Directories
 
-all: ${NAME}
+SRCS_DIR    =   ./srcs/
+OBJS_DIR    =   ./objs/
+INCS_DIR    =   ./includes/
+LIB_DIR     =   ./libft/
 
-$(NAME): ${OBJS} ${INC}
-	@gcc ${CFLAGS} ${OBJS} -o ${NAME}
+# Files
 
-%.o : %.c
-	@echo Compiling $<
-	@gcc $(CFLAGS) -c -I include/ $< -o $@
+SRCS        =   $(addprefix $(SRCS_DIR), $(SRC_FILE))
+OBJS        =   $(patsubst $(SRCS_DIR)%.c, $(OBJS_DIR)%.o, $(SRCS))
+INCS        =   $(addprefix $(INCS_DIR), $(INCS_NAME))
+LIB         =   $(addprefix $(LIB_DIR), $(LIB_NAME))
+
+# Compilation
+
+CC          =   gcc
+CFLAGS      =   -Wall -Wextra -Werror -g3 -I $(INCS_DIR)
+LIBH        =   -I $(LIB_DIR)includes/
+
+all: $(NAME)
+
+$(LIB):
+	@make -j -sC $(LIB_DIR)
+
+$(NAME): $(LIB) $(OBJS)
+	@$(CC) $(OBJS) $(LIB) -o $(NAME)
+	@echo "\033[32;01m[Minishell OK]\033[00m"
+
+$(OBJS_DIR)%.o: $(SRCS_DIR)%.c $(INCS)
+	@mkdir -p $(OBJS_DIR)
+	@$(CC) $(CFLAGS) $(LIBH) -o $@ -c $<
+
+librm:
+	@make -sC libft fclean
 
 clean:
-	@rm -f ${OBJS} ${BONUS}
+	@rm -rf $(OBJS_DIR)
+	@make -C libft clean
 
-fclean: clean
-	@rm ${NAME}
+fclean: librm clean
+	@rm -f $(NAME)
+	@echo "\033[32;01m[Minishell fclean OK]\033[00m"
 
-bonus :
+re: fclean all
 
-re: clean all
+.PHONY: all librm clean fclean re

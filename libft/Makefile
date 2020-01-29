@@ -6,7 +6,7 @@
 #    By: thverney <thverney@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/09 19:13:28 by thverney          #+#    #+#              #
-#    Updated: 2020/01/16 01:17:20 by thverney         ###   ########.fr        #
+#    Updated: 2020/01/29 14:40:49 by thverney         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -52,6 +52,9 @@ FILES = 		ft_atoi.c \
 				ft_itoa.c \
                 ft_sdupfr.c \
 				ft_sjoin_free.c \
+				ft_split_whitespace.c \
+				get_next_line.c \
+				get_next_line_utils.c \
 
 OBJECTS = $(FILES:.c=.o)
 
