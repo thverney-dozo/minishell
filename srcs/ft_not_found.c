@@ -6,11 +6,11 @@
 /*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/28 16:58:31 by anloubie          #+#    #+#             */
-/*   Updated: 2020/01/29 11:48:02 by thverney         ###   ########.fr       */
+/*   Updated: 2020/01/29 14:56:37 by thverney         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../includes/minishell.h"
 
 void		ft_not_found(char *cmd)
 {

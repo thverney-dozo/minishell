@@ -6,12 +6,11 @@
 /*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/27 18:43:30 by thverney          #+#    #+#             */
-/*   Updated: 2020/01/29 11:24:24 by thverney         ###   ########.fr       */
+/*   Updated: 2020/01/29 14:56:49 by thverney         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-
+#include "../includes/minishell.h"
 
 void	loop_shell(t_env *env)
 {
