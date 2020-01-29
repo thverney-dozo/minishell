@@ -6,7 +6,7 @@
 /*   By: anloubie <anloubie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/27 18:49:54 by thverney          #+#    #+#             */
-/*   Updated: 2020/01/28 17:00:43 by anloubie         ###   ########.fr       */
+/*   Updated: 2020/01/29 13:28:11 by anloubie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,5 +33,6 @@ void			loop_shell(t_env *env);
 void        	is_command(char *cmd);
 void			ft_echo(char *cmd);
 void			ft_not_found(char *cmd);
+void			ft_pwd(void);
 
 #endif

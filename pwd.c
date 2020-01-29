@@ -1,25 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   iscmd.c                                            :+:      :+:    :+:   */
+/*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: anloubie <anloubie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/01/28 16:08:15 by anloubie          #+#    #+#             */
-/*   Updated: 2020/01/29 13:29:07 by anloubie         ###   ########.fr       */
+/*   Created: 2020/01/29 13:22:22 by anloubie          #+#    #+#             */
+/*   Updated: 2020/01/29 13:26:04 by anloubie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void        is_command(char *cmd)
+void        ft_pwd(void)
 {
-    if (!ft_strncmp(cmd, "exit", 5))
-		exit (1);
-    else if (!(ft_strncmp(cmd, "echo ", 5)) || !ft_strncmp(cmd, "echo", 5))
-        ft_echo(cmd);
-    else if (!(ft_strncmp(cmd, "pwd", 3)))
-        ft_pwd();
-    else if (cmd[0] != '\0')
-        ft_not_found(cmd);
+    char    path[4096];
+    
+    getcwd(path, 4096);
+    write(1, path, ft_strlen(path));
+    write(1, "\n", 1);
 }

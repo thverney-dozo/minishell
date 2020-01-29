@@ -5,6 +5,7 @@ SRC_FILE = main.c 			\
 			iscmd.c 		\
 			ft_echo.c		\
 			ft_not_found.c	\
+			pwd.c			\
 
 GNL_FILE = get_next_line.c get_next_line_utils.c
 
