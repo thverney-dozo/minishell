@@ -55,7 +55,7 @@ clean:
 	@make -C libft clean
 
 fclean: librm clean
-	@rm -f $(NAME)
+	@rm -f ${NAME}
 	@echo "\033[32;01m[Minishell fclean OK]\033[00m"
 
 re: fclean all

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: thverney <thverney@student.42.fr>          +#+  +:+       +#+         #
+#    By: anloubie <anloubie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/09 19:13:28 by thverney          #+#    #+#              #
-#    Updated: 2020/01/29 14:40:49 by thverney         ###   ########.fr        #
+#    Updated: 2020/01/31 15:38:18 by anloubie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -65,14 +65,14 @@ FLAGS = -Wall \
 all : $(NAME)
 
 $(NAME) : $(OBJECTS)
-						gcc -c $(FILES) $(FLAGS) -I $(INCLUDE)
-						ar rc $(NAME) $(OBJECTS)
+						@gcc -c $(FILES) $(FLAGS) -I $(INCLUDE)
+						@ar rc $(NAME) $(OBJECTS)
 
 clean : 
-			/bin/rm -f $(OBJECTS)
+			@/bin/rm -f $(OBJECTS)
 
 fclean : clean
-			/bin/rm -f $(NAME)
+			@/bin/rm -f $(NAME)
 
 re : fclean all
 
