@@ -8,6 +8,7 @@ SRC_FILE   =   main.c 			\
 			ft_not_found.c	\
 			pwd.c			\
 			cd.c			\
+			env.c			\
 
 INCS_NAME   =   minishell.h
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
+/*   By: anloubie <anloubie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/27 18:49:54 by thverney          #+#    #+#             */
-/*   Updated: 2020/01/29 20:28:55 by thverney         ###   ########.fr       */
+/*   Updated: 2020/01/31 16:06:21 by anloubie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,15 @@ typedef struct	s_env
 	char		*buf;
 	char		*pos_prev;
 	char		*pos_next;
+	char		**my_env;
 }				t_env;
 
 void			loop_shell(t_env *env);
-void        	is_command(char *cmd);
+void        	is_command(char *cmd, t_env *env);
 void			ft_echo(char *cmd);
 void			ft_not_found(char *cmd);
 void			ft_pwd(void);
 void			ft_cd(char *path);
+void			ft_env(t_env *env);
 
 #endif
