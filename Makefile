@@ -48,6 +48,7 @@ $(OBJS_DIR)%.o: $(SRCS_DIR)%.c $(INCS)
 
 librm:
 	@make -sC libft fclean
+	@echo "\033[32;01m[Libft fclean OK]\033[00m"
 
 clean:
 	@rm -rf $(OBJS_DIR)
