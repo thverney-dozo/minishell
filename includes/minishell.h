@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anloubie <anloubie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/27 18:49:54 by thverney          #+#    #+#             */
-/*   Updated: 2020/01/31 16:06:21 by anloubie         ###   ########.fr       */
+/*   Updated: 2020/02/03 14:17:25 by thverney         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ typedef struct	s_env
 	char		*pos_prev;
 	char		*pos_next;
 	char		**my_env;
+	int			pipe_here;
 }				t_env;
 
 void			loop_shell(t_env *env);
