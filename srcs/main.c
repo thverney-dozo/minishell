@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anloubie <anloubie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/27 18:43:30 by thverney          #+#    #+#             */
-/*   Updated: 2020/01/31 16:05:37 by anloubie         ###   ########.fr       */
+/*   Updated: 2020/02/04 01:21:54 by thverney         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,15 +17,16 @@ void	loop_shell(t_env *env)
 	int		ret;
 	char	*line;
 	
-	(void)env;
 	while ((ret = get_next_line(0, &line)) > 0)
 	{
+		
 		while (*line < 33 && *line != '\0')
 			line++;
 		if (line[0] == '\0' || (line[0] == ';' && line[1] == '\0'))
 			return ;
 		env->pos_prev = line;
-		is_command(env->pos_prev, env);
+		is_pipe_here(env);
+		env->pipe_here == 0 ? is_command(env->pos_prev, env) : 0;
 		env->pos_next = env->pos_prev;
 		while ((env->pos_prev = ft_strchr(env->pos_next, ';')))
 		{
@@ -35,7 +36,8 @@ void	loop_shell(t_env *env)
 			if (env->pos_prev[0] == '\0')
 				return ;
 			env->pos_next = ft_strchr(env->pos_prev, ';');
-			is_command(env->pos_prev, env);
+			is_pipe_here(env);
+			env->pipe_here == 0 ? is_command(env->pos_prev, env) : 0;
 		}
 		break ;
 	}
@@ -53,7 +55,10 @@ int		main(int ac, char **av, char **envi)
 	env->my_env = envi;
 	while (1)
 	{
-		write(1, "\033[31m<#minishell#>\033[0m ", 24);
+		write(1, "\033[31m<#\033[34m(", 14);
+		ft_get_dir(env);
+		write(1, env->dir, 10);
+		write(1, ")\033[31m#>\033[00m ", 15);
 		loop_shell(env);
 		if (env->exit != 0)
 			break ;
