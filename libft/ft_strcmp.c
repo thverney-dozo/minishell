@@ -1,29 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: anloubie <anloubie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/01/31 15:55:10 by anloubie          #+#    #+#             */
-/*   Updated: 2020/02/04 09:10:39 by anloubie         ###   ########.fr       */
+/*   Created: 2020/02/04 09:31:11 by anloubie          #+#    #+#             */
+/*   Updated: 2020/02/04 09:32:03 by anloubie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-void		ft_env(t_env *env)
+int	ft_strcmp(const char *s1, const char *s2)
 {
-	while (env->var)
-	{
-		write(1, env->var->name, ft_strlen(env->var->name));
-		write(1, "=", 1);
-		write(1, env->var->value, ft_strlen(env->var->value));
-		write(1, "\n", 1);
-		if (env->var->next)
-			env->var = env->var->next;
-		else
-			break ;
-	}
-	env->var = env->first;
+	size_t	i;
+
+	i = 0;
+	while (s1[i] && s2[i] && ((unsigned char)s1[i] == (unsigned char)s2[i]))
+		i++;
+	return (((unsigned char)s1[i] - (unsigned char)s2[i]));
 }

@@ -9,6 +9,9 @@ SRC_FILE   =   main.c 			\
 			pwd.c			\
 			cd.c			\
 			env.c			\
+			lst.c			\
+			clear.c			\
+			export.c		\
 
 INCS_NAME   =   minishell.h
 

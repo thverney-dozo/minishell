@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
+/*   By: anloubie <anloubie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/27 18:49:54 by thverney          #+#    #+#             */
-/*   Updated: 2020/02/04 05:30:06 by thverney         ###   ########.fr       */
+/*   Updated: 2020/02/04 18:12:46 by anloubie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,24 @@
 # include <errno.h>
 # include <limits.h>
 
-typedef struct	s_env
+typedef struct		s_var
+{
+	char			*name;
+	char			*value;
+	struct s_var	*next;
+}					t_var;
+
+typedef struct		s_env
 {
 	int			exit;
 	char		*buf;
 	char		*arg;
 	char		**my_env;
 	char		*dir;
+	t_var		*var;
+	t_var		*first;
+	t_var		*save;
+	
 }				t_env;
 
 void			loop_shell(t_env *env);
@@ -44,5 +55,14 @@ int				is_pipe_here(t_env *env);
 void			verify_cmd_pipe(char *cmd, int indic, t_env *env);
 void			ft_cd_two(char *tmp, char *path, int i);
 void			ft_get_dir(t_env *env);
+void			ft_export(char *str, t_var **var, t_env *env);
+t_var			*ft_lstvar(t_env *env);
+void			ft_save(t_env *env, t_var *var);
+void			ft_lstaddvar2(t_var **alst, t_var *new, t_env *env);
+void			ft_lstaddvar(t_var **alst, t_var *new);
+t_var			*ft_lstnewvar(char *var, int i);
+int				ft_find_char(char *str, char c);
+int				ft_verif_var(char *name, t_env *env, char *value);
+void			ft_clear(void);
 
 #endif
