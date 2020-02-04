@@ -6,11 +6,11 @@
 /*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/28 16:23:26 by thverney          #+#    #+#             */
-/*   Updated: 2020/01/29 14:56:56 by thverney         ###   ########.fr       */
+/*   Updated: 2020/02/04 01:33:47 by thverney         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "minishell.h"
 
 int		count_space(char *str)
 {

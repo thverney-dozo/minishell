@@ -6,11 +6,11 @@
 /*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/29 13:55:18 by anloubie          #+#    #+#             */
-/*   Updated: 2020/02/04 00:44:48 by thverney         ###   ########.fr       */
+/*   Updated: 2020/02/04 01:32:51 by thverney         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "minishell.h"
 
 void		ft_cd_two(char *tmp, char *path, int i)
 {
