@@ -6,7 +6,7 @@
 /*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/28 16:08:15 by anloubie          #+#    #+#             */
-/*   Updated: 2020/02/04 04:44:58 by thverney         ###   ########.fr       */
+/*   Updated: 2020/02/04 05:22:05 by thverney         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,12 @@ void	is_command(char *cmd, t_env *env)
 		ft_echo(cmd);
 	else if (!(ft_strncmp(cmd, "pwd", 4)) || !(ft_strncmp(cmd, "pwd ", 4))
 	|| !(ft_strncmp(cmd, "pwd;", 4)))
-		ft_pwd(cmd, 4);
+		ft_pwd(cmd, 3);
 	else if (!(ft_strncmp(cmd, "cd", 2)))
 		ft_cd(cmd + 3);
 	else if (!(ft_strncmp(cmd, "env", 3) || !(ft_strncmp(cmd, "env ", 4))))
 		ft_env(env);
-	else if (cmd[0] != '\0')
+	else if (cmd[0])
 		ft_not_found(cmd);
 }
 
@@ -35,15 +35,15 @@ void	verify_cmd_pipe(char *cmd, int indic, t_env *env)
 {
 	if (!ft_strncmp(cmd, "exit", 5) || !ft_strncmp(cmd, "exit ", 5)
 	|| !ft_strncmp(cmd, "exit|", 5))
-		indic == 1 ? exit(1) : 0;
+		indic ? exit(1) : 0;
 	else if (!(ft_strncmp(cmd, "echo ", 5)) || !ft_strncmp(cmd, "echo", 5))
-		indic == 1 ? ft_echo(cmd) : 0;
+		indic ? ft_echo(cmd) : 0;
 	else if (!(ft_strncmp(cmd, "pwd", 3)))
-		indic == 1 ? ft_pwd(cmd, 4) : 0;
+		indic ? ft_pwd(cmd, 3) : 0;
 	else if (!(ft_strncmp(cmd, "cd", 2)))
-		indic == 1 ? ft_cd(cmd + 3) : 0;
+		indic ? ft_cd(cmd + 3) : 0;
 	else if (!(ft_strncmp(cmd, "env", 3) || !(ft_strncmp(cmd, "env ", 4))))
-		indic == 1 ? ft_env(env) : 0;
+		indic ? ft_env(env) : 0;
 	else
 		ft_not_found(cmd);
 }
@@ -53,23 +53,23 @@ void	ft_pipe_is_cmd(t_env *env, int i)
 	char	*cmd;
 
 	i++;
-	while (env->pos_prev[i] != '\0' && (env->pos_prev[i] == ';'
-	|| env->pos_prev[i] < 33 || env->pos_prev[i] == '|'))
+	while (env->arg[i] && (env->arg[i] == ';' || env->arg[i] < 33
+	|| env->arg[i] == '|'))
 		i++;
-	if (env->pos_prev[i] == '\0')
+	if (!env->arg[i])
 	{
 		write(1, "Bonus not handled\n", 19);
 		return ;
 	}
-	while ((cmd = ft_strchr(env->pos_prev, '|')) != NULL)
+	while ((cmd = ft_strchr(env->arg, '|')) != NULL)
 	{
 		cmd++;
-		while (*cmd != '\0' && *cmd < 33)
+		while (*cmd && *cmd < 33)
 			cmd++;
 		verify_cmd_pipe(cmd, 0, env);
-		env->pos_prev = cmd;
+		env->arg = cmd;
 	}
-	verify_cmd_pipe(env->pos_prev, 1, env);
+	verify_cmd_pipe(env->arg, 1, env);
 }
 
 int		is_pipe_here(t_env *env)
@@ -79,10 +79,9 @@ int		is_pipe_here(t_env *env)
 
 	i = 0;
 	j = 0;
-	while (env->pos_prev[i] != '\0' && env->pos_prev[i] != '|'
-	&& env->pos_prev[i] != ';')
+	while (env->arg[i] && env->arg[i] != '|' && env->arg[i] != ';')
 		i++;
-	if (env->pos_prev[i] == '|')
+	if (env->arg[i] == '|')
 	{
 		ft_pipe_is_cmd(env, i);
 		return (0);

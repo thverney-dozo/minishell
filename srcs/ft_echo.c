@@ -6,7 +6,7 @@
 /*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/28 16:41:06 by anloubie          #+#    #+#             */
-/*   Updated: 2020/02/04 01:33:47 by thverney         ###   ########.fr       */
+/*   Updated: 2020/02/04 05:13:49 by thverney         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,10 @@ void		ft_echo_n(char *cmd, int j)
 
 	i = 0;
 	j += 2;
-	while (cmd[j] != '\0' && cmd[j] < 33)
+	while (cmd[j] && cmd[j] < 33)
 		j++;
 	tmp = j;
-	while (cmd[tmp] != '\0' && cmd[tmp] != ';')
+	while (cmd[tmp] && cmd[tmp] != ';')
 	{
 		i++;
 		tmp++;
@@ -40,14 +40,14 @@ void		ft_echo(char *cmd)
 
 	j = 5;
 	i = 0;
-	while (cmd[j] != '\0' && cmd[j] < 33)
+	while (cmd[j] && cmd[j] < 33)
 		j++;
 	if (cmd[j] == '-' && cmd[j + 1] == 'n')
 	{
 		ft_echo_n(cmd, j);
 		return ;
 	}
-	while (cmd[i] != '\0' && cmd[i] != ';')
+	while (cmd[i] && cmd[i] != ';')
 		i++;
 	i -= 5;
 	new = ft_substr(cmd, 5, i);
