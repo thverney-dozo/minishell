@@ -6,7 +6,7 @@
 /*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/27 18:49:54 by thverney          #+#    #+#             */
-/*   Updated: 2020/02/04 04:45:46 by thverney         ###   ########.fr       */
+/*   Updated: 2020/02/04 04:54:46 by thverney         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,7 @@ typedef struct	s_env
 	int			exit;
 	char		*buf;
 	char		*pos_prev;
-	char		*pos_next;
 	char		**my_env;
-	int			pipe_here;
 	char		*dir;
 }				t_env;
 
