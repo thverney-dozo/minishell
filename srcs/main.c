@@ -6,7 +6,7 @@
 /*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/27 18:43:30 by thverney          #+#    #+#             */
-/*   Updated: 2020/02/04 01:33:48 by thverney         ###   ########.fr       */
+/*   Updated: 2020/02/04 04:54:01 by thverney         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,29 +15,18 @@
 void	loop_shell(t_env *env)
 {
 	int		ret;
-	char	*line;
 	
-	while ((ret = get_next_line(0, &line)) > 0)
+	while ((ret = get_next_line(0, &env->pos_prev)) > 0)
 	{
-		
-		while (*line < 33 && *line != '\0')
-			line++;
-		if (line[0] == '\0' || (line[0] == ';' && line[1] == '\0'))
-			return ;
-		env->pos_prev = line;
-		is_pipe_here(env);
-		env->pipe_here == 0 ? is_command(env->pos_prev, env) : 0;
-		env->pos_next = env->pos_prev;
-		while ((env->pos_prev = ft_strchr(env->pos_next, ';')))
+		ret = -1;
+		while (++ret == 0 || (env->pos_prev = ft_strchr(env->pos_prev, ';')))
 		{
-			env->pos_prev++;
+			ret != 0 ? env->pos_prev++ : 0;
 			while (*env->pos_prev < 33 && *env->pos_prev != '\0')
 				env->pos_prev++;
-			if (env->pos_prev[0] == '\0')
+			if (*env->pos_prev == '\0' || (*env->pos_prev == ';' && *env->pos_prev + 1 == '\0'))
 				return ;
-			env->pos_next = ft_strchr(env->pos_prev, ';');
-			is_pipe_here(env);
-			env->pipe_here == 0 ? is_command(env->pos_prev, env) : 0;
+			is_pipe_here(env) ? is_command(env->pos_prev, env) : 0;
 		}
 		break ;
 	}
