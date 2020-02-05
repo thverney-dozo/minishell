@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   iscmd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anloubie <anloubie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/28 16:08:15 by anloubie          #+#    #+#             */
-/*   Updated: 2020/02/05 14:11:32 by anloubie         ###   ########.fr       */
+/*   Updated: 2020/02/05 23:33:41 by thverney         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,43 +54,44 @@ void	verify_cmd_pipe(char *cmd, int indic, t_env *env)
 		ft_not_found(cmd);
 }
 
-void	ft_pipe_is_cmd(t_env *env, int i)
+void	ft_pipe_is_cmd(t_env *env)
 {
-	char	*cmd;
+	char *copy;
 
-	i++;
-	while (env->arg[i] && (env->arg[i] == ';' || env->arg[i] < 33
-	|| env->arg[i] == '|'))
-		i++;
-	if (!env->arg[i])
+
+	if (!env->av_pipe[env->x + 1])
 	{
-		write(1, "Bonus not handled\n", 19);
-		return ;
+		copy = env->av_pipe[env->x];
+		while (*copy && *copy < 33)
+			copy++;
+		is_command(copy, env);
 	}
-	while ((cmd = ft_strchr(env->arg, '|')) != NULL)
-	{
-		cmd++;
-		while (*cmd && *cmd < 33)
-			cmd++;
-		verify_cmd_pipe(cmd, 0, env);
-		env->arg = cmd;
-	}
-	verify_cmd_pipe(env->arg, 1, env);
+	// verify_cmd_pipe(env->arg, 1, env);
 }
 
-int		is_pipe_here(t_env *env)
+void	is_pipe_here(t_env *env)
 {
 	int i;
-	int j;
 
 	i = 0;
-	j = 0;
-	while (env->arg[i] && env->arg[i] != '|' && env->arg[i] != ';')
-		i++;
-	if (env->arg[i] == '|')
+	if (ft_strchr(env->args[env->i], '|'))
 	{
-		ft_pipe_is_cmd(env, i);
-		return (0);
+		env->av_pipe = ft_split(env->args[env->i], '|');
+		env->copy_pipe = env->av_pipe;
+		env->x = 0;
+		while (env->av_pipe[env->x])
+		{
+			env->y = 0;
+			while (env->av_pipe[env->x][env->y] < 33 && env->av_pipe[env->x][env->y])
+				env->y++;
+			ft_pipe_is_cmd(env);
+			free(env->av_pipe[env->x]);
+			env->av_pipe[env->x] = NULL;
+			env->x++;
+		}
+		free(env->copy_pipe);
+		env->copy_pipe = NULL;
 	}
-	return (1);
+	else
+		is_command(*env->args, env);
 }

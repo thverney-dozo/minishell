@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anloubie <anloubie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/27 18:49:54 by thverney          #+#    #+#             */
-/*   Updated: 2020/02/05 14:11:56 by anloubie         ###   ########.fr       */
+/*   Updated: 2020/02/05 23:23:52 by thverney         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,15 @@ typedef struct		s_env
 	char		*arg;
 	char		**my_env;
 	char		*dir;
+	char		**args;
+	int			i;
+	int			j;
+	int			x;
+	int			y;
+	char		**copy_args;
+	char		*copy_free;
+	char		**av_pipe;
+	char		**copy_pipe;
 	t_var		*var;
 	t_var		*first;
 	t_var		*save;
@@ -51,7 +60,8 @@ void			ft_not_found(char *cmd);
 void			ft_pwd(char *str, int i);
 void			ft_cd(char *path, t_env *env);
 void			ft_env(t_env *env);
-int				is_pipe_here(t_env *env);
+void			is_pipe_here(t_env *env);
+void			ft_pipe_is_cmd(t_env *env);
 void			verify_cmd_pipe(char *cmd, int indic, t_env *env);
 void			ft_cd_two(char *tmp, char *path, int i);
 void			ft_get_dir(t_env *env);

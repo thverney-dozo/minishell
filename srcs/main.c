@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anloubie <anloubie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/27 18:43:30 by thverney          #+#    #+#             */
-/*   Updated: 2020/02/05 15:40:59 by anloubie         ###   ########.fr       */
+/*   Updated: 2020/02/05 23:31:27 by thverney         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,23 +14,30 @@
 
 void	loop_shell(t_env *env)
 {
-	int		ret;
+	int		i;
 
-	while ((ret = get_next_line(0, &env->arg)) > 0)
+	while ((i = get_next_line(0, &env->copy_free)) > 0)
 	{
-		ret = -1;
-		while (++ret == 0 || (env->arg = ft_strchr(env->arg, ';')))
+		env->args = ft_split(env->copy_free, ';');
+		free(env->copy_free);
+		env->copy_free = NULL;
+		env->i = 0;
+		while (env->args[env->i])
 		{
-			ret != 0 ? env->arg++ : 0;
-			while (*env->arg < 33 && *env->arg)
-				env->arg++;
-			if (!*env->arg || (*env->arg == ';' && !(*env->arg + 1)))
-				return ;
-			is_pipe_here(env) ? is_command(env->arg, env) : 0;
+			env->j = 0;
+			while (env->args[env->i][env->j] && env->args[env->i][env->j] < 33)
+				env->j++;
+			if (env->args[env->i][env->j] && env->args[env->i][env->j]  != ';'
+			&& env->args[env->i][env->j] != '|')
+				is_pipe_here(env);
+			free(env->args[env->i]);
+			env->args[env->i] = NULL;
+			env->i++;
 		}
-		free(env->arg);
 		break ;
 	}
+	free(env->args);
+	env->args = NULL;
 }
 
 int		main(int ac, char **av, char **envi)
