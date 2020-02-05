@@ -6,7 +6,7 @@
 /*   By: anloubie <anloubie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/31 15:55:10 by anloubie          #+#    #+#             */
-/*   Updated: 2020/02/04 09:10:39 by anloubie         ###   ########.fr       */
+/*   Updated: 2020/02/05 13:36:33 by anloubie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,7 @@ void		ft_env(t_env *env)
 	{
 		write(1, env->var->name, ft_strlen(env->var->name));
 		write(1, "=", 1);
-		write(1, env->var->value, ft_strlen(env->var->value));
-		write(1, "\n", 1);
+		ft_putendl_fd(env->var->value, 1);
 		if (env->var->next)
 			env->var = env->var->next;
 		else

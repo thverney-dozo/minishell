@@ -6,7 +6,7 @@
 /*   By: anloubie <anloubie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/28 16:08:15 by anloubie          #+#    #+#             */
-/*   Updated: 2020/02/04 18:20:06 by anloubie         ###   ########.fr       */
+/*   Updated: 2020/02/05 14:11:32 by anloubie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,13 @@ void	is_command(char *cmd, t_env *env)
 	|| !(ft_strncmp(cmd, "pwd;", 4)))
 		ft_pwd(cmd, 3);
 	else if (!(ft_strncmp(cmd, "cd", 2)))
-		ft_cd(cmd + 3);
+		ft_cd(cmd + 3, env);
     else if (!(ft_strcmp(cmd, "clear")))
         ft_clear();
 	else if (!(ft_strncmp(cmd, "export ", 7)))
-		ft_export(cmd + 7, &env->var, env);
+		ft_export(cmd + 7, env);
+	else if (!(ft_strncmp(cmd, "unset ", 6)))
+		ft_unset(cmd, env);
 	else if (!(ft_strncmp(cmd, "env", 3) || !(ft_strncmp(cmd, "env ", 4))))
 		ft_env(env);
 	else if (cmd[0])
@@ -45,7 +47,7 @@ void	verify_cmd_pipe(char *cmd, int indic, t_env *env)
 	else if (!(ft_strncmp(cmd, "pwd", 3)))
 		indic ? ft_pwd(cmd, 3) : 0;
 	else if (!(ft_strncmp(cmd, "cd", 2)))
-		indic ? ft_cd(cmd + 3) : 0;
+		indic ? ft_cd(cmd + 3, env) : 0;
 	else if (!(ft_strncmp(cmd, "env", 3) || !(ft_strncmp(cmd, "env ", 4))))
 		indic ? ft_env(env) : 0;
 	else

@@ -6,7 +6,7 @@
 /*   By: anloubie <anloubie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/03 15:03:14 by anloubie          #+#    #+#             */
-/*   Updated: 2020/02/04 16:53:15 by anloubie         ###   ########.fr       */
+/*   Updated: 2020/02/05 13:42:13 by anloubie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ t_var		*ft_lstvar(t_env *env)
 	return (var);
 }
 
-void		ft_export2(char *str, t_env *env, t_var **var, t_var *new)
+void		ft_export2(char *str, t_env *env, t_var *new)
 {
 	size_t	i;
 
@@ -71,7 +71,7 @@ void		ft_export2(char *str, t_env *env, t_var **var, t_var *new)
 			if (i == ft_strlen(str) - 1)
 				return ;
 			if (ft_verif_var(new->name, env, new->value) == 0)
-				ft_lstaddvar2(var, new, env);
+				ft_lstaddvar2(new, env);
 			else
 			{
 				free(new->name);
@@ -84,7 +84,7 @@ void		ft_export2(char *str, t_env *env, t_var **var, t_var *new)
 	}
 }
 
-void		ft_export(char *str, t_var **var, t_env *env)
+void		ft_export(char *str, t_env *env)
 {
 	size_t	i;
 	char	**dest;
@@ -95,10 +95,9 @@ void		ft_export(char *str, t_var **var, t_env *env)
 	i = 0;
 	while (dest[i])
 	{
-		ft_export2(dest[i], env, var, new);
+		ft_export2(dest[i], env, new);
 		free(dest[i++]);
 	}
-
 	free(dest[i]);
 	free(dest);
 }

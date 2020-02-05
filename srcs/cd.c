@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
+/*   By: anloubie <anloubie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/29 13:55:18 by anloubie          #+#    #+#             */
-/*   Updated: 2020/02/04 05:11:27 by thverney         ###   ########.fr       */
+/*   Updated: 2020/02/05 14:17:42 by anloubie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,19 @@ void	ft_cd_two(char *tmp, char *path, int i)
 		chdir(path);
 }
 
-void	ft_cd(char *path)
+char	*ft_get_home(t_env *env)
+{
+	while (env->var)
+	{
+		if (!(ft_strcmp("HOME", env->var->name)))
+			return (env->var->value);
+		env->var = env->var->next;
+	}
+	env->var = env->first;
+	return (NULL);
+}
+
+void	ft_cd(char *path, t_env *env)
 {
 	char	*tmp;
 
@@ -41,7 +53,13 @@ void	ft_cd(char *path)
 		tmp++;
 	if (!*tmp || *tmp == ';' || *tmp == '|')
 	{
-		tmp = "/Users/thverney";
+		tmp = ft_get_home(env);
+		if (!tmp)
+		{
+			ft_putendl_fd("minishell : cd : HOME not found", 1);
+			return ;
+		}
+		env->var = env->first;
 		chdir(tmp);
 	}
 	else
