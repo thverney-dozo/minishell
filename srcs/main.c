@@ -6,7 +6,7 @@
 /*   By: anloubie <anloubie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/27 18:43:30 by thverney          #+#    #+#             */
-/*   Updated: 2020/02/04 18:20:30 by anloubie         ###   ########.fr       */
+/*   Updated: 2020/02/05 15:40:59 by anloubie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,8 @@ int		main(int ac, char **av, char **envi)
 	{
 		write(1, "\033[31m<#\033[34m(", 14);
 		ft_get_dir(env);
-		write(1, env->dir, 10);
+		write(1, env->dir, ft_strlen(env->dir));
+		free(env->dir);
 		write(1, ")\033[31m#>\033[00m ", 15);
 		loop_shell(env);
 		if (env->exit != 0)

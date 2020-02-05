@@ -6,7 +6,7 @@
 /*   By: anloubie <anloubie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/29 13:22:22 by anloubie          #+#    #+#             */
-/*   Updated: 2020/02/05 14:10:22 by anloubie         ###   ########.fr       */
+/*   Updated: 2020/02/05 15:38:28 by anloubie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,14 @@ void	ft_get_dir(t_env *env)
 	i = 0;
 	j = 0;
 	getcwd(buf, PATH_MAX);
-	while (buf[i] > 32)
+	while (buf[i] >= 32)
 		i++;
 	while (buf[i] != '/')
 	{
 		i--;
 		j++;
 	}
-	env->dir = ft_substr(buf, i, j);
+	env->dir = ft_substr(buf, i + 1, j);
 }
 
 void	ft_pwd(char *str, int i)
