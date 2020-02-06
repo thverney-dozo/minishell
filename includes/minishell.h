@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
+/*   By: anloubie <anloubie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/27 18:49:54 by thverney          #+#    #+#             */
-/*   Updated: 2020/02/05 23:23:52 by thverney         ###   ########.fr       */
+/*   Updated: 2020/02/06 14:29:40 by anloubie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,5 +76,6 @@ int				ft_verif_var(char *name, t_env *env, char *value);
 void			ft_clear(void);
 void			ft_unset(char *str, t_env *env);
 void			ft_unset_var(char *str, t_env *env);
+char			*ft_get_home(t_env *env);
 
 #endif
