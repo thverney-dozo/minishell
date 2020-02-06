@@ -6,7 +6,7 @@
 /*   By: anloubie <anloubie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/29 13:55:18 by anloubie          #+#    #+#             */
-/*   Updated: 2020/02/05 14:17:42 by anloubie         ###   ########.fr       */
+/*   Updated: 2020/02/06 14:37:08 by anloubie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,21 +47,24 @@ char	*ft_get_home(t_env *env)
 void	ft_cd(char *path, t_env *env)
 {
 	char	*tmp;
+	char	*temp;
 
 	tmp = path;
+	temp = ft_get_home(env);
+	env->var = env->first;
 	while (*tmp < 33 && *tmp && *tmp != ';' && *tmp != '|')
 		tmp++;
 	if (!*tmp || *tmp == ';' || *tmp == '|')
 	{
-		tmp = ft_get_home(env);
-		if (!tmp)
+		if (!temp)
 		{
 			ft_putendl_fd("minishell : cd : HOME not found", 1);
 			return ;
 		}
-		env->var = env->first;
-		chdir(tmp);
+		chdir(temp);
 	}
+	else if (!(ft_strcmp(path, "~")))
+		chdir(temp);
 	else
 		ft_cd_two(tmp, path, 0);
 }
