@@ -6,7 +6,7 @@
 /*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/28 16:08:15 by anloubie          #+#    #+#             */
-/*   Updated: 2020/02/05 23:33:41 by thverney         ###   ########.fr       */
+/*   Updated: 2020/02/06 18:11:16 by thverney         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,13 +71,12 @@ void	ft_pipe_is_cmd(t_env *env)
 
 void	is_pipe_here(t_env *env)
 {
-	int i;
+	// int i;
 
-	i = 0;
+	// i = 0;
 	if (ft_strchr(env->args[env->i], '|'))
 	{
 		env->av_pipe = ft_split(env->args[env->i], '|');
-		env->copy_pipe = env->av_pipe;
 		env->x = 0;
 		while (env->av_pipe[env->x])
 		{
@@ -89,9 +88,9 @@ void	is_pipe_here(t_env *env)
 			env->av_pipe[env->x] = NULL;
 			env->x++;
 		}
-		free(env->copy_pipe);
-		env->copy_pipe = NULL;
+		free(env->av_pipe);
+		env->av_pipe = NULL;
 	}
 	else
-		is_command(*env->args, env);
+		is_command(env->args[env->i] + env->j, env);
 }

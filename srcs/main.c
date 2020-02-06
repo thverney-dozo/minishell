@@ -3,21 +3,38 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anloubie <anloubie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/27 18:43:30 by thverney          #+#    #+#             */
-/*   Updated: 2020/02/06 14:24:50 by anloubie         ###   ########.fr       */
+/*   Updated: 2020/02/06 20:01:38 by thverney         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+int		syntax_error(t_env *env)
+{
+	env->i = 0;
+	while (env->copy_free[env->i] < 33 && env->copy_free[env->i])
+		env->i++;
+	if (env->copy_free[env->i] == '|' || env->copy_free[env->i] == ';')
+	{
+		write(1, "minishell : syntax error near unexpected token '", 49);
+		ft_putchar_fd(env->copy_free[env->i] , 1);
+		write(1, "'\n", 3);
+		free(env->copy_free);
+		env->copy_free = NULL;
+		return (1);
+	}
+	return (0);
+}
+
 void	loop_shell(t_env *env)
 {
-	int		i;
-
-	while ((i = get_next_line(0, &env->copy_free)) > 0)
+	while ((env->i = get_next_line(0, &env->copy_free)) > 0)
 	{
+		if (syntax_error(env))
+			return ;
 		env->args = ft_split(env->copy_free, ';');
 		free(env->copy_free);
 		env->copy_free = NULL;
@@ -27,17 +44,16 @@ void	loop_shell(t_env *env)
 			env->j = 0;
 			while (env->args[env->i][env->j] && env->args[env->i][env->j] < 33)
 				env->j++;
-			if (env->args[env->i][env->j] && env->args[env->i][env->j]  != ';'
-			&& env->args[env->i][env->j] != '|')
+			if (env->args[env->i][env->j] && env->args[env->i][env->j] != '|')
 				is_pipe_here(env);
 			free(env->args[env->i]);
 			env->args[env->i] = NULL;
 			env->i++;
 		}
+		free(env->args);
+		env->args = NULL;
 		break ;
 	}
-	free(env->args);
-	env->args = NULL;
 }
 
 void	prompt_display(t_env *env)
