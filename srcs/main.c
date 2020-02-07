@@ -6,7 +6,7 @@
 /*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/27 18:43:30 by thverney          #+#    #+#             */
-/*   Updated: 2020/02/06 20:01:38 by thverney         ###   ########.fr       */
+/*   Updated: 2020/02/07 00:06:02 by thverney         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,13 @@ void	loop_shell(t_env *env)
 		while (env->args[env->i])
 		{
 			env->j = 0;
+			env->flags = split_wh_sp(env->args[env->i]);
 			while (env->args[env->i][env->j] && env->args[env->i][env->j] < 33)
 				env->j++;
 			if (env->args[env->i][env->j] && env->args[env->i][env->j] != '|')
 				is_pipe_here(env);
+			free(env->flags);
+			env->flags = NULL;
 			free(env->args[env->i]);
 			env->args[env->i] = NULL;
 			env->i++;

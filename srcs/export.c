@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anloubie <anloubie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/03 15:03:14 by anloubie          #+#    #+#             */
-/*   Updated: 2020/02/05 13:42:13 by anloubie         ###   ########.fr       */
+/*   Updated: 2020/02/06 22:07:10 by thverney         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ t_var		*ft_lstvar(t_env *env)
 	while (env->my_env[i])
 	{
 		save = ft_find_char(env->my_env[i], '=');
-		if (!(new = ft_lstnewvar(env->my_env[i], save)))
+		if (!(new = ft_lstnewvar(env->my_env[i], save, env)))
 			return (NULL);
 		ft_lstaddvar(&var, new);
 		i++;
@@ -66,7 +66,7 @@ void		ft_export2(char *str, t_env *env, t_var *new)
 	{
 		if (str[i] == '=')
 		{
-			if (!(new = ft_lstnewvar(str, i)))
+			if (!(new = ft_lstnewvar(str, i, env)))
 				return ;
 			if (i == ft_strlen(str) - 1)
 				return ;

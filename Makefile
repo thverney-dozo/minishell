@@ -13,6 +13,7 @@ SRC_FILE   =   main.c 			\
 			clear.c			\
 			export.c		\
 			unset.c			\
+			execute.c		\
 
 INCS_NAME   =   minishell.h
 

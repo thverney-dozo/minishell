@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lst.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anloubie <anloubie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/03 16:25:01 by anloubie          #+#    #+#             */
-/*   Updated: 2020/02/05 13:55:57 by anloubie         ###   ########.fr       */
+/*   Updated: 2020/02/06 22:17:50 by thverney         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	ft_lstaddvar(t_var **alst, t_var *new)
 	temp->next = new;
 }
 
-t_var	*ft_lstnewvar(char *str, int i)
+t_var	*ft_lstnewvar(char *str, int i, t_env *env)
 {
 	t_var	*var;
 	char	*name;
@@ -74,5 +74,7 @@ t_var	*ft_lstnewvar(char *str, int i)
 		return (NULL);
 	free(value);
 	var->next = NULL;
+	if (!ft_strcmp(var->name, "PATH\0"))
+		env->path = ft_split(var->value, ':');
 	return (var);
 }

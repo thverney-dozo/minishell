@@ -6,7 +6,7 @@
 /*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/28 16:08:15 by anloubie          #+#    #+#             */
-/*   Updated: 2020/02/06 18:11:16 by thverney         ###   ########.fr       */
+/*   Updated: 2020/02/07 01:03:18 by thverney         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,24 +33,9 @@ void	is_command(char *cmd, t_env *env)
 		ft_unset(cmd, env);
 	else if (!(ft_strncmp(cmd, "env", 3) || !(ft_strncmp(cmd, "env ", 4))))
 		ft_env(env);
+	else if (is_executable(env, 0))
+		;
 	else if (cmd[0])
-		ft_not_found(cmd);
-}
-
-void	verify_cmd_pipe(char *cmd, int indic, t_env *env)
-{
-	if (!ft_strncmp(cmd, "exit", 5) || !ft_strncmp(cmd, "exit ", 5)
-	|| !ft_strncmp(cmd, "exit|", 5))
-		indic ? exit(1) : 0;
-	else if (!(ft_strncmp(cmd, "echo ", 5)) || !ft_strncmp(cmd, "echo", 5))
-		indic ? ft_echo(cmd) : 0;
-	else if (!(ft_strncmp(cmd, "pwd", 3)))
-		indic ? ft_pwd(cmd, 3) : 0;
-	else if (!(ft_strncmp(cmd, "cd", 2)))
-		indic ? ft_cd(cmd + 3, env) : 0;
-	else if (!(ft_strncmp(cmd, "env", 3) || !(ft_strncmp(cmd, "env ", 4))))
-		indic ? ft_env(env) : 0;
-	else
 		ft_not_found(cmd);
 }
 
@@ -66,18 +51,15 @@ void	ft_pipe_is_cmd(t_env *env)
 			copy++;
 		is_command(copy, env);
 	}
-	// verify_cmd_pipe(env->arg, 1, env);
 }
 
 void	is_pipe_here(t_env *env)
 {
-	// int i;
-
-	// i = 0;
 	if (ft_strchr(env->args[env->i], '|'))
 	{
 		env->av_pipe = ft_split(env->args[env->i], '|');
 		env->x = 0;
+		env->flags = split_wh_sp(env->av_pipe[env->x]);
 		while (env->av_pipe[env->x])
 		{
 			env->y = 0;
@@ -92,5 +74,8 @@ void	is_pipe_here(t_env *env)
 		env->av_pipe = NULL;
 	}
 	else
+	{
+		env->flags = split_wh_sp(env->args[env->i]);
 		is_command(env->args[env->i] + env->j, env);
+	}
 }

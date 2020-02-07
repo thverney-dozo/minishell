@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anloubie <anloubie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/27 18:49:54 by thverney          #+#    #+#             */
-/*   Updated: 2020/02/06 14:29:40 by anloubie         ###   ########.fr       */
+/*   Updated: 2020/02/07 00:56:50 by thverney         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include <sys/stat.h>
 # include <errno.h>
 # include <limits.h>
+# include <dirent.h>
 
 typedef struct		s_var
 {
@@ -39,6 +40,7 @@ typedef struct		s_env
 	char		**my_env;
 	char		*dir;
 	char		**args;
+	char		**flags;
 	int			i;
 	int			j;
 	int			x;
@@ -47,6 +49,7 @@ typedef struct		s_env
 	char		*copy_free;
 	char		**av_pipe;
 	char		**copy_pipe;
+	char		**path;	
 	t_var		*var;
 	t_var		*first;
 	t_var		*save;
@@ -70,12 +73,13 @@ t_var			*ft_lstvar(t_env *env);
 void			ft_save(t_env *env, t_var *var);
 void			ft_lstaddvar2(t_var *new, t_env *env);
 void			ft_lstaddvar(t_var **alst, t_var *new);
-t_var			*ft_lstnewvar(char *var, int i);
+t_var			*ft_lstnewvar(char *var, int i, t_env *env);
 int				ft_find_char(char *str, char c);
 int				ft_verif_var(char *name, t_env *env, char *value);
 void			ft_clear(void);
 void			ft_unset(char *str, t_env *env);
 void			ft_unset_var(char *str, t_env *env);
 char			*ft_get_home(t_env *env);
+int				is_executable(t_env *env, int indic);
 
 #endif
