@@ -6,7 +6,7 @@
 /*   By: anloubie <anloubie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/29 13:55:18 by anloubie          #+#    #+#             */
-/*   Updated: 2020/02/06 14:37:08 by anloubie         ###   ########.fr       */
+/*   Updated: 2020/02/07 12:10:15 by anloubie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,7 @@ void	ft_cd_two(char *tmp, char *path, int i)
 	if (*tmp && *tmp != ';' && *tmp != '|')
 	{
 		write(1, "cd: string not in pwd: ", 23);
-		write(1, path, i);
-		write(1, "\n", 1);
+		ft_putendl_fd(path, 1);
 	}
 	else
 		chdir(path);
