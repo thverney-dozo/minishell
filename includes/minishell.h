@@ -6,7 +6,7 @@
 /*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/27 18:49:54 by thverney          #+#    #+#             */
-/*   Updated: 2020/02/07 00:56:50 by thverney         ###   ########.fr       */
+/*   Updated: 2020/02/07 07:48:48 by thverney         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,9 @@ typedef struct		s_var
 
 typedef struct		s_env
 {
+	int			fd[2];
+	int			is_fd;
+	int			input_pipe;
 	int			exit;
 	char		*buf;
 	char		*arg;

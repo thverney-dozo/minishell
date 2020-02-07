@@ -6,7 +6,7 @@
 /*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/28 16:08:15 by anloubie          #+#    #+#             */
-/*   Updated: 2020/02/07 01:03:18 by thverney         ###   ########.fr       */
+/*   Updated: 2020/02/07 08:50:10 by thverney         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,47 +35,75 @@ void	is_command(char *cmd, t_env *env)
 		ft_env(env);
 	else if (is_executable(env, 0))
 		;
-	else if (cmd[0])
+	else
 		ft_not_found(cmd);
 }
 
 void	ft_pipe_is_cmd(t_env *env)
 {
-	char *copy;
+	pid_t pid;
+	int status;
 
-
-	if (!env->av_pipe[env->x + 1])
+	if (env->av_pipe[env->x] && env->av_pipe[env->x + 1])
+		if (pipe(env->fd) < 0)
+			exit(EXIT_FAILURE);
+	if ((pid = fork()) < 0)
+		exit(EXIT_FAILURE);
+////////////////////////////////////////////////////////////////////////////////////
+	if (pid == 0)
 	{
-		copy = env->av_pipe[env->x];
-		while (*copy && *copy < 33)
-			copy++;
-		is_command(copy, env);
+		// close(env->fd[0]);
+		// if (env->is_fd >= 0)
+		// {
+			// printf("|%s||%d|\n",env->av_pipe[env->x] ,env->is_fd);
+			// dup2(env->fd[1], 0);
+		// }
+		// dup2(1, env->fd[1]);
+		is_command(env->av_pipe[env->x] + env->y, env);
+	}
+//////////////////////////////////////////////////////////////////////////////////////
+	else if(env->av_pipe[env->x] && env->av_pipe[env->x + 1])
+	{
+		close(env->fd[1]);
+		// dup2(0, env->fd[0]);
+		waitpid(pid, &status, 0);
+	}
+	else 
+	{
+		close(env->fd[1]);
+		dup2(0, env->fd[0]);
+		waitpid(pid, &status, 0);
 	}
 }
+////////////////////////////////////////////////////////////////////////////////////////////////
 
 void	is_pipe_here(t_env *env)
 {
+	env->is_fd = -1;
 	if (ft_strchr(env->args[env->i], '|'))
 	{
 		env->av_pipe = ft_split(env->args[env->i], '|');
 		env->x = 0;
 		env->flags = split_wh_sp(env->av_pipe[env->x]);
-		while (env->av_pipe[env->x])
+		while (env->av_pipe[env->x] && env->av_pipe[env->x + 1])
 		{
 			env->y = 0;
 			while (env->av_pipe[env->x][env->y] < 33 && env->av_pipe[env->x][env->y])
 				env->y++;
 			ft_pipe_is_cmd(env);
+			env->is_fd = 1;
 			free(env->av_pipe[env->x]);
 			env->av_pipe[env->x] = NULL;
 			env->x++;
 		}
-		free(env->av_pipe);
-		env->av_pipe = NULL;
+		env->av_pipe[env->x] ? ft_pipe_is_cmd(env) : 0;	
 	}
 	else
 	{
+		env->av_pipe = ft_split(env->args[env->i], '|');
 		env->flags = split_wh_sp(env->args[env->i]);
-		is_command(env->args[env->i] + env->j, env);
+		ft_pipe_is_cmd(env);
 	}
+	free(env->av_pipe);
+	env->av_pipe = NULL;
 }
