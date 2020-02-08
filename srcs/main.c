@@ -6,7 +6,7 @@
 /*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/27 18:43:30 by thverney          #+#    #+#             */
-/*   Updated: 2020/02/08 06:46:27 by thverney         ###   ########.fr       */
+/*   Updated: 2020/02/08 07:34:00 by thverney         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@ void	loop_shell(t_env *env)
 {
 	if ((env->i = get_next_line(0, &env->copy_free)) > 0)
 	{
-		// if (syntax_error(env))
-			// return ;
+		if (syntax_error(env))
+			return ;
 		env->args = ft_split(env->copy_free, ';');
 		free(env->copy_free);
 		env->copy_free = NULL;
@@ -55,7 +55,6 @@ void	loop_shell(t_env *env)
 		}
 		free(env->args);
 		env->args = NULL;
-		// break ;
 	}
 }
 

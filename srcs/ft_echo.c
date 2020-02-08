@@ -6,7 +6,7 @@
 /*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/28 16:41:06 by anloubie          #+#    #+#             */
-/*   Updated: 2020/02/08 04:24:51 by thverney         ###   ########.fr       */
+/*   Updated: 2020/02/08 08:15:17 by thverney         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,11 @@ void		ft_echo(char *cmd)
 	}
 	while (cmd[i] && cmd[i] != ';')
 		i++;
-	i -= 5;
+	if (!cmd[i])
+		i--;
+	while (cmd[i] < 33 && cmd[i])
+		i--;
+	i -= 4;
 	new = ft_substr(cmd, 5, i);
 	write(1, new, ft_strlen(new));
 	write(1, "\n", 1);

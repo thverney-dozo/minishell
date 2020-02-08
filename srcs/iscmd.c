@@ -6,7 +6,7 @@
 /*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/28 16:08:15 by anloubie          #+#    #+#             */
-/*   Updated: 2020/02/08 07:29:03 by thverney         ###   ########.fr       */
+/*   Updated: 2020/02/08 08:00:50 by thverney         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,6 @@ void	is_command(char *cmd, t_env *env)
 
 void	ft_pipe_is_cmd(t_env *env, int old_fd)
 {
-    // int     status;
-    // pid_t   child_right;
-    // pid_t   child_left;
 	int		pid;
 
 	if (pipe(env->fd) < 0)
@@ -92,27 +89,26 @@ void	ft_pipe_is_cmd(t_env *env, int old_fd)
 
 void	is_pipe_here(t_env *env)
 {
+	int		pid;
+
 	env->av_pipe = ft_split(env->args[env->i], '|');
 	env->x = 0;
-	// env->flags = split_wh_sp(env->av_pipe[env->x]);
 	if (env->av_pipe[env->x + 1])
 		ft_pipe_is_cmd(env, -1);
 	else
 	{
-		int		pid;
-	
+		env->flags = split_wh_sp(env->av_pipe[env->x]);
+		if (!ft_strcmp(env->flags[0], "exit\0"))
+			exit(0);
 		if ((pid = fork()) < 0)
 				exit(EXIT_FAILURE);
 		if (pid == 0)
 		{
-			// if (old_fd > -1)
-			// 	dup2(old_fd, STDIN_FILENO);
 			is_command(env->av_pipe[(env->x)], env);
 			exit (0);
 		}
 		waitpid(pid, 0, 0);
 	}
-	// is_command(env->av_pipe[env->x], env);
 	env->x = 0;
 	while (env->av_pipe[env->x])
 	{
