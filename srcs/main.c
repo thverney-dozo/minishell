@@ -6,7 +6,7 @@
 /*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/27 18:43:30 by thverney          #+#    #+#             */
-/*   Updated: 2020/02/08 07:34:00 by thverney         ###   ########.fr       */
+/*   Updated: 2020/02/08 20:40:28 by thverney         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,6 @@ void	prompt_display(t_env *env)
 	free(env->dir);
 	write(1, ")\033[31m#>\033[00m ", 15);
 	loop_shell(env);
-	if (env->exit != 0)
-		return ;
 }
 
 int		main(int ac, char **av, char **envi)
@@ -82,5 +80,9 @@ int		main(int ac, char **av, char **envi)
 	env->my_env = envi;
 	env->var = ft_lstvar(env);
 	while (1)
+	{
 		prompt_display(env);
+		if (env->exit != 0)
+			break ;
+	}
 }

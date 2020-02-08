@@ -6,7 +6,7 @@
 /*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/28 16:41:06 by anloubie          #+#    #+#             */
-/*   Updated: 2020/02/08 08:15:17 by thverney         ###   ########.fr       */
+/*   Updated: 2020/02/08 22:26:23 by thverney         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,29 +32,35 @@ void		ft_echo_n(char *cmd, int j)
 	write(1, new, ft_strlen(new));
 }
 
-void		ft_echo(char *cmd)
+void		ft_echo(char *cmd, t_env *env)
 {
 	char	*new;
-	int		j;
 	int		i;
+	int		tmp;
 
-	j = 5;
-	i = 0;
-	while (cmd[j] && cmd[j] < 33)
-		j++;
-	if (cmd[j] == '-' && cmd[j + 1] == 'n')
+	if (!ft_strncmp(env->flags[1], "-n\n", 3))
 	{
-		ft_echo_n(cmd, j);
+		ft_echo_n(cmd, 0);
 		return ;
 	}
-	while (cmd[i] && cmd[i] != ';')
-		i++;
-	if (!cmd[i])
-		i--;
-	while (cmd[i] < 33 && cmd[i])
-		i--;
-	i -= 4;
-	new = ft_substr(cmd, 5, i);
-	write(1, new, ft_strlen(new));
+	if (env->av_pipe[env->x + 1])
+	{
+		i = 0;
+		while (env->av_pipe[env->x][i] < 33 && env->av_pipe[env->x][i])
+			i++;
+		while (env->av_pipe[env->x][i] > 32 && env->av_pipe[env->x][i])
+			i++;
+		while (env->av_pipe[env->x][i] < 33 && env->av_pipe[env->x][i])
+			i++;
+		tmp = i;
+		while (env->av_pipe[env->x][tmp])
+			tmp++;
+		tmp--;
+		while (env->av_pipe[env->x][tmp - 1] < 33 && env->av_pipe[env->x][tmp - 1])
+			tmp--;
+		new = ft_substr(env->av_pipe[env->x], i, tmp - i);
+		if (new[0])
+			write(1, new, ft_strlen(new));
+	}
 	write(1, "\n", 1);
 }

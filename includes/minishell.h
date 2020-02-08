@@ -6,7 +6,7 @@
 /*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/27 18:49:54 by thverney          #+#    #+#             */
-/*   Updated: 2020/02/08 06:50:59 by thverney         ###   ########.fr       */
+/*   Updated: 2020/02/08 22:10:29 by thverney         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,15 +61,14 @@ typedef struct		s_env
 
 void			loop_shell(t_env *env);
 void			is_command(char *cmd, t_env *env);
-void			ft_echo(char *cmd);
+void			ft_echo(char *cmd, t_env *env);
 void			ft_not_found(char *cmd);
-void			ft_pwd(char *str, int i);
-void			ft_cd(char *path, t_env *env);
+void			ft_pwd(void);
+void			ft_cd(t_env *env);
 void			ft_env(t_env *env);
 void			is_pipe_here(t_env *env);
 void			ft_pipe_is_cmd(t_env *env, int old_fd);
 void			verify_cmd_pipe(char *cmd, int indic, t_env *env);
-void			ft_cd_two(char *tmp, char *path, int i);
 void			ft_get_dir(t_env *env);
 void			ft_export(char *str, t_env *env);
 t_var			*ft_lstvar(t_env *env);

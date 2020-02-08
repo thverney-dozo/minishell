@@ -6,7 +6,7 @@
 /*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/28 16:58:31 by anloubie          #+#    #+#             */
-/*   Updated: 2020/02/08 05:15:01 by thverney         ###   ########.fr       */
+/*   Updated: 2020/02/08 21:03:39 by thverney         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,10 @@ void		ft_not_found(char *cmd)
 		cmd++;
 	if (*cmd)
 	{
-		write(1, "minishell: command not found: ", 30);
+		write(2, "minishell: command not found: ", 30);
 		while (cmd[i] > 32)
 			i++;
-		write(1, cmd, i);
-		write(1, "\n", 1);
+		write(2, cmd, i);
+		write(2, "\n", 1);
 	}
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anloubie <anloubie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/29 13:22:22 by anloubie          #+#    #+#             */
-/*   Updated: 2020/02/06 14:28:53 by anloubie         ###   ########.fr       */
+/*   Updated: 2020/02/08 21:22:50 by thverney         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,14 +39,9 @@ void	ft_get_dir(t_env *env)
 	env->dir = ft_substr(buf, i + 1, j);
 }
 
-void	ft_pwd(char *str, int i)
+void	ft_pwd(void)
 {
 	char	buf[PATH_MAX + 1];
 
-	while (str[i] && str[i] < 33)
-		i++;
-	if (!str[i] || str[i] == '|' || str[i] == ';')
-		ft_putendl_fd(getcwd(buf, PATH_MAX), 1);
-	else
-		write(1, "pwd: too many arguments\n", 25);
+	ft_putendl_fd(getcwd(buf, PATH_MAX), 1);
 }

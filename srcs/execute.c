@@ -6,7 +6,7 @@
 /*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/06 22:20:16 by thverney          #+#    #+#             */
-/*   Updated: 2020/02/08 07:33:49 by thverney         ###   ########.fr       */
+/*   Updated: 2020/02/08 21:07:32 by thverney         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,5 @@ int		is_executable(t_env *env, int indic)
 			}
 		}
 		return (0);
-	}	
-
+	}
 }
