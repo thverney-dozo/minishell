@@ -3,18 +3,19 @@ NAME    =       Minishell
 # Sources
 
 SRC_FILE   =   main.c 			\
-			iscmd.c 		\
-			ft_echo.c		\
-			ft_not_found.c	\
-			pwd.c			\
-			cd.c			\
-			env.c			\
-			lst.c			\
-			clear.c			\
-			export.c		\
-			unset.c			\
-			execute.c		\
-			split_commands.c \
+			iscmd.c 			\
+			ft_echo.c			\
+			ft_not_found.c		\
+			pwd.c				\
+			cd.c				\
+			env.c				\
+			lst.c				\
+			clear_screen.c				\
+			export.c			\
+			unset.c				\
+			execute.c			\
+			split_commands.c 	\
+			use_env_var.c		\
 
 INCS_NAME   =   minishell.h
 
