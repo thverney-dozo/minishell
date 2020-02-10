@@ -1,61 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   split_commands.c                                   :+:      :+:    :+:   */
+/*   split_pipes.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/02/10 01:58:05 by thverney          #+#    #+#             */
-/*   Updated: 2020/02/10 20:29:08 by thverney         ###   ########.fr       */
+/*   Created: 2020/02/10 17:48:25 by thverney          #+#    #+#             */
+/*   Updated: 2020/02/10 20:29:22 by thverney         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	**split_commands_no_quotes(t_cmd *cmd)
+char	**split_pipes_no_quotes(t_cmd *cmd)
 {
-	return (ft_split(cmd->cpy, ';'));
+	return (ft_split(cmd->cpy, '|'));
 }
 
-int		how_many_backslash(char *str, int i, t_cmd *cmd)
-{
-	if (str[i - 1])
-		i--;
-	else
-		return (0);
-	cmd->backslash = 0;
-	while (str[i] == '\\')
-	{
-		cmd->backslash++;
-		i--;
-	}
-	return (cmd->backslash % 2);
-}
-
-char	*get_semi_coma(t_cmd *cmd, char *str, char c)
-{
-	int     i;
-
-	i = 0;
-	while (str[i] && (str[i] != c || how_many_backslash(str, i, cmd)))
-		i++;
-	cmd->index = i;
-	if (str[i] == c)
-		return (ft_substr(str, 0, i));
-	else
-		return (NULL);
-}
-
-void	is_word(t_cmd *cmd, int i)
-{
-	i++;
-	while (cmd->cpy[i] && cmd->cpy[i] < 33)
-		i++;
-	if (cmd->cpy[i])
-		cmd->words++;
-}
-
-void	is_multi_line_quote_two(t_cmd *cmd, int i)
+void	is_multi_line_quote_two_pipes(t_cmd *cmd, int i)
 {
 	while (cmd->cpy[i])
 	{
@@ -69,16 +31,16 @@ void	is_multi_line_quote_two(t_cmd *cmd, int i)
 			}
 			i+= cmd->index + 1;
 		}
-		else if (cmd->cpy[i] == ';' && !how_many_backslash(cmd->cpy, i, cmd))
+		else if (cmd->cpy[i] == '|' && !how_many_backslash(cmd->cpy, i, cmd))
 			is_word(cmd, i);
 		i++;
 	}
 }
 
-int		is_multi_line_quote(t_cmd *cmd, int i)
+int		is_multi_line_quote_pipes(t_cmd *cmd, int i)
 {
 	cmd->words = 1;
-	is_multi_line_quote_two(cmd, i);
+	is_multi_line_quote_two_pipes(cmd, i);
 	if (cmd->error)
 	{
 		write(1, "multi line not handle (peer quote missing)\n", 44);
@@ -90,7 +52,7 @@ int		is_multi_line_quote(t_cmd *cmd, int i)
 		return (1);
 }
 
-int		count_chars(t_cmd *cmd, char *line, t_env *env)
+int		count_chars_pipes(t_cmd *cmd, char *line, t_env *env)
 {
 	int i;
 	int count;
@@ -104,14 +66,14 @@ int		count_chars(t_cmd *cmd, char *line, t_env *env)
 	{
 		if ((line[i] == 39 || line[i] == 34) && !how_many_backslash(line, i, cmd))
 		{
-			count++;
 			get_semi_coma(cmd, line + i + 1, line[i]);
 			count += cmd->index + 1;
 			i += cmd->index + 1;
 		}
-		else if (line[i + 1] == ';' && !how_many_backslash(line, i, cmd))
+		else if (line[i + 1] == '|' && !how_many_backslash(line, i, cmd))
 			break ;
-		count++;
+		else
+			count++;
 		i++;
 
 	}
@@ -125,7 +87,7 @@ int		count_chars(t_cmd *cmd, char *line, t_env *env)
 	return (count);
 }
 
-char	**split_parse_done(t_env *env, char *line, t_cmd *cmd)
+char	**split_parse_done_pipe(t_env *env, char *line, t_cmd *cmd)
 {
 	char	**str;
 	int		j;
@@ -139,7 +101,7 @@ char	**split_parse_done(t_env *env, char *line, t_cmd *cmd)
 	while (tmp < cmd->words)
 	{
 		j = 0;
-		env->count = count_chars(cmd, line + i, env);
+		env->count = count_chars_pipes(cmd, line + i, env);
 		if (!(str[tmp] = (char*)malloc(sizeof(char) * (env->count + 1))))
 			return (NULL);
 		env->count += i;
@@ -151,7 +113,7 @@ char	**split_parse_done(t_env *env, char *line, t_cmd *cmd)
 			&& !how_many_backslash(line, i, cmd))
 			{
 				cmd->wichquote = (line[i] == 34 ? 34 : 39);
-				str[tmp][j++] = line[i++];
+				i++;
 				while (line[i] && line[i] != cmd->wichquote && i <= env->count
 				&& !how_many_backslash(line, i, cmd))
 				{
@@ -159,9 +121,8 @@ char	**split_parse_done(t_env *env, char *line, t_cmd *cmd)
 					j++;
 					i++;
 				}
-				str[tmp][j++] = line[i++];
 			}
-			else if (line[i] == ';' && !how_many_backslash(line, i - 1, cmd))
+			else if (line[i] == '|' && !how_many_backslash(line, i - 1, cmd))
 			{
 				i++;
 				break ;
@@ -180,17 +141,17 @@ char	**split_parse_done(t_env *env, char *line, t_cmd *cmd)
 	return (str);
 }
 
-char	**split_commands(t_env *env)
+char	**split_pipes(t_env *env)
 {
 	t_cmd	*cmd;
 
 	if (!(cmd = (t_cmd*)malloc(sizeof(t_cmd))))
 		return (NULL);
-	cmd->cpy = env->copy_free;
+	cmd->cpy = env->args[env->i];
 	if (!ft_strchr(cmd->cpy, 39) && !ft_strchr(cmd->cpy, 34))
-		return (split_commands_no_quotes(cmd));
+		return (split_pipes_no_quotes(cmd));
 	cmd->error = 0;
-	if (!is_multi_line_quote(cmd, 0))
+	if (!is_multi_line_quote_pipes(cmd, 0))
 		return (NULL);
-	return (split_parse_done(env, cmd->cpy, cmd));
+	return (split_parse_done_pipe(env, cmd->cpy, cmd));
 }

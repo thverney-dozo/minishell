@@ -6,7 +6,7 @@
 /*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/27 18:49:54 by thverney          #+#    #+#             */
-/*   Updated: 2020/02/10 15:17:36 by thverney         ###   ########.fr       */
+/*   Updated: 2020/02/10 17:56:46 by thverney         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,5 +101,8 @@ char			**split_commands(t_env *env);
 int				is_multi_line_quote(t_cmd *cmd, int i);
 void			is_multi_line_quote_two(t_cmd *cmd, int i);
 char			*get_semi_coma(t_cmd *cmd, char *str, char c);
-
+int				how_many_backslash(char *str, int i, t_cmd *cmd);
+char			*get_semi_coma(t_cmd *cmd, char *str, char c);
+void			is_word(t_cmd *cmd, int i);
+char			**split_pipes(t_env *env);
 #endif

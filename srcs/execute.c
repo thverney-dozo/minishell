@@ -6,7 +6,7 @@
 /*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/06 22:20:16 by thverney          #+#    #+#             */
-/*   Updated: 2020/02/08 21:07:32 by thverney         ###   ########.fr       */
+/*   Updated: 2020/02/10 20:10:42 by thverney         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ int		is_executable(t_env *env, int indic)
 						execve(ft_strjoin(ft_strjoin(env->path[i], "/"), dirent->d_name), env->flags, env->my_env);
 						if (errno)
 							write(1, strerror(errno), ft_strlen(strerror(errno)));
+				// dprintf(2, "SEGFAULT\n");
 						return (1);
 					}
 				}

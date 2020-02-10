@@ -6,7 +6,7 @@
 /*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/28 16:08:15 by anloubie          #+#    #+#             */
-/*   Updated: 2020/02/10 00:37:40 by thverney         ###   ########.fr       */
+/*   Updated: 2020/02/10 20:30:19 by thverney         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ void	is_pipe_here(t_env *env)
 {
 	int		pid;
 
-	env->av_pipe = ft_split(env->args[env->i], '|');
+	env->av_pipe = split_pipes(env);
 	ft_is_exit_here(env);
 	env->x = 0;
 	if (env->av_pipe[env->x + 1]) // il y a des commandes a piper

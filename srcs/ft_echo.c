@@ -6,7 +6,7 @@
 /*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/28 16:41:06 by anloubie          #+#    #+#             */
-/*   Updated: 2020/02/10 14:18:24 by thverney         ###   ########.fr       */
+/*   Updated: 2020/02/10 18:03:05 by thverney         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,8 @@ void		ft_echo_two(t_env *env)
 	char	*new;
 
 	i = 0;
-	// while (env->av_pipe[env->x][i] && env->av_pipe[env->x][i] < 33)
-		// i++;
+	while (env->av_pipe[env->x][i] && env->av_pipe[env->x][i] < 33)
+		i++;
 	while (env->av_pipe[env->x][i] && env->av_pipe[env->x][i] > 32)
 		i++;
 	while (env->av_pipe[env->x][i] && env->av_pipe[env->x][i] < 33)
