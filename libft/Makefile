@@ -6,7 +6,7 @@
 #    By: anloubie <anloubie@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/09 19:13:28 by thverney          #+#    #+#              #
-#    Updated: 2020/02/04 09:33:19 by anloubie         ###   ########.fr        #
+#    Updated: 2020/02/10 16:08:09 by anloubie         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -56,6 +56,8 @@ FILES = 		ft_atoi.c \
 				get_next_line.c \
 				get_next_line_utils.c \
                 ft_strcmp.c             \
+                ft_strjoinfree.c        \
+                ft_clear.c              \
 
 OBJECTS = $(FILES:.c=.o)
 

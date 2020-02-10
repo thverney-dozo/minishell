@@ -10,12 +10,12 @@ SRC_FILE   =   main.c 		 \
 			cd.c			 \
 			env.c			 \
 			lst.c			 \
-			clear.c			 \
 			export.c		 \
 			unset.c			 \
 			execute.c		 \
 			split_commands.c \
 			split_pipes.c	 \
+			clear_screen.c	 \
 
 INCS_NAME   =   minishell.h
 

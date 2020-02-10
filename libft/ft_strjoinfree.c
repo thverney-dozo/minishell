@@ -1,41 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_sjoin_free.c                                    :+:      :+:    :+:   */
+/*   ft_strjoinfree.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: anloubie <anloubie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/12/03 19:03:03 by thverney          #+#    #+#             */
-/*   Updated: 2020/02/10 16:05:10 by anloubie         ###   ########.fr       */
+/*   Created: 2020/01/10 14:43:26 by anloubie          #+#    #+#             */
+/*   Updated: 2020/01/10 14:46:48 by anloubie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char		*ft_sjoin_free(char const *dst, char const *src, size_t n)
+char	*ft_strjoinfree(char *s1, char *s2, int a)
 {
-	char	*new;
+	int		len1;
+	int		len2;
+	char	*dest;
 	int		i;
 	int		j;
-	int		k;
 
-	if (!dst && !src)
-		return (NULL);
 	i = 0;
 	j = 0;
-	k = 0;
-	if (!(new = (char *)malloc(sizeof(char) *
-					(ft_strlen(src) + ft_strlen(dst) + 1))))
+	len1 = ft_strlen(s1);
+	len2 = ft_strlen(s2);
+	if (!(dest = (char*)malloc(sizeof(char) * (len1 + len2 + 1))))
 		return (NULL);
-	while (dst[i] || src[j])
-	{
-		if (dst[i])
-			new[k++] = dst[i++];
-		else
-			new[k++] = src[j++];
-	}
-	new[k] = '\0';
-	n >= 1 ? free((void *)dst) : 1;
-	n == 2 ? free((void *)src) : 1;
-	return (new);
+	while (s1 && s1[i])
+		dest[j++] = s1[i++];
+	if (a == 1 || a == 3)
+		ft_clear(&s1);
+	i = 0;
+	while (s2 && s2[i])
+		dest[j++] = s2[i++];
+	if (a == 2 || a == 3)
+		ft_clear(&s2);
+	dest[j] = '\0';
+	return (dest);
 }

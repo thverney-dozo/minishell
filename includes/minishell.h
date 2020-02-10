@@ -6,7 +6,7 @@
 /*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/27 18:49:54 by thverney          #+#    #+#             */
-/*   Updated: 2020/02/10 17:56:46 by thverney         ###   ########.fr       */
+/*   Updated: 2020/02/10 20:37:12 by thverney         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,32 +44,32 @@ typedef struct		s_cmd
 
 typedef struct		s_env
 {
-	int			max;
-	int			count;
-	int			fd[2];
-	int			old_fd;
-	int			input_pipe;
-	int			exit;
-	char		*buf;
-	char		*arg;
-	char		**my_env;
-	char		*dir;
-	char		**args;
-	char		**flags;
-	int			i;
-	int			j;
-	int			x;
-	int			y;
-	char		**copy_args;
-	char		*copy_free;
-	char		**av_pipe;
-	char		**copy_pipe;
-	char		**path;	
-	t_var		*var;
-	t_var		*first;
-	t_var		*save;
+	int				max;
+	int				count;
+	int				fd[2];
+	int				old_fd;
+	int				input_pipe;
+	int				exit;
+	char			*buf;
+	char			*arg;
+	char			**my_env;
+	char			*dir;
+	char			**args;
+	char			**flags;
+	int				i;
+	int				j;
+	int				x;
+	int				y;
+	char			**copy_args;
+	char			*copy_free;
+	char			**av_pipe;
+	char			**copy_pipe;
+	char			**path;	
+	t_var			*var;
+	t_var			*first;
+	t_var			*save;
 	
-}				t_env;
+}					t_env;
 
 void			loop_shell(t_env *env);
 void			is_command(char *cmd, t_env *env);
@@ -92,7 +92,7 @@ void			ft_lstaddvar(t_var **alst, t_var *new);
 t_var			*ft_lstnewvar(char *var, int i, t_env *env);
 int				ft_find_char(char *str, char c);
 int				ft_verif_var(char *name, t_env *env, char *value);
-void			ft_clear(void);
+void			ft_clear_screen(void);
 void			ft_unset(char *str, t_env *env);
 void			ft_unset_var(char *str, t_env *env);
 char			*ft_get_home(t_env *env);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lst.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
+/*   By: anloubie <anloubie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/03 16:25:01 by anloubie          #+#    #+#             */
-/*   Updated: 2020/02/06 22:17:50 by thverney         ###   ########.fr       */
+/*   Updated: 2020/02/10 14:39:20 by anloubie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ int		ft_verif_var(char *name, t_env *env, char *value)
 	{
 		if (!(ft_strcmp(name, env->var->name)))
 		{
-			printf("test\n");
 			free(env->var->value);
 			if (!(env->var->value = ft_strdup(value)))
 				return (-1);

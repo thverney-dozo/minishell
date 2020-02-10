@@ -6,7 +6,7 @@
 /*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/28 16:08:15 by anloubie          #+#    #+#             */
-/*   Updated: 2020/02/10 20:30:19 by thverney         ###   ########.fr       */
+/*   Updated: 2020/02/10 20:33:57 by thverney         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,9 @@ void	is_command(char *cmd, t_env *env)
 	else if (!(ft_strncmp(cmd, "cd\0", 3)))
 		ft_cd(env);
     else if (!(ft_strncmp(cmd, "clear\0", 6)))
-        ft_clear();
+        ft_clear_screen();
 	else if (!(ft_strncmp(cmd, "export\0", 7)))
-		ft_export(cmd + 7, env);
+		ft_export(env->flags[1], env);
 	else if (!(ft_strncmp(cmd, "unset ", 6)))
 		ft_unset(cmd, env);
 	else if (!(ft_strncmp(cmd, "env", 3) || !(ft_strncmp(cmd, "env ", 4))))

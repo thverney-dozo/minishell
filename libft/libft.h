@@ -6,7 +6,7 @@
 /*   By: anloubie <anloubie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/09 20:17:19 by thverney          #+#    #+#             */
-/*   Updated: 2020/02/04 13:37:28 by anloubie         ###   ########.fr       */
+/*   Updated: 2020/02/10 16:09:32 by anloubie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,4 +67,7 @@ int		is_n(char *buff);
 void	*ft_calloc_gnl(size_t count, size_t size);
 void	ft_bzero_gnl(void *s, size_t n);
 int		ft_strcmp(const char *s1, const char *s2);
+char	*ft_strjoinfree(char *s1, char *s2, int a);
+void	ft_clear(char **str);
+
 #endif
