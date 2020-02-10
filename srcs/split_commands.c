@@ -6,7 +6,7 @@
 /*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/10 01:58:05 by thverney          #+#    #+#             */
-/*   Updated: 2020/02/10 14:08:08 by thverney         ###   ########.fr       */
+/*   Updated: 2020/02/10 16:56:53 by thverney         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,16 +19,29 @@ char	**split_commands_no_quotes(t_cmd *cmd)
 	return (ft_split(cmd->cpy, ';'));
 }
 
+int		how_many_backslash(char *str, int i, t_cmd *cmd)
+{
+	if (str[i - 1])
+		i--;
+	else
+		return (0);
+	cmd->backslash = 0;
+	while (str[i] == '\\')
+	{
+		cmd->backslash++;
+		i--;
+	}
+	return (cmd->backslash % 2);
+}
+
 char	*get_semi_coma(t_cmd *cmd, char *str, char c)
 {
 	int     i;
 
 	i = 0;
-	while (str[i] && str[i] != c)
+	while (str[i] && (str[i] != c || how_many_backslash(str, i, cmd)))
 		i++;
 	cmd->index = i;
-	// dprintf(2, "index|%d|\n", cmd->index);
-	// printf("MA CHAINE|%s|\n", ft_substr(str, 0, i));
 	if (str[i] == c)
 		return (ft_substr(str, 0, i));
 	else
@@ -48,7 +61,8 @@ void	is_multi_line_quote_two(t_cmd *cmd, int i)
 {
 	while (cmd->cpy[i])
 	{
-		if ((cmd->cpy[i] == 39 || cmd->cpy[i] == 34) && cmd->cpy[i - 1] != '\\')
+		if ((cmd->cpy[i] == 39 || cmd->cpy[i] == 34)
+		&& !how_many_backslash(cmd->cpy, i, cmd))
 		{
 			if (get_semi_coma(cmd, cmd->cpy + i + 1, cmd->cpy[i]) == NULL)
 			{
@@ -57,7 +71,7 @@ void	is_multi_line_quote_two(t_cmd *cmd, int i)
 			}
 			i+= cmd->index + 1;
 		}
-		else if (cmd->cpy[i] == ';' && cmd->cpy[i - 1] != '\\')
+		else if (cmd->cpy[i] == ';' && !how_many_backslash(cmd->cpy, i, cmd))
 			is_word(cmd, i);
 		i++;
 	}
@@ -90,25 +104,25 @@ int		count_chars(t_cmd *cmd, char *line, t_env *env)
 		i++;
 	while (line[i] && env->max--)
 	{
-		if ((line[i] == 39 || line[i] == 34) && line[i - 1] != '\\')
+		if ((line[i] == 39 || line[i] == 34) && !how_many_backslash(line, i, cmd))
 		{
 			get_semi_coma(cmd, line + i + 1, line[i]);
-			count += cmd->index;
+			count += cmd->index + 1;
 			i += cmd->index + 1;
 		}
-		else if (line[i + 1] == ';' && line[i] != '\\')
+		else if (line[i + 1] == ';' && !how_many_backslash(line, i, cmd))
 			break ;
 		else
 			count++;
 		i++;
 
 	}
-	env->i = i;
 	while (line[i - 1] && line[i - 1] < 33)
 	{
 		i--;
 		count--;
 	}
+	env->i = i;
 	env->max = ft_strlen(line);
 	return (count);
 }
@@ -128,23 +142,37 @@ char	**split_parse_done(t_env *env, char *line, t_cmd *cmd)
 	{
 		j = 0;
 		env->count = count_chars(cmd, line + i, env);
-		if (!(str[j] = (char*)malloc(sizeof(char) * (env->count + 1))))
+		if (!(str[tmp] = (char*)malloc(sizeof(char) * (env->count + 1))))
 			return (NULL);
-		while (line[i] && line[i] < 33)
+		env->count += i;
+		while (line[i] && line[i] < 33 && i <= env->count)
 			i++;
-		while (line[i] && env->max--)
+		while (line[i])
 		{
-			if ((line[i] == 39 || line[i] == 34) && line[i - 1] != '\\')
+			if ((line[i] == 39 || line[i] == 34)
+			&& !how_many_backslash(line, i, cmd))
 			{
-				cmd->wichquote = line[i];
+				cmd->wichquote = (line[i] == 34 ? 34 : 39);
 				i++;
-				while (line[i] && line[i] != cmd->wichquote)
-					str[tmp][j++] = line[i++];
+				while (line[i] && line[i] != cmd->wichquote && i <= env->count
+				&& !how_many_backslash(line, i, cmd))
+				{
+					str[tmp][j] = line[i];
+					j++;
+					i++;
+				}
 			}
-			else if (line[i + 1] == ';' && line[i] != '\\')
+			else if (line[i] == ';' && line[i - 1] != '\\')
+			{
+				i++;
 				break ;
+			}
 			else
-				str[tmp][j++] = line[i++];
+			{
+				if (i <= env->count)
+					str[tmp][j++] = line[i];
+				i++;
+			}
 		}
 		str[tmp][j] = '\0';
 		tmp++;

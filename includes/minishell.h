@@ -6,7 +6,7 @@
 /*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/27 18:49:54 by thverney          #+#    #+#             */
-/*   Updated: 2020/02/10 14:07:09 by thverney         ###   ########.fr       */
+/*   Updated: 2020/02/10 15:17:36 by thverney         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ typedef struct		s_cmd
 	char			*cpy;
 	int				words;
 	int				wichquote;
+	int				backslash;
 }					t_cmd;
 
 typedef struct		s_env
