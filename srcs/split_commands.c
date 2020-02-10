@@ -6,7 +6,7 @@
 /*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/10 01:58:05 by thverney          #+#    #+#             */
-/*   Updated: 2020/02/10 12:04:39 by thverney         ###   ########.fr       */
+/*   Updated: 2020/02/10 14:08:08 by thverney         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,14 +82,13 @@ int		count_chars(t_cmd *cmd, char *line, t_env *env)
 {
 	int i;
 	int count;
-	int		max;
 
-	max = ft_strlen(line);
+	env->max = ft_strlen(line);
 	count = 0;
 	i = 0;
 	while (line[i] && line[i] < 33)
 		i++;
-	while (line[i] && max--)
+	while (line[i] && env->max--)
 	{
 		if ((line[i] == 39 || line[i] == 34) && line[i - 1] != '\\')
 		{
@@ -110,6 +109,7 @@ int		count_chars(t_cmd *cmd, char *line, t_env *env)
 		i--;
 		count--;
 	}
+	env->max = ft_strlen(line);
 	return (count);
 }
 
@@ -132,7 +132,7 @@ char	**split_parse_done(t_env *env, char *line, t_cmd *cmd)
 			return (NULL);
 		while (line[i] && line[i] < 33)
 			i++;
-		while (line[i])
+		while (line[i] && env->max--)
 		{
 			if ((line[i] == 39 || line[i] == 34) && line[i - 1] != '\\')
 			{
