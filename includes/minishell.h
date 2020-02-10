@@ -6,7 +6,7 @@
 /*   By: anloubie <anloubie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/27 18:49:54 by thverney          #+#    #+#             */
-/*   Updated: 2020/02/10 17:21:27 by anloubie         ###   ########.fr       */
+/*   Updated: 2020/02/10 17:23:49 by anloubie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ void				ft_lstaddvar(t_var **alst, t_var *new);
 t_var				*ft_lstnewvar(char *var, int i, t_env *env);
 int					ft_find_char(char *str, char c);
 int					ft_verif_var(char *name, t_env *env, char *value);
-void				ft_clear(void);
+void				ft_clear_screen(void);
 void				ft_unset(char *str, t_env *env);
 void				ft_unset_var(char *str, t_env *env);
 char				*ft_get_home(t_env *env);
