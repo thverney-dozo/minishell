@@ -1,21 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   clear.c                                            :+:      :+:    :+:   */
+/*   ft_clear.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: anloubie <anloubie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/02/03 15:01:38 by anloubie          #+#    #+#             */
-/*   Updated: 2020/02/07 12:09:41 by anloubie         ###   ########.fr       */
+/*   Created: 2019/11/20 14:06:02 by anloubie          #+#    #+#             */
+/*   Updated: 2019/11/20 14:07:08 by anloubie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-void	ft_clear(void)
+void		ft_clear(char **str)
 {
-	const char *clear_screen;
-
-	clear_screen = "\033c";
-	write(1, clear_screen, 3);
+	if (str && *str)
+	{
+		free(*str);
+		*str = NULL;
+	}
 }
