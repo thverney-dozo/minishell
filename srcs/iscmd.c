@@ -6,7 +6,7 @@
 /*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/28 16:08:15 by anloubie          #+#    #+#             */
-/*   Updated: 2020/02/08 22:10:16 by thverney         ###   ########.fr       */
+/*   Updated: 2020/02/10 00:37:40 by thverney         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	is_command(char *cmd, t_env *env)
 	if (!ft_strncmp(cmd, "exit\0", 5))
 		env->exit = 1;
 	else if (!ft_strncmp(cmd, "echo\0", 5))
-		ft_echo(cmd, env);
+		ft_echo(env);
 	else if (!(ft_strncmp(cmd, "pwd\0", 4)))
 		ft_pwd();
 	else if (!(ft_strncmp(cmd, "cd\0", 3)))
@@ -94,20 +94,17 @@ void	ft_is_exit_here(t_env *env)
 		}
 		env->x++;	
 	}
-	env->x = 0;
 }
 
 int		is_builtin_no_pipe(char *cmd, t_env *env)
 {
-	if (!ft_strncmp(cmd, "exit\0", 5) || !ft_strncmp(cmd, "echo\0", 5)
-	|| !(ft_strncmp(cmd, "pwd\0", 4)) || !ft_strncmp(cmd, "cd\0", 3)
-	||!ft_strncmp(cmd, "clear\0", 6) || !ft_strncmp(cmd, "export\0", 7)
+	(void)env;
+	if (!ft_strncmp(cmd, "exit\0", 5) || !ft_strncmp(cmd, "echo", 5)
+	|| !ft_strncmp(cmd, "pwd\0", 4) || !ft_strncmp(cmd, "cd\0", 3)
+	|| !ft_strncmp(cmd, "clear\0", 6) || !ft_strncmp(cmd, "export\0", 7)
 	|| !ft_strncmp(cmd, "unset ", 6) || !ft_strncmp(cmd, "env", 3)
-	|| !(ft_strncmp(cmd, "env ", 4)))
-	{
-		is_command(cmd, env);
+	|| !ft_strncmp(cmd, "env ", 4))
 		return (0);
-	}
 	else
 		return (1);
 	
@@ -119,14 +116,14 @@ void	is_pipe_here(t_env *env)
 
 	env->av_pipe = ft_split(env->args[env->i], '|');
 	ft_is_exit_here(env);
-	if (env->av_pipe[env->x + 1])
+	env->x = 0;
+	if (env->av_pipe[env->x + 1]) // il y a des commandes a piper
 		ft_pipe_is_cmd(env, -1);
 	else
 	{
 
 		env->flags = split_wh_sp(env->av_pipe[env->x]);
-		dprintf(2, "|%s|\n", env->flags[0]);
-		if (is_builtin_no_pipe(env->flags[0], env))
+		if (is_builtin_no_pipe(env->flags[0], env)) //il faut fork que si c'est un buitin
 		{
 			if ((pid = fork()) < 0)
 				exit(EXIT_FAILURE);
@@ -137,6 +134,9 @@ void	is_pipe_here(t_env *env)
 			}
 			waitpid(pid, 0, 0);
 		}
+		else
+			is_command(env->flags[0], env);
+
 	}
 	env->x = 0;
 	while (env->av_pipe[env->x])

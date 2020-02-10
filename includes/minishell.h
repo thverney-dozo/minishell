@@ -6,7 +6,7 @@
 /*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/27 18:49:54 by thverney          #+#    #+#             */
-/*   Updated: 2020/02/08 22:10:29 by thverney         ###   ########.fr       */
+/*   Updated: 2020/02/10 11:59:27 by thverney         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,18 @@ typedef struct		s_var
 	struct s_var	*next;
 }					t_var;
 
+typedef struct		s_cmd
+{
+	int				index;
+	int				error;
+	char			*cpy;
+	int				words;
+	int				wichquote;
+}					t_cmd;
+
 typedef struct		s_env
 {
+	int			count;
 	int			fd[2];
 	int			old_fd;
 	int			input_pipe;
@@ -61,7 +71,9 @@ typedef struct		s_env
 
 void			loop_shell(t_env *env);
 void			is_command(char *cmd, t_env *env);
-void			ft_echo(char *cmd, t_env *env);
+void			ft_echo(t_env *env);
+void			ft_echo_n(int i, int tmp, t_env *env);
+void			ft_echo_two(t_env *env);
 void			ft_not_found(char *cmd);
 void			ft_pwd(void);
 void			ft_cd(t_env *env);
@@ -83,5 +95,9 @@ void			ft_unset(char *str, t_env *env);
 void			ft_unset_var(char *str, t_env *env);
 char			*ft_get_home(t_env *env);
 int				is_executable(t_env *env, int indic);
+char			**split_commands(t_env *env);
+int				is_multi_line_quote(t_cmd *cmd, int i);
+void			is_multi_line_quote_two(t_cmd *cmd, int i);
+char			*get_semi_coma(t_cmd *cmd, char *str, char c);
 
 #endif

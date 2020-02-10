@@ -6,7 +6,7 @@
 /*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/27 18:43:30 by thverney          #+#    #+#             */
-/*   Updated: 2020/02/08 20:40:28 by thverney         ###   ########.fr       */
+/*   Updated: 2020/02/10 11:59:56 by thverney         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,8 @@ void	loop_shell(t_env *env)
 	{
 		if (syntax_error(env))
 			return ;
-		env->args = ft_split(env->copy_free, ';');
+		if ((env->args = split_commands(env)) == NULL)
+			return ;
 		free(env->copy_free);
 		env->copy_free = NULL;
 		env->i = 0;
