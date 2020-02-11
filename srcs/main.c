@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/27 18:43:30 by thverney          #+#    #+#             */
-/*   Updated: 2020/02/10 20:34:58 by thverney         ###   ########.fr       */
+/*   Updated: 2020/02/11 14:22:40 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,7 @@ void	loop_shell(t_env *env)
 			return ;
 		if ((env->args = split_commands(env)) == NULL)
 			return ;
-		free(env->copy_free);
-		env->copy_free = NULL;
+		ft_clear(&env->copy_free);
 		env->i = 0;
 		while (env->args[env->i])
 		{
