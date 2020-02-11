@@ -6,7 +6,7 @@
 /*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/10 01:58:05 by thverney          #+#    #+#             */
-/*   Updated: 2020/02/11 14:43:45 by thverney         ###   ########.fr       */
+/*   Updated: 2020/02/11 16:18:57 by thverney         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,7 +173,6 @@ char	**split_parse_done(t_env *env, char *line, t_cmd *cmd)
 			}
 		}
 		str[tmp][j] = '\0';
-		dprintf(2, "(dans cmd[%s])\n", str[tmp]);
 		tmp++;
 	}
 	str[tmp] = 0;

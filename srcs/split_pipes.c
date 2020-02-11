@@ -6,7 +6,7 @@
 /*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/10 17:48:25 by thverney          #+#    #+#             */
-/*   Updated: 2020/02/11 16:11:19 by thverney         ###   ########.fr       */
+/*   Updated: 2020/02/11 16:18:41 by thverney         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,31 +117,29 @@ char	**split_parse_done_pipe(t_env *env, char *line, t_cmd *cmd)
 			&& !how_many_backslash(line, i, cmd))
 			{
 				cmd->wichquote = line[i];
-				dprintf(2, "1current[%c][%d]\n", line[i], i);
 				i++;
-				dprintf(2, "2current[%c][%d]\n", line[i], i);
-				while (line[i] && line[i] != cmd->wichquote && i <= env->count
-				&& !how_many_backslash(line, i, cmd))
-				{
-					str[tmp][j] = line[i];
-					j++;
-					i++;
-					dprintf(2, "3current[%c][%d]\n", line[i], i);
-				}
 				if (line[i] && line[i] == cmd->wichquote)
 					i++;
+				else
+				{
+					while (line[i] && line[i] != cmd->wichquote && i <= env->count
+					&& !how_many_backslash(line, i, cmd))
+					{
+						str[tmp][j] = line[i];
+						j++;
+						i++;
+					}
+					i++;
+				}
 			}
 			else if (line[i] == 92 && line[i + 1] == 92)
 			{
 				str[tmp][j] = line[i];
-				dprintf(2, "4current[%c][%d]\n", line[i], i);
 				j++;
 				i += 2;
-				dprintf(2, "5current[%c][%d]\n", line[i], i);
 			}
 			else if (line[i] == '|' && !how_many_backslash(line, i - 1, cmd))
 			{
-				dprintf(2, "a  la fin de laarg[%c][%d]\n", line[i], i);
 				i++;
 				break ;
 			}
@@ -149,12 +147,10 @@ char	**split_parse_done_pipe(t_env *env, char *line, t_cmd *cmd)
 			{
 				if (i <= env->count)
 					str[tmp][j++] = line[i];
-				dprintf(2, "6current[%c][%d]\n", line[i], i);
 				i++;
 			}
 		}
 		str[tmp][j] = '\0';
-		dprintf(2, "(dans pipe[%s])\n", str[tmp]);
 		tmp++;
 	}
 	str[tmp] = 0;
