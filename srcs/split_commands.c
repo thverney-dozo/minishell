@@ -6,7 +6,7 @@
 /*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/10 01:58:05 by thverney          #+#    #+#             */
-/*   Updated: 2020/02/10 20:29:08 by thverney         ###   ########.fr       */
+/*   Updated: 2020/02/11 14:43:45 by thverney         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,6 @@ int		count_chars(t_cmd *cmd, char *line, t_env *env)
 			break ;
 		count++;
 		i++;
-
 	}
 	while (line[i - 1] && line[i - 1] < 33)
 	{
@@ -174,6 +173,7 @@ char	**split_parse_done(t_env *env, char *line, t_cmd *cmd)
 			}
 		}
 		str[tmp][j] = '\0';
+		dprintf(2, "(dans cmd[%s])\n", str[tmp]);
 		tmp++;
 	}
 	str[tmp] = 0;
@@ -187,8 +187,8 @@ char	**split_commands(t_env *env)
 	if (!(cmd = (t_cmd*)malloc(sizeof(t_cmd))))
 		return (NULL);
 	cmd->cpy = env->copy_free;
-	if (!ft_strchr(cmd->cpy, 39) && !ft_strchr(cmd->cpy, 34))
-		return (split_commands_no_quotes(cmd));
+	// if (!ft_strchr(cmd->cpy, 39) && !ft_strchr(cmd->cpy, 34))
+		// return (split_commands_no_quotes(cmd));
 	cmd->error = 0;
 	if (!is_multi_line_quote(cmd, 0))
 		return (NULL);
