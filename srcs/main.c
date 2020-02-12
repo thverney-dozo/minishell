@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
+/*   By: anloubie <anloubie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/27 18:43:30 by thverney          #+#    #+#             */
-/*   Updated: 2020/02/11 14:22:40 by antoine          ###   ########.fr       */
+/*   Updated: 2020/02/12 16:34:04 by anloubie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void	prompt_display(t_env *env)
 {
 	write(1, "\033[31m<#\033[34m(", 14);
 	ft_get_dir(env);
-	write(1, env->dir, ft_strlen(env->dir));
+	ft_putstr_fd(env->dir, 1);
 	free(env->dir);
 	write(1, ")\033[31m#>\033[00m ", 15);
 	loop_shell(env);

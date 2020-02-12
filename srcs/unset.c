@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
+/*   By: anloubie <anloubie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/04 18:28:21 by anloubie          #+#    #+#             */
-/*   Updated: 2020/02/11 16:45:43 by antoine          ###   ########.fr       */
+/*   Updated: 2020/02/12 14:27:22 by anloubie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,16 @@ void		ft_unset(t_env *env)
 {
 	int		i;
 
+	if (!env->flags[1])
+	{
+		ft_putendl_fd("unset: not enough arguments", 1);
+		return ;
+	}
 	i = 1;
 	while (env->flags[i])
 	{
-		ft_unset_var(env->flags[i++], env);
+		ft_unset_var(env->flags[i], env);
 		ft_save(env, env->var);
+		i++;
 	}
 }

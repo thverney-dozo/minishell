@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
+/*   By: anloubie <anloubie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/29 13:22:22 by anloubie          #+#    #+#             */
-/*   Updated: 2020/02/11 14:32:28 by antoine          ###   ########.fr       */
+/*   Updated: 2020/02/12 14:05:18 by anloubie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ void	ft_get_dir(t_env *env)
 	if (!ft_strcmp(buf, tmp))
 	{
 		env->dir = ft_strdup("~");
-		env->var = env->first;
 		return ;
 	}
 	while (buf[i] >= 32)
