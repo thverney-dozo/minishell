@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anloubie <anloubie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/12 16:54:21 by anloubie          #+#    #+#             */
-/*   Updated: 2020/02/12 16:54:27 by anloubie         ###   ########.fr       */
+/*   Updated: 2020/02/12 16:58:17 by thverney         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ int		syntax_error(t_env *env)
 		env->copy_free = NULL;
 		return (1);
 	}
+	else if (!(env->copy_free[env->i]))
+		return (1);
 	return (0);
 }
 
