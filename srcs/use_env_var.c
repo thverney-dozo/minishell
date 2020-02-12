@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   use_env_var.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
+/*   By: anloubie <anloubie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/10 14:26:55 by anloubie          #+#    #+#             */
-/*   Updated: 2020/02/11 14:20:00 by antoine          ###   ########.fr       */
+/*   Updated: 2020/02/12 17:32:18 by anloubie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,13 @@ int			get_index(char *str, char c)
 	i = 0;
 	while (str[i] && str[i] != c)
 		i++;
-	return i;
+	return (i);
 }
 
 void		ft_replace_word(t_env *env, int i, int j)
 {
 	char	*tmp;
+
 	while (env->var)
 	{
 		if (!(ft_strcmp(&(env->flags[i][j + 1]), env->var->name)))

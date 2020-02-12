@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
+/*   By: anloubie <anloubie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/03 15:03:14 by anloubie          #+#    #+#             */
-/*   Updated: 2020/02/11 14:35:21 by antoine          ###   ########.fr       */
+/*   Updated: 2020/02/12 17:23:29 by anloubie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,12 +88,21 @@ void		ft_export(t_env *env)
 {
 	size_t	i;
 	t_var	*new;
+	int		err;
 
+	err = 0;
 	new = NULL;
 	i = 1;
 	while (env->flags[i])
 	{
-		ft_export2(env->flags[i], env, new);
+		if (!isnb(env->flags[i][0]))
+			ft_export2(env->flags[i], env, new);
+		else if (err == 0)
+		{
+			write(1, "export: not an identifier: ", 26);
+			ft_putendl_fd(env->flags[i], 1);
+			err++;
+		}
 		i++;
 	}
 }
