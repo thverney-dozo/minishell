@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
+/*   By: anloubie <anloubie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/27 18:43:30 by thverney          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2020/02/11 14:53:39 by thverney         ###   ########.fr       */
+=======
+/*   Updated: 2020/02/12 16:34:04 by anloubie         ###   ########.fr       */
+>>>>>>> Redir
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +41,7 @@ void	loop_shell(t_env *env)
 			return ;
 		if ((env->args = split_commands(env)) == NULL)
 			return ;
-		free(env->copy_free);
-		env->copy_free = NULL;
+		ft_clear(&env->copy_free);
 		env->i = 0;
 		while (env->args[env->i])
 		{
@@ -58,7 +61,7 @@ void	prompt_display(t_env *env)
 {
 	write(1, "\033[31m<#\033[34m(", 14);
 	ft_get_dir(env);
-	write(1, env->dir, ft_strlen(env->dir));
+	ft_putstr_fd(env->dir, 1);
 	free(env->dir);
 	write(1, ")\033[31m#>\033[00m ", 15);
 	loop_shell(env);

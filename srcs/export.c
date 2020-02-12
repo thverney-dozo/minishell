@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anloubie <anloubie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/03 15:03:14 by anloubie          #+#    #+#             */
-/*   Updated: 2020/02/10 16:35:29 by anloubie         ###   ########.fr       */
+/*   Updated: 2020/02/11 14:35:21 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,20 +84,16 @@ void		ft_export2(char *str, t_env *env, t_var *new)
 	}
 }
 
-void		ft_export(char *str, t_env *env)
+void		ft_export(t_env *env)
 {
 	size_t	i;
-	char	**dest;
 	t_var	*new;
 
 	new = NULL;
-	dest = ft_split(str, ' ');
-	i = 0;
-	while (dest[i])
+	i = 1;
+	while (env->flags[i])
 	{
-		ft_export2(dest[i], env, new);
-		free(dest[i++]);
+		ft_export2(env->flags[i], env, new);
+		i++;
 	}
-	free(dest[i]);
-	free(dest);
 }

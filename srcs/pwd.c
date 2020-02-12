@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
+/*   By: anloubie <anloubie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/29 13:22:22 by anloubie          #+#    #+#             */
-/*   Updated: 2020/02/08 21:22:50 by thverney         ###   ########.fr       */
+/*   Updated: 2020/02/12 14:05:18 by anloubie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,11 @@ void	ft_get_dir(t_env *env)
 	i = 0;
 	j = 0;
 	tmp = ft_get_home(env);
+	env->var = env->first;
 	getcwd(buf, PATH_MAX);
 	if (!ft_strcmp(buf, tmp))
 	{
 		env->dir = ft_strdup("~");
-		env->var = env->first;
 		return ;
 	}
 	while (buf[i] >= 32)

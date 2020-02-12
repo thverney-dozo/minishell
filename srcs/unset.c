@@ -6,7 +6,7 @@
 /*   By: anloubie <anloubie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/04 18:28:21 by anloubie          #+#    #+#             */
-/*   Updated: 2020/02/05 14:02:32 by anloubie         ###   ########.fr       */
+/*   Updated: 2020/02/12 14:27:22 by anloubie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@ void		ft_unset_var(char *str, t_env *env)
 				env->first = env->first->next;
 			else
 				save->next = env->var->next;
-			free(env->var->value);
-			free(env->var->name);
+			ft_clear(&env->var->value);
+			ft_clear(&env->var->name);
 			free(env->var);
 			break ;
 		}
@@ -37,18 +37,20 @@ void		ft_unset_var(char *str, t_env *env)
 	env->var = env->first;
 }
 
-void		ft_unset(char *str, t_env *env)
+void		ft_unset(t_env *env)
 {
-	char	**dest;
 	int		i;
 
-	i = 1;
-	dest = ft_split(str, ' ');
-	if (!dest || !dest[1])
-		return ;
-	while (dest[i])
+	if (!env->flags[1])
 	{
-		ft_unset_var(dest[i++], env);
+		ft_putendl_fd("unset: not enough arguments", 1);
+		return ;
+	}
+	i = 1;
+	while (env->flags[i])
+	{
+		ft_unset_var(env->flags[i], env);
 		ft_save(env, env->var);
+		i++;
 	}
 }

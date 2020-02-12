@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   use_env_var.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anloubie <anloubie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/10 14:26:55 by anloubie          #+#    #+#             */
-/*   Updated: 2020/02/10 17:24:56 by anloubie         ###   ########.fr       */
+/*   Updated: 2020/02/11 14:20:00 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int			get_index(char *str, char c)
 	int	i;
 
 	i = 0;
-	while (str[i] != c)
+	while (str[i] && str[i] != c)
 		i++;
 	return i;
 }
@@ -45,12 +45,15 @@ void		ft_use_env_var(t_env *env)
 	int		i;
 	int		j;
 	char	*tmp;
+	int		index;
 
 	i = 0;
 	j = 0;
 	while (env->flags[i])
 	{
-		tmp = ft_substr(env->flags[i], 0, get_index(env->flags[i], '$'));
+		index = get_index(env->flags[i], '$');
+		if (!(tmp = ft_substr(env->flags[i], 0, index)))
+			return ;
 		j = 0;
 		while (env->flags[i][j])
 		{
