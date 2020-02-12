@@ -6,7 +6,7 @@
 /*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/10 17:48:25 by thverney          #+#    #+#             */
-/*   Updated: 2020/02/10 20:29:22 by thverney         ###   ########.fr       */
+/*   Updated: 2020/02/11 16:18:41 by thverney         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,11 @@ int		count_chars_pipes(t_cmd *cmd, char *line, t_env *env)
 			count += cmd->index + 1;
 			i += cmd->index + 1;
 		}
+		else if (line[i] == 92 && line[i + 1] == 92)
+		{
+			count++;
+			i += 2;
+		}
 		else if (line[i + 1] == '|' && !how_many_backslash(line, i, cmd))
 			break ;
 		else
@@ -82,7 +87,6 @@ int		count_chars_pipes(t_cmd *cmd, char *line, t_env *env)
 		i--;
 		count--;
 	}
-	// env->i = i;
 	env->max = ft_strlen(line);
 	return (count);
 }
@@ -112,15 +116,27 @@ char	**split_parse_done_pipe(t_env *env, char *line, t_cmd *cmd)
 			if ((line[i] == 39 || line[i] == 34)
 			&& !how_many_backslash(line, i, cmd))
 			{
-				cmd->wichquote = (line[i] == 34 ? 34 : 39);
+				cmd->wichquote = line[i];
 				i++;
-				while (line[i] && line[i] != cmd->wichquote && i <= env->count
-				&& !how_many_backslash(line, i, cmd))
+				if (line[i] && line[i] == cmd->wichquote)
+					i++;
+				else
 				{
-					str[tmp][j] = line[i];
-					j++;
+					while (line[i] && line[i] != cmd->wichquote && i <= env->count
+					&& !how_many_backslash(line, i, cmd))
+					{
+						str[tmp][j] = line[i];
+						j++;
+						i++;
+					}
 					i++;
 				}
+			}
+			else if (line[i] == 92 && line[i + 1] == 92)
+			{
+				str[tmp][j] = line[i];
+				j++;
+				i += 2;
 			}
 			else if (line[i] == '|' && !how_many_backslash(line, i - 1, cmd))
 			{
