@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anloubie <anloubie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aeoithd <aeoithd@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/29 13:55:18 by anloubie          #+#    #+#             */
-/*   Updated: 2020/02/12 14:04:32 by anloubie         ###   ########.fr       */
+/*   Updated: 2020/02/13 17:57:46 by aeoithd          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,15 @@ void	ft_cd(t_env *env)
 	env->var = env->first;
 	if (!temp)
 	{
-		ft_putendl_fd("minishell : cd : HOME not found", 1);
+		ft_putendl_fd("minishell : cd : HOME not found", 2);
 		return ;
 	}
 	else if ((!(env->flags[1])) || (!(ft_strcmp(env->flags[1], "~"))))
 		chdir(temp);
-	else
-		chdir(env->flags[1]);
+	else if (chdir(env->flags[1]) == -1)
+	{
+		write(2, "minishell: cd : ", 16);
+		write(2, strerror(errno), ft_strlen(strerror(errno)));
+		write(2, "\n", 1);
+	}
 }

@@ -6,7 +6,7 @@
 /*   By: aeoithd <aeoithd@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/12 16:54:21 by anloubie          #+#    #+#             */
-/*   Updated: 2020/02/13 16:49:27 by aeoithd          ###   ########.fr       */
+/*   Updated: 2020/02/13 17:46:35 by aeoithd          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@ int		syntax_error(t_env *env)
 		env->i++;
 	if (env->copy_free[env->i] == '|' || env->copy_free[env->i] == ';')
 	{
-		write(1, "minishell : syntax error near unexpected token '", 49);
-		ft_putchar_fd(env->copy_free[env->i] , 1);
-		write(1, "'\n", 3);
+		write(2, "minishell : syntax error near unexpected token '", 49);
+		ft_putchar_fd(env->copy_free[env->i] , 2);
+		write(2, "'\n", 3);
 		free(env->copy_free);
 		env->copy_free = NULL;
 		return (1);
