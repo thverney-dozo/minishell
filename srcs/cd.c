@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/29 13:55:18 by anloubie          #+#    #+#             */
-/*   Updated: 2020/02/13 21:32:03 by antoine          ###   ########.fr       */
+/*   Updated: 2020/02/14 00:25:15 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	ft_cd(t_env *env)
 	env->var = env->first;
 	if (!temp)
 	{
-		ft_putendl_fd("minishell : cd : HOME not found", 1);
+		ft_putendl_fd("minishell : cd : HOME not found", 2);
 		return ;
 	}
 	else if ((!(env->flags[1])) || (!(ft_strcmp(env->flags[1], "~"))))

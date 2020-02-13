@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_commands.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aeoithd <aeoithd@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/10 01:58:05 by thverney          #+#    #+#             */
-/*   Updated: 2020/02/13 02:03:44 by thverney         ###   ########.fr       */
+/*   Updated: 2020/02/13 16:01:47 by aeoithd          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,7 +125,7 @@ int		count_chars(t_cmd *cmd, char *line)
 			count++;
 			i++;
 		}
-		else if (line[i + 1] == ';' && !how_many_backslash(line, i, cmd))
+		else if (line[i] == ';' && !how_many_backslash(line, i, cmd))
 			break ;
 		count++;
 		i++;
@@ -176,7 +176,7 @@ char	**split_parse_done(t_env *env, char *line, t_cmd *cmd)
 				}
 				str[tmp][j++] = line[i++];
 			}
-			else if (line[i] == ';' && !how_many_backslash(line, i - 1, cmd))
+			else if (line[i] == ';' && !how_many_backslash(line, i, cmd))
 			{
 				i++;
 				break ;
@@ -202,8 +202,8 @@ char	**split_commands(t_env *env)
 	if (!(cmd = (t_cmd*)malloc(sizeof(t_cmd))))
 		return (NULL);
 	cmd->cpy = env->copy_free;
-	if (!ft_strchr(cmd->cpy, 39) && !ft_strchr(cmd->cpy, 34))
-		return (split_commands_no_quotes(cmd));
+	// if (!ft_strchr(cmd->cpy, 39) && !ft_strchr(cmd->cpy, 34))
+		// return (split_commands_no_quotes(cmd));
 	cmd->error = 0;
 	if (!is_multi_line_quote(cmd, 0))
 		return (NULL);

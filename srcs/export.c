@@ -6,7 +6,7 @@
 /*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/03 15:03:14 by anloubie          #+#    #+#             */
-/*   Updated: 2020/02/13 17:01:19 by antoine          ###   ########.fr       */
+/*   Updated: 2020/02/14 00:25:44 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,8 +99,8 @@ void		ft_export(t_env *env)
 			ft_export2(env->flags[i], env, new);
 		else if (err == 0)
 		{
-			write(1, "export: not an identifier: ", 26);
-			ft_putendl_fd(env->flags[i], 1);
+			write(2, "export: not an identifier: ", 26);
+			ft_putendl_fd(env->flags[i], 2);
 			err++;
 		}
 		i++;
