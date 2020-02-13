@@ -3,14 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   lst.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anloubie <anloubie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/03 16:25:01 by anloubie          #+#    #+#             */
-/*   Updated: 2020/02/10 14:39:20 by anloubie         ###   ########.fr       */
+/*   Updated: 2020/02/13 21:06:24 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int		ft_count_env(t_env *env)
+{
+	int		count;
+
+	count = 0;
+	while (env->var)
+	{
+		count++;
+		env->var = env->var->next;
+	}
+	env->var = env->first;
+	return (count);
+}
 
 int		ft_verif_var(char *name, t_env *env, char *value)
 {
