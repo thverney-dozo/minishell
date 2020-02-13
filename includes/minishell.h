@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anloubie <anloubie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/27 18:49:54 by thverney          #+#    #+#             */
-/*   Updated: 2020/02/12 16:37:38 by anloubie         ###   ########.fr       */
+/*   Updated: 2020/02/12 20:15:49 by thverney         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ typedef struct		s_cmd
 
 typedef struct		s_env
 {
-	int				max;
 	int				count;
 	int				fd[2];
 	int				old_fd;
@@ -64,7 +63,7 @@ typedef struct		s_env
 	char			**copy_args;
 	char			*copy_free;
 	char			**av_pipe;
-	char			**copy_pipe;
+	char			**cpy_pipe;
 	char			**path;	
 	t_var			*var;
 	t_var			*first;

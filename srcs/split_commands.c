@@ -6,7 +6,7 @@
 /*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/10 01:58:05 by thverney          #+#    #+#             */
-/*   Updated: 2020/02/11 16:18:57 by thverney         ###   ########.fr       */
+/*   Updated: 2020/02/13 02:03:44 by thverney         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,12 +62,20 @@ void	is_multi_line_quote_two(t_cmd *cmd, int i)
 		if ((cmd->cpy[i] == 39 || cmd->cpy[i] == 34)
 		&& !how_many_backslash(cmd->cpy, i, cmd))
 		{
-			if (get_semi_coma(cmd, cmd->cpy + i + 1, cmd->cpy[i]) == NULL)
+			cmd->wichquote = (cmd->cpy[i] == 34 ? 34 : 39);
+			i++;
+			while (cmd->cpy[i])
+			{
+				if (((cmd->cpy[i] == 34 && !how_many_backslash(cmd->cpy, i, cmd))
+				|| cmd->cpy[i] == 39) && cmd->cpy[i] == cmd->wichquote)  
+						break ;
+				i++;
+			}
+			if (!(cmd->cpy[i]))
 			{
 				cmd->error = 1;	
 				return ;
 			}
-			i+= cmd->index + 1;
 		}
 		else if (cmd->cpy[i] == ';' && !how_many_backslash(cmd->cpy, i, cmd))
 			is_word(cmd, i);
@@ -90,24 +98,32 @@ int		is_multi_line_quote(t_cmd *cmd, int i)
 		return (1);
 }
 
-int		count_chars(t_cmd *cmd, char *line, t_env *env)
+int		count_chars(t_cmd *cmd, char *line)
 {
 	int i;
 	int count;
 
-	env->max = ft_strlen(line);
 	count = 0;
 	i = 0;
 	while (line[i] && line[i] < 33)
 		i++;
-	while (line[i] && env->max--)
+	while (line[i])
 	{
 		if ((line[i] == 39 || line[i] == 34) && !how_many_backslash(line, i, cmd))
 		{
+			cmd->wichquote = (line[i] == 34 ? 34 : 39);
 			count++;
-			get_semi_coma(cmd, line + i + 1, line[i]);
-			count += cmd->index + 1;
-			i += cmd->index + 1;
+			i++;
+			while (line[i])
+			{
+				if (((line[i] == 34 && !how_many_backslash(line, i, cmd))
+				|| line[i] == 39) && line[i] == cmd->wichquote)
+					break ;
+				count++;
+				i++;
+			}
+			count++;
+			i++;
 		}
 		else if (line[i + 1] == ';' && !how_many_backslash(line, i, cmd))
 			break ;
@@ -119,8 +135,6 @@ int		count_chars(t_cmd *cmd, char *line, t_env *env)
 		i--;
 		count--;
 	}
-	// env->i = i;
-	env->max = ft_strlen(line);
 	return (count);
 }
 
@@ -138,7 +152,7 @@ char	**split_parse_done(t_env *env, char *line, t_cmd *cmd)
 	while (tmp < cmd->words)
 	{
 		j = 0;
-		env->count = count_chars(cmd, line + i, env);
+		env->count = count_chars(cmd, line + i);
 		if (!(str[tmp] = (char*)malloc(sizeof(char) * (env->count + 1))))
 			return (NULL);
 		env->count += i;
@@ -151,9 +165,11 @@ char	**split_parse_done(t_env *env, char *line, t_cmd *cmd)
 			{
 				cmd->wichquote = (line[i] == 34 ? 34 : 39);
 				str[tmp][j++] = line[i++];
-				while (line[i] && line[i] != cmd->wichquote && i <= env->count
-				&& !how_many_backslash(line, i, cmd))
+				while (line[i] && i <= env->count)
 				{
+					if (((line[i] == 34 && !how_many_backslash(line, i, cmd))
+					|| line[i] == 39) && line[i] == cmd->wichquote)  
+						break ;
 					str[tmp][j] = line[i];
 					j++;
 					i++;
@@ -186,8 +202,8 @@ char	**split_commands(t_env *env)
 	if (!(cmd = (t_cmd*)malloc(sizeof(t_cmd))))
 		return (NULL);
 	cmd->cpy = env->copy_free;
-	// if (!ft_strchr(cmd->cpy, 39) && !ft_strchr(cmd->cpy, 34))
-		// return (split_commands_no_quotes(cmd));
+	if (!ft_strchr(cmd->cpy, 39) && !ft_strchr(cmd->cpy, 34))
+		return (split_commands_no_quotes(cmd));
 	cmd->error = 0;
 	if (!is_multi_line_quote(cmd, 0))
 		return (NULL);

@@ -6,7 +6,7 @@
 /*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/10 17:48:25 by thverney          #+#    #+#             */
-/*   Updated: 2020/02/11 16:18:41 by thverney         ###   ########.fr       */
+/*   Updated: 2020/02/13 01:58:06 by thverney         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,19 +17,24 @@ char	**split_pipes_no_quotes(t_cmd *cmd)
 	return (ft_split(cmd->cpy, '|'));
 }
 
-void	is_multi_line_quote_two_pipes(t_cmd *cmd, int i)
+void	is_multi_line_quote_two_pipe(t_cmd *cmd, int i)
 {
 	while (cmd->cpy[i])
 	{
 		if ((cmd->cpy[i] == 39 || cmd->cpy[i] == 34)
 		&& !how_many_backslash(cmd->cpy, i, cmd))
 		{
-			if (get_semi_coma(cmd, cmd->cpy + i + 1, cmd->cpy[i]) == NULL)
+			cmd->wichquote = (cmd->cpy[i] == 34 ? 34 : 39);
+			i++;
+			while (cmd->cpy[i])
 			{
-				cmd->error = 1;	
-				return ;
+				if (((cmd->cpy[i] == 34 && !how_many_backslash(cmd->cpy, i, cmd))
+				|| cmd->cpy[i] == 39) && cmd->cpy[i] == cmd->wichquote)  
+						break ;
+				i++;
 			}
-			i+= cmd->index + 1;
+			if (!(cmd->cpy[i]))
+				return ;
 		}
 		else if (cmd->cpy[i] == '|' && !how_many_backslash(cmd->cpy, i, cmd))
 			is_word(cmd, i);
@@ -37,57 +42,63 @@ void	is_multi_line_quote_two_pipes(t_cmd *cmd, int i)
 	}
 }
 
-int		is_multi_line_quote_pipes(t_cmd *cmd, int i)
+void	is_multi_line_quote_pipe(t_cmd *cmd, int i)
 {
 	cmd->words = 1;
-	is_multi_line_quote_two_pipes(cmd, i);
-	if (cmd->error)
-	{
-		write(1, "multi line not handle (peer quote missing)\n", 44);
-		free(cmd->cpy);
-		cmd->cpy = NULL;
-		return (0);
-	}
-	else
-		return (1);
+	is_multi_line_quote_two_pipe(cmd, i);
 }
 
-int		count_chars_pipes(t_cmd *cmd, char *line, t_env *env)
+int		count_chars_pipes(t_cmd *cmd, char *line)
 {
 	int i;
 	int count;
 
-	env->max = ft_strlen(line);
 	count = 0;
 	i = 0;
 	while (line[i] && line[i] < 33)
 		i++;
-	while (line[i] && env->max--)
+	while (line[i])
 	{
-		if ((line[i] == 39 || line[i] == 34) && !how_many_backslash(line, i, cmd))
+		if (line[i] == 34 && !how_many_backslash(line, i, cmd))
 		{
-			get_semi_coma(cmd, line + i + 1, line[i]);
-			count += cmd->index + 1;
-			i += cmd->index + 1;
+			i++;
+			while (line[i])
+			{
+				if (line[i] == 34 && !how_many_backslash(line, i, cmd))
+					break ;
+				else if (line[i] == 92 && line[i + 1] == 92)
+					i++;
+				count++;
+				i++;
+			}
+		}
+		else if (line[i] == 39 && !how_many_backslash(line, i, cmd))
+		{
+			i++;
+			while (line[i] && line[i] != 39 )
+			{
+				i++;
+				count++;
+			}
 		}
 		else if (line[i] == 92 && line[i + 1] == 92)
 		{
 			count++;
-			i += 2;
+			i++;
 		}
-		else if (line[i + 1] == '|' && !how_many_backslash(line, i, cmd))
+		else if (((line[i + 1] == '|' && line[i] < 33) || line[i] == '|')
+		&& !how_many_backslash(line, i, cmd))
 			break ;
 		else
 			count++;
 		i++;
-
 	}
 	while (line[i - 1] && line[i - 1] < 33)
 	{
 		i--;
 		count--;
 	}
-	env->max = ft_strlen(line);
+	// //dprintf(2, "countchar pipe = [%d]\n", count);
 	return (count);
 }
 
@@ -100,60 +111,102 @@ char	**split_parse_done_pipe(t_env *env, char *line, t_cmd *cmd)
 
 	if (!(str = (char**)malloc(sizeof(char*) * (cmd->words + 1))))
 		return (NULL);
+	if (!(env->cpy_pipe = (char**)malloc(sizeof(char*) * (cmd->words + 1))))
+		return (NULL);
 	i = 0;
 	tmp = 0;
 	while (tmp < cmd->words)
 	{
 		j = 0;
-		env->count = count_chars_pipes(cmd, line + i, env);
+		env->count = count_chars_pipes(cmd, line + i);
+		//dprintf(2, "count du nb de char dans split pipe = [%d]\n", env->count);
 		if (!(str[tmp] = (char*)malloc(sizeof(char) * (env->count + 1))))
 			return (NULL);
-		env->count += i;
-		while (line[i] && line[i] < 33 && i <= env->count)
+		if (!(env->cpy_pipe[tmp] = (char*)malloc(sizeof(char) * (env->count + 1))))
+			return (NULL);
+		//dprintf(2, "env->count = {%d}\n", env->count);
+		while (line[i] && line[i] < 33)
 			i++;
 		while (line[i])
 		{
-			if ((line[i] == 39 || line[i] == 34)
-			&& !how_many_backslash(line, i, cmd))
+			//dprintf(2, "oups1 = {%d}, {%c}\n", i, line[i]);
+			if (line[i] == 34 && !how_many_backslash(line, i, cmd))
 			{
 				cmd->wichquote = line[i];
 				i++;
-				if (line[i] && line[i] == cmd->wichquote)
-					i++;
-				else
+				if (line[i] && line[i] != cmd->wichquote)
 				{
-					while (line[i] && line[i] != cmd->wichquote && i <= env->count
-					&& !how_many_backslash(line, i, cmd))
+					while (line[i])
 					{
-						str[tmp][j] = line[i];
+						if (line[i] == 34 && !how_many_backslash(line, i, cmd))
+							break ;
+						else if (line[i] == 92 && line[i + 1] == 92)
+						{
+							str[tmp][j] = line[i];
+							env->cpy_pipe[tmp][j] = '0';
+							i++;
+						}
+						else
+						{
+							str[tmp][j] = line[i];
+							env->cpy_pipe[tmp][j] = line[i];
+						}
+						//dprintf(2, "oups 2= {%d}, {%c}\n", i, line[i]);
 						j++;
 						i++;
 					}
-					i++;
+				}
+			}
+			else if ((line[i] == 39) && !how_many_backslash(line, i, cmd))
+			{
+				cmd->wichquote = line[i];
+				i++;
+				if (line[i] && line[i] != cmd->wichquote)
+				{
+					while (line[i] && line[i] != cmd->wichquote)
+					{
+						//dprintf(2, "oups3 = {%d}, {%c}\n", i, line[i]);
+						str[tmp][j] = line[i];
+						env->cpy_pipe[tmp][j] = line[i];
+						j++;
+						i++;
+					}
 				}
 			}
 			else if (line[i] == 92 && line[i + 1] == 92)
 			{
+				env->cpy_pipe[tmp][j] = '0';
 				str[tmp][j] = line[i];
+				i++;
 				j++;
-				i += 2;
 			}
-			else if (line[i] == '|' && !how_many_backslash(line, i - 1, cmd))
+			else if (line[i] == '|' && !how_many_backslash(line, i, cmd))
 			{
+				//dprintf(2, "oups4 = {%d}, {%c}\n", i, line[i]);
 				i++;
 				break ;
 			}
 			else
 			{
-				if (i <= env->count)
-					str[tmp][j++] = line[i];
-				i++;
+				//dprintf(2, "oups5 = {%d}, {%c}\n", i, line[i]);
+				if (env->count > j)
+				{
+					//dprintf(2, "oups6 = {%d}, {%c}\n", i, line[i]);
+					env->cpy_pipe[tmp][j] = (line[i] == '\\' ? '1' : '0');
+					str[tmp][j] = line[i];
+					j++;
+				}
 			}
+			i++;
 		}
+		//dprintf(2, "j = {%d}\n", j);
 		str[tmp][j] = '\0';
+		env->cpy_pipe[tmp][j] = '\0';
+		//dprintf(2, "MA CHAINE pipe [%s]taille=[%zu]\n", str[tmp], ft_strlen(str[tmp]));
 		tmp++;
 	}
 	str[tmp] = 0;
+	env->cpy_pipe[tmp] = 0;
 	return (str);
 }
 
@@ -161,13 +214,13 @@ char	**split_pipes(t_env *env)
 {
 	t_cmd	*cmd;
 
+	//dprintf(2, "Je suis rentré dans split_pipes\n");
 	if (!(cmd = (t_cmd*)malloc(sizeof(t_cmd))))
 		return (NULL);
 	cmd->cpy = env->args[env->i];
-	if (!ft_strchr(cmd->cpy, 39) && !ft_strchr(cmd->cpy, 34))
-		return (split_pipes_no_quotes(cmd));
-	cmd->error = 0;
-	if (!is_multi_line_quote_pipes(cmd, 0))
-		return (NULL);
+	// if (!ft_strchr(cmd->cpy, 39) && !ft_strchr(cmd->cpy, 34))
+		// return (split_pipes_no_quotes(cmd));
+	is_multi_line_quote_pipe(cmd, 0);
+	//dprintf(2, "Nombre de pipe selon word = [%d]\n", cmd->words);
 	return (split_parse_done_pipe(env, cmd->cpy, cmd));
 }

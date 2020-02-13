@@ -6,7 +6,7 @@
 /*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/28 16:41:06 by anloubie          #+#    #+#             */
-/*   Updated: 2020/02/10 18:03:05 by thverney         ###   ########.fr       */
+/*   Updated: 2020/02/12 23:04:40 by thverney         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,15 +51,16 @@ void		ft_echo_two(t_env *env)
 	tmp = i;
 	while (env->av_pipe[env->x][tmp])
 		tmp++;
-	while (env->av_pipe[env->x][tmp - 1]
-	&& env->av_pipe[env->x][tmp - 1] < 33)
-		tmp--;
+	// while (env->av_pipe[env->x][tmp - 1]
+	// && env->av_pipe[env->x][tmp - 1] < 33)
+	// 	tmp--;
 	new = ft_substr(env->av_pipe[env->x], i, tmp - i);
 	write(1, new, ft_strlen(new));
 }
 
 void		ft_echo(t_env *env)
 {
+	// dprintf(2, "Je suis rentré dans echo \n◊◊◊◊◊◊◊◊◊◊◊◊◊◊◊◊◊◊◊◊◊◊◊◊◊◊\n");
 	if (env->flags[1] && !ft_strncmp(env->flags[1], "-n", 3))
 	{
 		ft_echo_n(0, 0, env);

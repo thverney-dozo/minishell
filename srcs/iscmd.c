@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   iscmd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anloubie <anloubie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/28 16:08:15 by anloubie          #+#    #+#             */
-/*   Updated: 2020/02/12 16:56:37 by anloubie         ###   ########.fr       */
+/*   Updated: 2020/02/13 01:58:20 by thverney         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 void	is_command(char *cmd, t_env *env)
 {
+	//dprintf(2, "je suis rentré dans iscmd = [%s]\n", cmd);
 	if (!ft_strncmp(cmd, "exit\0", 5))
 		env->exit = 1;
 	else if (!ft_strncmp(cmd, "echo\0", 5))
@@ -114,15 +115,32 @@ void	is_pipe_here(t_env *env)
 {
 	int		pid;
 
+
 	env->av_pipe = split_pipes(env);
+	//dprintf(2, "pipe[0] = {%s}\n", env->av_pipe[0]);
+
+	//dprintf(2, "\n________split pipes fonctionne________\n");
+	int i = 0;
+	while (env->av_pipe[i])
+	{
+		//dprintf(2, "pipe[%d] = {%s} taille {%zu}\n", i, env->av_pipe[i], ft_strlen(env->av_pipe[i]));
+		i++;
+	}
+	//dprintf(2, "______________________________________\n");
+	//dprintf(2, "Il y a %d pipes selon i\n", i);
 	ft_is_exit_here(env);
 	env->x = 0;
+	//dprintf(2, "Je vais rentrer dans le if pipe + 1 existe\n");
 	if (env->av_pipe[env->x + 1]) // il y a des commandes a piper
+	{
+		//dprintf(2, "Pipe + 1 existe\n");
 		ft_pipe_is_cmd(env, -1);
+	}
 	else
 	{
-
+		//dprintf(2, "Pipe + 1 n'existe pas\n");
 		env->flags = split_wh_sp(env->av_pipe[env->x]);
+		//dprintf(2, "env->flags[0] = |%s| et env->flags[1] = |%s|\n",env->flags[0], env->flags[1]);
 		if (is_builtin_no_pipe(env->flags[0], env)) //il faut fork que si c'est un buitin
 		{
 			if ((pid = fork()) < 0)
