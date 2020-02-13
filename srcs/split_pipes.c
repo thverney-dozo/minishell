@@ -6,7 +6,7 @@
 /*   By: aeoithd <aeoithd@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/10 17:48:25 by thverney          #+#    #+#             */
-/*   Updated: 2020/02/13 16:21:52 by aeoithd          ###   ########.fr       */
+/*   Updated: 2020/02/13 16:50:17 by aeoithd          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,7 @@ char	**split_parse_done_pipe(t_env *env, char *line, t_cmd *cmd)
 	{
 		j = 0;
 		env->count = count_chars_pipes(cmd, line + i);
-		dprintf(2, "count du nb de char dans split pipe = [%d]\n", env->count);
+		// dprintf(2, "count du nb de char dans split pipe = [%d]\n", env->count);
 		if (!(str[tmp] = (char*)malloc(sizeof(char) * (env->count + 1))))
 			return (NULL);
 		if (!(env->cpy_pipe[tmp] = (char*)malloc(sizeof(char) * (env->count + 1))))
@@ -206,9 +206,9 @@ char	**split_parse_done_pipe(t_env *env, char *line, t_cmd *cmd)
 		//dprintf(2, "j = {%d}\n", j);
 		str[tmp][j] = '\0';
 		env->cpy_pipe[tmp][j] = '\0';
-		dprintf(2, "MA CHAINE pipe [%s]taille=[%zu]\n", str[tmp], ft_strlen(str[tmp]));
-		dprintf(2, "MA CHAINE baskslash [%s]taille=[%zu]\n", env->cpy_pipe[tmp],
-		ft_strlen(env->cpy_pipe[tmp]));
+		// dprintf(2, "MA CHAINE pipe [%s]taille=[%zu]\n", str[tmp], ft_strlen(str[tmp]));
+		// dprintf(2, "MA CHAINE baskslash [%s]taille=[%zu]\n", env->cpy_pipe[tmp],
+		// ft_strlen(env->cpy_pipe[tmp]));
 		tmp++;
 	}
 	str[tmp] = 0;
