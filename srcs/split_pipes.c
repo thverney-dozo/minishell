@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_pipes.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aeoithd <aeoithd@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/10 17:48:25 by thverney          #+#    #+#             */
-/*   Updated: 2020/02/13 02:15:20 by thverney         ###   ########.fr       */
+/*   Updated: 2020/02/13 16:21:52 by aeoithd          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,10 @@ int		count_chars_pipes(t_cmd *cmd, char *line)
 		&& !how_many_backslash(line, i, cmd))
 			break ;
 		else
+		{
 			count++;
+			// while (line[i + 1
+		}
 		i++;
 	}
 	while (line[i - 1] && line[i - 1] < 33)
@@ -119,7 +122,7 @@ char	**split_parse_done_pipe(t_env *env, char *line, t_cmd *cmd)
 	{
 		j = 0;
 		env->count = count_chars_pipes(cmd, line + i);
-		//dprintf(2, "count du nb de char dans split pipe = [%d]\n", env->count);
+		dprintf(2, "count du nb de char dans split pipe = [%d]\n", env->count);
 		if (!(str[tmp] = (char*)malloc(sizeof(char) * (env->count + 1))))
 			return (NULL);
 		if (!(env->cpy_pipe[tmp] = (char*)malloc(sizeof(char) * (env->count + 1))))
@@ -143,13 +146,13 @@ char	**split_parse_done_pipe(t_env *env, char *line, t_cmd *cmd)
 						else if (line[i] == 92 && line[i + 1] == 92)
 						{
 							str[tmp][j] = line[i];
-							env->cpy_pipe[tmp][j] = '0';
+							env->cpy_pipe[tmp][j] = '2';
 							i++;
 						}
 						else
 						{
 							str[tmp][j] = line[i];
-							env->cpy_pipe[tmp][j] = (line[i] == '\\' ? '1' : '0');
+							env->cpy_pipe[tmp][j] = (line[i] == '\\' ? '0' : '2');
 						}
 						//dprintf(2, "oups 2= {%d}, {%c}\n", i, line[i]);
 						j++;
@@ -167,7 +170,7 @@ char	**split_parse_done_pipe(t_env *env, char *line, t_cmd *cmd)
 					{
 						//dprintf(2, "oups3 = {%d}, {%c}\n", i, line[i]);
 						str[tmp][j] = line[i];
-						env->cpy_pipe[tmp][j] = '0';
+						env->cpy_pipe[tmp][j] = '2';
 						j++;
 						i++;
 					}
@@ -175,7 +178,7 @@ char	**split_parse_done_pipe(t_env *env, char *line, t_cmd *cmd)
 			}
 			else if (line[i] == 92 && line[i + 1] == 92)
 			{
-				env->cpy_pipe[tmp][j] = '0';
+				env->cpy_pipe[tmp][j] = '2';
 				str[tmp][j] = line[i];
 				i++;
 				j++;
@@ -192,7 +195,8 @@ char	**split_parse_done_pipe(t_env *env, char *line, t_cmd *cmd)
 				if (env->count > j)
 				{
 					//dprintf(2, "oups6 = {%d}, {%c}\n", i, line[i]);
-					env->cpy_pipe[tmp][j] = (line[i] == '\\' ? '1' : '0');
+					env->cpy_pipe[tmp][j] = (line[i] == '\\' ? '0' : '2');
+					(line[i] < 33 ? env->cpy_pipe[tmp][j] = '1' : 0);
 					str[tmp][j] = line[i];
 					j++;
 				}
@@ -202,9 +206,9 @@ char	**split_parse_done_pipe(t_env *env, char *line, t_cmd *cmd)
 		//dprintf(2, "j = {%d}\n", j);
 		str[tmp][j] = '\0';
 		env->cpy_pipe[tmp][j] = '\0';
-		// dprintf(2, "MA CHAINE pipe [%s]taille=[%zu]\n", str[tmp], ft_strlen(str[tmp]));
-		// dprintf(2, "MA CHAINE baskslash [%s]taille=[%zu]\n", env->cpy_pipe[tmp],
-		// ft_strlen(env->cpy_pipe[tmp]));
+		dprintf(2, "MA CHAINE pipe [%s]taille=[%zu]\n", str[tmp], ft_strlen(str[tmp]));
+		dprintf(2, "MA CHAINE baskslash [%s]taille=[%zu]\n", env->cpy_pipe[tmp],
+		ft_strlen(env->cpy_pipe[tmp]));
 		tmp++;
 	}
 	str[tmp] = 0;

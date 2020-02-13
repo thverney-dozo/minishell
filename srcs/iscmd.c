@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   iscmd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aeoithd <aeoithd@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/28 16:08:15 by anloubie          #+#    #+#             */
-/*   Updated: 2020/02/13 01:58:20 by thverney         ###   ########.fr       */
+/*   Updated: 2020/02/13 15:42:11 by aeoithd          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,16 +118,15 @@ void	is_pipe_here(t_env *env)
 
 	env->av_pipe = split_pipes(env);
 	//dprintf(2, "pipe[0] = {%s}\n", env->av_pipe[0]);
-
-	//dprintf(2, "\n________split pipes fonctionne________\n");
+	dprintf(2, "\n________split pipes fonctionne________\n");
 	int i = 0;
 	while (env->av_pipe[i])
 	{
-		//dprintf(2, "pipe[%d] = {%s} taille {%zu}\n", i, env->av_pipe[i], ft_strlen(env->av_pipe[i]));
+		dprintf(2, "pipe[%d] = {%s} taille {%zu}\n", i, env->av_pipe[i], ft_strlen(env->av_pipe[i]));
 		i++;
 	}
-	//dprintf(2, "______________________________________\n");
-	//dprintf(2, "Il y a %d pipes selon i\n", i);
+	dprintf(2, "______________________________________\n");
+	dprintf(2, "Il y a %d pipes selon i\n", i);
 	ft_is_exit_here(env);
 	env->x = 0;
 	//dprintf(2, "Je vais rentrer dans le if pipe + 1 existe\n");

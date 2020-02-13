@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
+/*   By: aeoithd <aeoithd@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/12 16:54:21 by anloubie          #+#    #+#             */
-/*   Updated: 2020/02/13 02:03:54 by thverney         ###   ########.fr       */
+/*   Updated: 2020/02/13 15:29:29 by aeoithd          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,15 +39,15 @@ void	loop_shell(t_env *env)
 			return ;
 		if ((env->args = split_commands(env)) == NULL)
 			return ;
-		// dprintf(2, "#######split commands fonctionne#######\n");
-		// int i = 0;
-		// while (env->args[i])
-		// {
-		// 	dprintf(2, "command[%d] = {%s} taille {%zu}\n", i, env->args[i], ft_strlen(env->args[i]));
-		// 	i++;
-		// }
-		// dprintf(2, "#####################################\n\n");
-		// dprintf(2, "Il y a %d commandes\n", i);
+		dprintf(2, "#######split commands fonctionne#######\n");
+		int i = 0;
+		while (env->args[i])
+		{
+			dprintf(2, "command[%d] = {%s} taille {%zu}\n", i, env->args[i], ft_strlen(env->args[i]));
+			i++;
+		}
+		dprintf(2, "#####################################\n\n");
+		dprintf(2, "Il y a %d commandes\n", i);
 		ft_clear(&env->copy_free);
 		env->i = 0;
 		while (env->args[env->i])
