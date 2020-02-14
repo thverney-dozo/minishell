@@ -6,7 +6,7 @@
 /*   By: anloubie <anloubie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/11 11:24:51 by antoine           #+#    #+#             */
-/*   Updated: 2020/02/14 13:38:39 by anloubie         ###   ########.fr       */
+/*   Updated: 2020/02/14 13:48:41 by anloubie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,9 @@ void		ft_redir(t_env *env)
 	while (env->flags[i])
 	{
 		if (!(ft_strcmp(env->flags[i], ">")) && env->flags[i + 1])
-			env->fd_red = open(env->flags[i + 1], O_RDWR, O_CREAT);
+			env->fd_red = open(env->flags[i + 1], O_RDWR, O_CREAT, 0644);
 		if (!(ft_strcmp(env->flags[i], ">>")) && env->flags[i + 1])
-			env->fd_red = open(env->flags[i + 1], O_RDWR, O_CREAT, O_APPEND);
+			env->fd_red = open(env->flags[i + 1], O_RDWR, O_CREAT, O_APPEND, 0644);
 		i++;
 	}
 }
