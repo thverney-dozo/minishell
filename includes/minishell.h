@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
+/*   By: anloubie <anloubie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/27 18:49:54 by thverney          #+#    #+#             */
-/*   Updated: 2020/02/13 16:56:59 by antoine          ###   ########.fr       */
+/*   Updated: 2020/02/14 12:43:14 by anloubie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ typedef struct		s_env
 	t_var			*var;
 	t_var			*first;
 	t_var			*save;
-	char			**exp;
+	int				fd;
 	
 }					t_env;
 
@@ -124,6 +124,7 @@ t_var				*ft_lstvar(t_env *env);
 void				ft_export(t_env *env);
 int					ft_count_env(t_env *env);
 int					ft_buflen(char **buf);
+void				env_malloc(t_env *env);
 
 /*
 **	Unset

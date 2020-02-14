@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aeoithd <aeoithd@student.42.fr>            +#+  +:+       +#+        */
+/*   By: anloubie <anloubie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/06 22:20:16 by thverney          #+#    #+#             */
-/*   Updated: 2020/02/13 17:57:54 by aeoithd          ###   ########.fr       */
+/*   Updated: 2020/02/14 12:46:42 by anloubie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 int		is_executable(t_env *env, int indic)
 {
-	struct dirent		*dirent;
-	DIR			*dir;
-	int i;
+	struct dirent	*dirent;
+	DIR				*dir;
+	int				i;
 
 	if (indic)
 		return (0);
@@ -28,7 +28,7 @@ int		is_executable(t_env *env, int indic)
 			execve(*env->flags + 2, env->flags, env->my_env);
 			if (errno)
 			{
-				ft_putendl_fd(strerror(errno), 2);	
+				ft_putendl_fd(strerror(errno), 2);
 				return (1);
 			}
 		}
@@ -47,7 +47,7 @@ int		is_executable(t_env *env, int indic)
 					{
 						execve(ft_strjoin(ft_strjoin(env->path[i], "/"), dirent->d_name), env->flags, env->my_env);
 						if (errno)
-							write(1, strerror(errno), ft_strlen(strerror(errno)));
+							write(2, strerror(errno), ft_strlen(strerror(errno)));
 						return (1);
 					}
 				}

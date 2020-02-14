@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   iscmd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aeoithd <aeoithd@student.42.fr>            +#+  +:+       +#+        */
+/*   By: anloubie <anloubie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/28 16:08:15 by anloubie          #+#    #+#             */
-/*   Updated: 2020/02/13 16:49:01 by aeoithd          ###   ########.fr       */
+/*   Updated: 2020/02/14 11:30:04 by anloubie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,10 @@ void	is_command(char *cmd, t_env *env)
 		ft_cd(env);
     else if (!(ft_strncmp(cmd, "clear\0", 6)))
         ft_clear_screen();
-	else if (!(ft_strncmp(cmd, "export\0", 7)))
+	else if ((!(ft_strncmp(cmd, "export\0", 7))) && env->flags[1])
 		ft_export(env);
+	else if ((!(ft_strncmp(cmd, "export\0", 7))) && (!env->flags[1]))
+		env_malloc(env);
 	else if (!(ft_strcmp(cmd, "unset")))
 		ft_unset(env);
 	else if (!(ft_strncmp(cmd, "env", 3) || !(ft_strncmp(cmd, "env ", 4))))

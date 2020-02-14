@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_commands.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aeoithd <aeoithd@student.42.fr>            +#+  +:+       +#+        */
+/*   By: anloubie <anloubie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/10 01:58:05 by thverney          #+#    #+#             */
-/*   Updated: 2020/02/13 16:01:47 by aeoithd          ###   ########.fr       */
+/*   Updated: 2020/02/14 12:47:05 by anloubie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ int		is_multi_line_quote(t_cmd *cmd, int i)
 	is_multi_line_quote_two(cmd, i);
 	if (cmd->error)
 	{
-		write(1, "multi line not handle (peer quote missing)\n", 44);
+		write(2, "multi line not handle (peer quote missing)\n", 44);
 		free(cmd->cpy);
 		cmd->cpy = NULL;
 		return (0);

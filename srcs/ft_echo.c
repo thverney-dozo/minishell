@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aeoithd <aeoithd@student.42.fr>            +#+  +:+       +#+        */
+/*   By: anloubie <anloubie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/28 16:41:06 by anloubie          #+#    #+#             */
-/*   Updated: 2020/02/13 17:58:13 by aeoithd          ###   ########.fr       */
+/*   Updated: 2020/02/14 12:43:35 by anloubie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void		ft_echo_n(int i, int tmp, t_env *env)
 		while (env->av_pipe[env->x][tmp])
 			tmp++;
 		new = ft_substr(env->av_pipe[env->x], i, tmp - i);
-		write(1, new, ft_strlen(new));
+		write(env->fd, new, ft_strlen(new));
 	}
 }
 
@@ -51,7 +51,7 @@ void		ft_echo_two(t_env *env)
 	while (env->av_pipe[env->x][tmp])
 		tmp++;
 	new = ft_substr(env->av_pipe[env->x], i, tmp - i);
-	write(1, new, ft_strlen(new));
+	write(env->fd, new, ft_strlen(new));
 }
 
 void		ft_echo(t_env *env)
@@ -63,5 +63,5 @@ void		ft_echo(t_env *env)
 		return ;
 	}
 	ft_echo_two(env);
-	write(1, "\n", 1);
+	write(env->fd, "\n", 1);
 }
