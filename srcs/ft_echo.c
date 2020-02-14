@@ -6,7 +6,7 @@
 /*   By: anloubie <anloubie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/28 16:41:06 by anloubie          #+#    #+#             */
-/*   Updated: 2020/02/14 12:43:35 by anloubie         ###   ########.fr       */
+/*   Updated: 2020/02/14 13:34:32 by anloubie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void		ft_echo_n(int i, int tmp, t_env *env)
 		while (env->av_pipe[env->x][tmp])
 			tmp++;
 		new = ft_substr(env->av_pipe[env->x], i, tmp - i);
-		write(env->fd, new, ft_strlen(new));
+		write(env->fd_red, new, ft_strlen(new));
 	}
 }
 
@@ -51,7 +51,7 @@ void		ft_echo_two(t_env *env)
 	while (env->av_pipe[env->x][tmp])
 		tmp++;
 	new = ft_substr(env->av_pipe[env->x], i, tmp - i);
-	write(env->fd, new, ft_strlen(new));
+	write(env->fd_red, new, ft_strlen(new));
 }
 
 void		ft_echo(t_env *env)
@@ -63,5 +63,5 @@ void		ft_echo(t_env *env)
 		return ;
 	}
 	ft_echo_two(env);
-	write(env->fd, "\n", 1);
+	write(env->fd_red, "\n", 1);
 }

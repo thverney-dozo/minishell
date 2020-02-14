@@ -18,6 +18,7 @@ SRC_FILE   =   main.c 		 \
 			clear_screen.c	 \
 			use_env_var.c	\
 			export2.c		\
+			redir.c			\
 
 INCS_NAME   =   minishell.h
 

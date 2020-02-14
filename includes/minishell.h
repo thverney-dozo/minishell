@@ -6,7 +6,7 @@
 /*   By: anloubie <anloubie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/27 18:49:54 by thverney          #+#    #+#             */
-/*   Updated: 2020/02/14 12:43:14 by anloubie         ###   ########.fr       */
+/*   Updated: 2020/02/14 13:44:37 by anloubie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 # include <limits.h>
 # include <dirent.h>
 # include <signal.h>
+# include <fcntl.h>
 
 typedef struct		s_var
 {
@@ -68,7 +69,7 @@ typedef struct		s_env
 	t_var			*var;
 	t_var			*first;
 	t_var			*save;
-	int				fd;
+	int				fd_red;
 	
 }					t_env;
 
@@ -146,7 +147,12 @@ void				ft_not_found(char *cmd);
 /*
 **	Clear screen
 */
-void				ft_clear_screen(void);
+void				ft_clear_screen(t_env *env);
+
+/*
+**	Redirections
+*/
+void				ft_redir(t_env *env);
 
 int					is_executable(t_env *env, int indic);
 void				is_word(t_cmd *cmd, int i);

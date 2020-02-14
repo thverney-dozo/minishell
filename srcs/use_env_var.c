@@ -6,7 +6,7 @@
 /*   By: anloubie <anloubie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/10 14:26:55 by anloubie          #+#    #+#             */
-/*   Updated: 2020/02/12 17:32:18 by anloubie         ###   ########.fr       */
+/*   Updated: 2020/02/14 13:37:59 by anloubie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,4 +68,5 @@ void		ft_use_env_var(t_env *env)
 		}
 		i++;
 	}
+	ft_redir(env);
 }

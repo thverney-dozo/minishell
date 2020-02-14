@@ -6,7 +6,7 @@
 /*   By: anloubie <anloubie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/12 16:54:21 by anloubie          #+#    #+#             */
-/*   Updated: 2020/02/14 11:04:19 by anloubie         ###   ########.fr       */
+/*   Updated: 2020/02/14 13:41:30 by anloubie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ int		main(int ac, char **av, char **envi)
 	env->exit = 0;
 	env->my_env = envi;
 	env->var = ft_lstvar(env);
+	env->fd_red = 1;
 	while (1)
 	{
 		prompt_display(env);
