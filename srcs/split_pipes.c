@@ -6,7 +6,7 @@
 /*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/10 17:48:25 by thverney          #+#    #+#             */
-/*   Updated: 2020/02/17 03:03:11 by thverney         ###   ########.fr       */
+/*   Updated: 2020/02/17 16:47:42 by thverney         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ int		count_chars_pipes(t_cmd *cmd, char *line, t_env *env)
 				count++;
 			}
 		}
+		else if (line[i] == '$')
 		else if (!how_many_backslash(line, i, cmd) && (line[i] == '>' || line[i] == '<'))
 		{
 			i++;
