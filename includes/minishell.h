@@ -6,7 +6,7 @@
 /*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/27 18:49:54 by thverney          #+#    #+#             */
-/*   Updated: 2020/02/17 00:58:21 by thverney         ###   ########.fr       */
+/*   Updated: 2020/02/17 17:36:21 by thverney         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,8 @@ int					stock_redir_file(char *str, int tmp, t_env *env, t_cmd *cmd);
 void				ft_redir(t_env *env);
 void				set_fd_redirection(t_env *env);
 void				restore_fd_redirection(t_env *env);
+int					count_dollar(t_env *env, char *str);
+int					ft_replace_word(t_env *env, char *line, char *str, char *cpy);
 
 /*
 **	Utils

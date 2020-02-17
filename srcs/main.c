@@ -6,7 +6,7 @@
 /*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/12 16:54:21 by anloubie          #+#    #+#             */
-/*   Updated: 2020/02/17 16:48:01 by thverney         ###   ########.fr       */
+/*   Updated: 2020/02/17 17:35:20 by thverney         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,10 +74,10 @@ void	prompt_display(t_env *env)
 	loop_shell(env);
 }
 
-void	get_signel(t_env *env)
-{
-	signal();
-}
+// void	get_signel(t_env *env)
+// {
+// 	signal();
+// }
 
 int		main(int ac, char **av, char **envi)
 {
@@ -94,7 +94,7 @@ int		main(int ac, char **av, char **envi)
 	while (1)
 	{
 		prompt_display(env);
-		get_signal(env);
+		// get_signal(env);
 		if (env->exit != 0)
 			break ;
 	}

@@ -6,7 +6,7 @@
 /*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/10 17:48:25 by thverney          #+#    #+#             */
-/*   Updated: 2020/02/17 16:47:42 by thverney         ###   ########.fr       */
+/*   Updated: 2020/02/17 17:49:43 by thverney         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,16 @@ int		count_chars_pipes(t_cmd *cmd, char *line, t_env *env)
 				count++;
 			}
 		}
-		else if (line[i] == '$')
+		else if (line[i] == '$' && !how_many_backslash(line, i, cmd))
+		{
+			i++;
+			count += count_dollar(env, line + i);
+			while (line[i] && line[i] > 32 && line[i] != '\\' && line[i] != '$'
+			&& line[i] != 34 && line[i] != 39 && line[i] != '|' && line[i] != '<'
+			&& line[i] != '>')
+				i++;
+			i--;
+		}
 		else if (!how_many_backslash(line, i, cmd) && (line[i] == '>' || line[i] == '<'))
 		{
 			i++;
@@ -181,6 +190,16 @@ char	**split_parse_done_pipe(t_env *env, char *line, t_cmd *cmd)
 						i++;
 					}
 				}
+			}
+			else if (line[i] == '$' && !how_many_backslash(line, i, cmd))
+			{
+				i++;
+				j += ft_replace_word(env, line + i, &(str[tmp][j]), &(env->cpy_pipe[tmp][j]));	
+				while (line[i] && line[i] > 32 && line[i] != '\\' && line[i] != '$'
+				&& line[i] != 34 && line[i] != 39 && line[i] != '|' && line[i] != '<'
+				&& line[i] != '>')
+					i++;
+				i--;
 			}
 			else if (!how_many_backslash(line, i, cmd) && (line[i] == '>' || line[i] == '<'))
 			{

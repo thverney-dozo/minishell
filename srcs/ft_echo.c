@@ -6,7 +6,7 @@
 /*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/28 16:41:06 by anloubie          #+#    #+#             */
-/*   Updated: 2020/02/17 14:34:31 by thverney         ###   ########.fr       */
+/*   Updated: 2020/02/17 17:35:53 by thverney         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 
 void		ft_echo_n(int i, int tmp, t_env *env)
 {
-	int		i;
-	int		tmp;
 	char	*new;
 
 	i = 0;

@@ -3,70 +3,72 @@
 /*                                                        :::      ::::::::   */
 /*   use_env_var.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anloubie <anloubie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/10 14:26:55 by anloubie          #+#    #+#             */
-/*   Updated: 2020/02/14 13:37:59 by anloubie         ###   ########.fr       */
+/*   Updated: 2020/02/17 17:46:57 by thverney         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int			get_index(char *str, char c)
+int		ft_replace_word(t_env *env, char *line, char *str, char *cpy)
 {
-	int	i;
+	int		count;
+	char	*tmp;
+	int		i;
 
 	i = 0;
-	while (str[i] && str[i] != c)
+	count = 0;
+	while (line[i] && line[i] > 32 && line[i] != '\\' && line[i] != '$'
+	&& line[i] != 34 && line[i] != 39 && line[i] != '|' && line[i] != '<'
+	&& line[i] != '>')
 		i++;
-	return (i);
-}
-
-void		ft_replace_word(t_env *env, int i, int j)
-{
-	char	*tmp;
-
+	tmp = ft_substr(line, 0, i);
 	while (env->var)
 	{
-		if (!(ft_strcmp(&(env->flags[i][j + 1]), env->var->name)))
+		if (!(ft_strcmp(tmp, env->var->name)))
 		{
-			tmp = env->flags[i];
-			env->flags[i] = ft_strdup(env->var->value);
+			i = ft_strlen(env->var->value);
+			while (count < i)
+			{
+				str[count] = env->var->value[count];
+				cpy[count] = '2';
+				count++;
+			}
 			free(tmp);
 			env->var = env->first;
-			return ;
+			return (count);
 		}
 		env->var = env->var->next;
 	}
+	free(tmp);
 	env->var = env->first;
+	return (0);
 }
 
-void		ft_use_env_var(t_env *env)
+int		count_dollar(t_env *env, char *str)
 {
-	int		i;
-	int		j;
 	char	*tmp;
-	int		index;
+	int		i;
 
 	i = 0;
-	j = 0;
-	while (env->flags[i])
-	{
-		index = get_index(env->flags[i], '$');
-		if (!(tmp = ft_substr(env->flags[i], 0, index)))
-			return ;
-		j = 0;
-		while (env->flags[i][j])
-		{
-			if (env->flags[i][j] == '$')
-			{
-				ft_replace_word(env, i, j);
-				if (!(env->flags[i] = ft_strjoinfree(tmp, env->flags[i], 2)))
-					return ;
-			}
-			j++;
-		}
+	while (str[i] && str[i] > 32 && str[i] != '\\' && str[i] != '$'
+	&& str[i] != 34 && str[i] != 39 && str[i] != '|' && str[i] != '<'
+	&& str[i] != '>')
 		i++;
+	tmp = ft_substr(str, 0, i);
+	while (env->var)
+	{
+		if (!(ft_strcmp(tmp, env->var->name)))
+		{
+			free(tmp);
+			env->var = env->first;
+			return (ft_strlen(env->var->value));
+		}
+		env->var = env->var->next;
 	}
-	ft_redir(env);
+	free(tmp);
+	env->var = env->first;
+	return (0);
 }
