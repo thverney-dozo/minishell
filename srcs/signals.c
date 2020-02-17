@@ -1,21 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   clear_screen.c                                     :+:      :+:    :+:   */
+/*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: anloubie <anloubie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/02/03 15:01:38 by anloubie          #+#    #+#             */
-/*   Updated: 2020/02/17 18:03:55 by anloubie         ###   ########.fr       */
+/*   Created: 2020/02/17 17:41:17 by anloubie          #+#    #+#             */
+/*   Updated: 2020/02/17 18:07:46 by anloubie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_clear_screen(t_env *env)
+void		ft_sig_kill(int sig_id, t_env *env)
 {
-	const char *clear_screen;
+	(void)sig_id;
+	ft_putstr_fd("\n", 1);
+}
 
-	clear_screen = "\033c";
-	write(env->fd_red, clear_screen, 3);
+void		ft_sig_quit(int sig_id)
+{
+	(void)sig_id;
 }

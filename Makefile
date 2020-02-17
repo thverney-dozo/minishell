@@ -20,6 +20,7 @@ SRC_FILE   =   main.c 		 \
 			export2.c		 \
 			redir.c			 \
 			utils.c			 \
+			signals.c		\
 
 INCS_NAME   =   minishell.h
 

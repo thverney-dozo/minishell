@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
+/*   By: anloubie <anloubie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/27 18:49:54 by thverney          #+#    #+#             */
-/*   Updated: 2020/02/17 17:36:21 by thverney         ###   ########.fr       */
+/*   Updated: 2020/02/17 18:07:11 by anloubie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,6 +168,12 @@ void				ft_clear_screen(t_env *env);
 **	Redirections
 */
 void				ft_redir(t_env *env);
+
+/*
+**	Signals
+*/
+void				ft_sig_kill(int sig_id);
+void				ft_sig_quit(int sig_id);
 
 int					is_executable(t_env *env, int indic);
 void				is_word(t_cmd *cmd, int i);

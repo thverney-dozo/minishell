@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   iscmd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
+/*   By: anloubie <anloubie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/28 16:08:15 by anloubie          #+#    #+#             */
-/*   Updated: 2020/02/17 03:06:40 by thverney         ###   ########.fr       */
+/*   Updated: 2020/02/17 12:41:35 by anloubie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,6 @@ int		is_builtin_no_pipe(char *cmd, t_env *env)
 void	is_pipe_here(t_env *env)
 {
 	int		pid;
-
 
 	env->av_pipe = split_pipes(env);
 	// dprintf(2, "pipe[0] = {%s}\n", env->av_pipe[0]);
