@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anloubie <anloubie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/27 18:49:54 by thverney          #+#    #+#             */
-/*   Updated: 2020/02/14 13:44:37 by anloubie         ###   ########.fr       */
+/*   Updated: 2020/02/17 00:58:21 by thverney         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,9 @@ typedef struct		s_cmd
 
 typedef struct		s_env
 {
+	char			*isred;
+	int				count_redir;
+	char			**redir;
 	int				count;
 	int				fd[2];
 	int				old_fd;
@@ -70,7 +73,6 @@ typedef struct		s_env
 	t_var			*first;
 	t_var			*save;
 	int				fd_red;
-	
 }					t_env;
 
 /*
@@ -85,9 +87,20 @@ char				**split_commands(t_env *env);
 int					is_multi_line_quote(t_cmd *cmd, int i);
 void				is_multi_line_quote_two(t_cmd *cmd, int i);
 char				*get_semi_coma(t_cmd *cmd, char *str, char c);
-int					how_many_backslash(char *str, int i, t_cmd *cmd);
 char				*get_semi_coma(t_cmd *cmd, char *str, char c);
 char				**split_pipes(t_env *env);
+int					stock_redir_file(char *str, int tmp, t_env *env, t_cmd *cmd);
+void				ft_redir(t_env *env);
+void				set_fd_redirection(t_env *env);
+void				restore_fd_redirection(t_env *env);
+
+/*
+**	Utils
+*/
+int					how_many_backslash(char *str, int i, t_cmd *cmd);
+int					next_space(char *str, int i);
+int					next_none_space(char *str, int i);
+int					count_redir_file(char *str, int i, t_cmd *cmd);
 
 /*
 **	Echo

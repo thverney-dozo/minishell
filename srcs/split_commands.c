@@ -3,19 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   split_commands.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anloubie <anloubie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/10 01:58:05 by thverney          #+#    #+#             */
-/*   Updated: 2020/02/14 12:47:05 by anloubie         ###   ########.fr       */
+/*   Updated: 2020/02/17 03:02:48 by thverney         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-char	**split_commands_no_quotes(t_cmd *cmd)
-{
-	return (ft_split(cmd->cpy, ';'));
-}
 
 int		how_many_backslash(char *str, int i, t_cmd *cmd)
 {
@@ -83,13 +78,41 @@ void	is_multi_line_quote_two(t_cmd *cmd, int i)
 	}
 }
 
+void	is_valid_redir(t_cmd *cmd, int i)
+{
+	while (cmd->cpy[i])
+	{
+		if (!how_many_backslash(cmd->cpy, i, cmd) && (cmd->cpy[i] == '>' || cmd->cpy[i] == '<'))
+		{
+			i++;
+			(cmd->cpy[i] == '>' ? i++ : 0);
+			while (cmd->cpy[i] && cmd->cpy[i] < 33)
+				i++;
+			if (cmd->cpy[i] == '\0')
+			{
+				cmd->error = 2;	
+				return ;
+			}
+		}
+		i++;
+	}
+}
+
 int		is_multi_line_quote(t_cmd *cmd, int i)
 {
 	cmd->words = 1;
+	is_valid_redir(cmd, 0);
 	is_multi_line_quote_two(cmd, i);
-	if (cmd->error)
+	if (cmd->error == 1)
 	{
 		write(2, "multi line not handle (peer quote missing)\n", 44);
+		free(cmd->cpy);
+		cmd->cpy = NULL;
+		return (0);
+	}
+	else if (cmd->error == 2)
+	{
+		write(2, "syntax error near unexpected token `newline'\n", 46);
 		free(cmd->cpy);
 		cmd->cpy = NULL;
 		return (0);
@@ -104,9 +127,9 @@ int		count_chars(t_cmd *cmd, char *line)
 	int count;
 
 	count = 0;
-	i = 0;
-	while (line[i] && line[i] < 33)
-		i++;
+	//dprintf(2, "la\n");
+	i = next_none_space(line, 0);
+	//dprintf(2, "ici\n");
 	while (line[i])
 	{
 		if ((line[i] == 39 || line[i] == 34) && !how_many_backslash(line, i, cmd))
@@ -202,8 +225,6 @@ char	**split_commands(t_env *env)
 	if (!(cmd = (t_cmd*)malloc(sizeof(t_cmd))))
 		return (NULL);
 	cmd->cpy = env->copy_free;
-	// if (!ft_strchr(cmd->cpy, 39) && !ft_strchr(cmd->cpy, 34))
-		// return (split_commands_no_quotes(cmd));
 	cmd->error = 0;
 	if (!is_multi_line_quote(cmd, 0))
 		return (NULL);

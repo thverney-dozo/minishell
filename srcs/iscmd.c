@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   iscmd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anloubie <anloubie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/28 16:08:15 by anloubie          #+#    #+#             */
-/*   Updated: 2020/02/14 13:36:32 by anloubie         ###   ########.fr       */
+/*   Updated: 2020/02/17 03:06:40 by thverney         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,9 @@ void	ft_pipe_is_cmd(t_env *env, int old_fd)
 		if (old_fd > -1)
         	dup2(old_fd, STDIN_FILENO);
 		env->flags = split_wh_sp(env->av_pipe[env->x]);
+		env->isred[env->x] > '0' ? set_fd_redirection(env) : 0;
 		is_command(env->flags[0], env);
+		env->isred[env->x] > '0' ? restore_fd_redirection(env) : 0;
         exit(0);
     }
 	else
@@ -75,7 +77,9 @@ void	ft_pipe_is_cmd(t_env *env, int old_fd)
 				if (old_fd > -1)
 					dup2(old_fd, STDIN_FILENO);
 				env->flags = split_wh_sp(env->av_pipe[env->x]);
+				env->isred[env->x] > '0' ? set_fd_redirection(env) : 0;
 				is_command(env->flags[0], env);
+				env->isred[env->x] > '0' ? restore_fd_redirection(env) : 0;
 				exit (0);
 			}
 			waitpid(pid, 0, 0);
@@ -105,7 +109,7 @@ int		is_builtin_no_pipe(char *cmd, t_env *env)
 	if (!ft_strncmp(cmd, "exit\0", 5) || !ft_strncmp(cmd, "echo", 5)
 	|| !ft_strncmp(cmd, "pwd\0", 4) || !ft_strncmp(cmd, "cd\0", 3)
 	|| !ft_strncmp(cmd, "clear\0", 6) || !ft_strncmp(cmd, "export\0", 7)
-	|| !ft_strncmp(cmd, "unset", 6) || !ft_strncmp(cmd, "env", 3)
+	|| !ft_strncmp(cmd, "unset", 6) || !ft_strncmp(cmd, "env", 4)
 	|| !ft_strncmp(cmd, "env ", 4))
 		return (0);
 	else
@@ -119,43 +123,49 @@ void	is_pipe_here(t_env *env)
 
 
 	env->av_pipe = split_pipes(env);
-	//dprintf(2, "pipe[0] = {%s}\n", env->av_pipe[0]);
+	// dprintf(2, "pipe[0] = {%s}\n", env->av_pipe[0]);
 	// dprintf(2, "\n________split pipes fonctionne________\n");
 	// int i = 0;
 	// while (env->av_pipe[i])
 	// {
 		// dprintf(2, "pipe[%d] = {%s} taille {%zu}\n", i, env->av_pipe[i], ft_strlen(env->av_pipe[i]));
+		// dprintf(2, "mon nom de file redirection{%s}\n", env->redir[env->x]);
 		// i++;
 	// }
 	// dprintf(2, "______________________________________\n");
 	// dprintf(2, "Il y a %d pipes selon i\n", i);
 	ft_is_exit_here(env);
 	env->x = 0;
-	//dprintf(2, "Je vais rentrer dans le if pipe + 1 existe\n");
+	// dprintf(2, "Je vais rentrer dans le if pipe + 1 existe\n");
 	if (env->av_pipe[env->x + 1]) // il y a des commandes a piper
 	{
-		//dprintf(2, "Pipe + 1 existe\n");
+		dprintf(2, "la3\n");
 		ft_pipe_is_cmd(env, -1);
 	}
 	else
 	{
-		//dprintf(2, "Pipe + 1 n'existe pas\n");
 		env->flags = split_wh_sp(env->av_pipe[env->x]);
-		//dprintf(2, "env->flags[0] = |%s| et env->flags[1] = |%s|\n",env->flags[0], env->flags[1]);
-		if (is_builtin_no_pipe(env->flags[0], env)) //il faut fork que si c'est un buitin
+		if (is_builtin_no_pipe(env->flags[0], env)) //il faut fork que si c'est pas un buitin
 		{
 			if ((pid = fork()) < 0)
 				exit(EXIT_FAILURE);
 			if (pid == 0)
 			{
+				// dprintf(2, "la2\n");
+				env->isred[env->x] > '0' ? set_fd_redirection(env) : 0;
 				is_command(env->flags[0], env);
+				env->isred[env->x] > '0' ? restore_fd_redirection(env) : 0;
 				exit (0);
 			}
 			waitpid(pid, 0, 0);
 		}
 		else
+		{
+			// dprintf(2, "la1\n");
+			env->isred[env->x] > '0' ? set_fd_redirection(env) : 0;
 			is_command(env->flags[0], env);
-
+			env->isred[env->x] > '0' ? restore_fd_redirection(env) : 0;
+		}
 	}
 	env->x = 0;
 	while (env->av_pipe[env->x])
