@@ -6,7 +6,7 @@
 /*   By: anloubie <anloubie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/12 16:54:21 by anloubie          #+#    #+#             */
-/*   Updated: 2020/02/17 18:05:43 by anloubie         ###   ########.fr       */
+/*   Updated: 2020/02/17 18:11:28 by anloubie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ void	prompt_display(t_env *env)
 	loop_shell(env);
 }
 
-void	get_signal(void)
+void	get_signal()
 {
 	signal(SIGINT, ft_sig_kill);
 	signal(SIGQUIT, ft_sig_quit);
