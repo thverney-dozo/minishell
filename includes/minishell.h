@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anloubie <anloubie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/27 18:49:54 by thverney          #+#    #+#             */
-/*   Updated: 2020/02/17 18:10:52 by anloubie         ###   ########.fr       */
+/*   Updated: 2020/02/18 15:41:36 by thverney         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,7 @@ int					how_many_backslash(char *str, int i, t_cmd *cmd);
 int					next_space(char *str, int i);
 int					next_none_space(char *str, int i);
 int					count_redir_file(char *str, int i, t_cmd *cmd);
+int					ft_error_syntax(t_env *env);
 
 /*
 **	Echo
