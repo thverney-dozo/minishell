@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
+/*   By: anloubie <anloubie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/27 18:49:54 by thverney          #+#    #+#             */
-/*   Updated: 2020/02/18 15:41:36 by thverney         ###   ########.fr       */
+/*   Updated: 2020/02/18 15:45:34 by anloubie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,6 +142,7 @@ void				ft_export(t_env *env);
 int					ft_count_env(t_env *env);
 int					ft_buflen(char **buf);
 void				env_malloc(t_env *env);
+void				ft_export_error(char *str);
 
 /*
 **	Unset

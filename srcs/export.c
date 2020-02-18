@@ -6,7 +6,7 @@
 /*   By: anloubie <anloubie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/03 15:03:14 by anloubie          #+#    #+#             */
-/*   Updated: 2020/02/14 12:36:31 by anloubie         ###   ########.fr       */
+/*   Updated: 2020/02/18 15:23:02 by anloubie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,8 @@ void		ft_export2(char *str, t_env *env, t_var *new)
 	i = 0;
 	while (str[i])
 	{
+		if (!ft_isalnum(str[i]) && str[i] != '=')
+			ft_export_error(str);
 		if (str[i] == '=')
 		{
 			if (!(new = ft_lstnewvar(str, i, env)))
@@ -99,8 +101,7 @@ void		ft_export(t_env *env)
 			ft_export2(env->flags[i], env, new);
 		else if (err == 0)
 		{
-			write(2, "export: not an identifier: ", 27);
-			ft_putendl_fd(env->flags[i], 2);
+			ft_export_error(env->flags[i]);
 			err++;
 		}
 		i++;
