@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anloubie <anloubie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/12 16:54:21 by anloubie          #+#    #+#             */
-/*   Updated: 2020/02/18 14:04:18 by anloubie         ###   ########.fr       */
+/*   Updated: 2020/02/18 15:42:06 by thverney         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,19 +15,22 @@
 int		syntax_error(t_env *env)
 {
 	env->i = 0;
-	while (env->copy_free[env->i] < 33 && env->copy_free[env->i])
+	while (env->copy_free[env->i] && env->copy_free[env->i] < 33)
 		env->i++;
 	if (env->copy_free[env->i] == '|' || env->copy_free[env->i] == ';')
+		return (ft_error_syntax(env));
+	while (env->copy_free[env->i])
 	{
-		write(2, "minishell : syntax error near unexpected token '", 49);
-		ft_putchar_fd(env->copy_free[env->i] , 2);
-		write(2, "'\n", 3);
-		free(env->copy_free);
-		env->copy_free = NULL;
-		return (1);
+		if (env->copy_free[env->i] == '|' || env->copy_free[env->i] == ';')
+		{
+			env->copy_free[env->i] ? env->i++ : 0;
+			while (env->copy_free[env->i] && env->copy_free[env->i] < 33)
+				env->i++;
+			if (env->copy_free[env->i] == '|' || env->copy_free[env->i] == ';')
+				return (ft_error_syntax(env));
+		}
+		env->i++;
 	}
-	else if (!(env->copy_free[env->i]))
-		return (1);
 	return (0);
 }
 
@@ -39,15 +42,6 @@ void	loop_shell(t_env *env)
 			return ;
 		if ((env->args = split_commands(env)) == NULL)
 			return ;
-		//dprintf(2, "#######split commands fonctionne#######\n");
-		// int i = 0;
-		// while (env->args[i])
-		// {
-			//dprintf(2, "command[%d] = {%s} taille {%zu}\n", i, env->args[i], ft_strlen(env->args[i]));
-			// i++;
-		// }
-		//dprintf(2, "#####################################\n\n");
-		//dprintf(2, "Il y a %d commandes\n", i);
 		ft_clear(&env->copy_free);
 		env->i = 0;
 		while (env->args[env->i])

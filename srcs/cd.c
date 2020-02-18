@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antoine <antoine@student.42.fr>            +#+  +:+       +#+        */
+/*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/29 13:55:18 by anloubie          #+#    #+#             */
-/*   Updated: 2020/02/14 00:25:15 by antoine          ###   ########.fr       */
+/*   Updated: 2020/02/17 19:36:13 by thverney         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 void	ft_cd_error(char *str)
 {
-	ft_putstr_fd("cd : No such file or directory : ", 1);
-	ft_putendl_fd(str, 1);
+	ft_putstr_fd("cd : No such file or directory : ", 2);
+	ft_putendl_fd(str, 2);
 }
 
 char	*ft_get_home(t_env *env)

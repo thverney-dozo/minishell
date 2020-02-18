@@ -6,7 +6,7 @@
 /*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/10 01:58:05 by thverney          #+#    #+#             */
-/*   Updated: 2020/02/17 03:02:48 by thverney         ###   ########.fr       */
+/*   Updated: 2020/02/17 19:38:01 by thverney         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,9 +127,7 @@ int		count_chars(t_cmd *cmd, char *line)
 	int count;
 
 	count = 0;
-	//dprintf(2, "la\n");
 	i = next_none_space(line, 0);
-	//dprintf(2, "ici\n");
 	while (line[i])
 	{
 		if ((line[i] == 39 || line[i] == 34) && !how_many_backslash(line, i, cmd))

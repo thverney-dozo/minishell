@@ -6,7 +6,7 @@
 /*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/11 11:24:51 by antoine           #+#    #+#             */
-/*   Updated: 2020/02/17 03:03:27 by thverney         ###   ########.fr       */
+/*   Updated: 2020/02/17 19:37:46 by thverney         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,6 @@ int		count_redir_file(char *str, int i, t_cmd *cmd)
 			tmp++;
 		i++;	
 	}
-	//dprintf(2, "tmp == %d\n", tmp);
 	return (tmp);
 }
 
@@ -67,8 +66,6 @@ int		count_redir_file(char *str, int i, t_cmd *cmd)
 */
 void		ft_redir(t_env *env)
 {
-	//dprintf(2, "redir{%s}\n", env->redir[env->x]);
-	//dprintf(2, "isred{%c}\n", env->isred[env->x]);
 	if (env->isred[env->x] == '1')
 		env->fd_red = open(env->redir[env->x], O_RDONLY, 0644);
 	else if (env->isred[env->x] == '2')
