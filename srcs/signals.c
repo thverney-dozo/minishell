@@ -6,7 +6,7 @@
 /*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/17 17:41:17 by anloubie          #+#    #+#             */
-/*   Updated: 2020/02/18 14:22:56 by thverney         ###   ########.fr       */
+/*   Updated: 2020/02/22 19:40:24 by thverney         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ void		ft_sig_kill(int sig_id)
 	int		i;
 	int		j;
 	char	*str;
-
 
 	i = 0;
 	j = 0;

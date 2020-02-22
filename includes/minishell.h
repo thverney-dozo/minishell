@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anloubie <anloubie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/27 18:49:54 by thverney          #+#    #+#             */
-/*   Updated: 2020/02/18 15:45:34 by anloubie         ###   ########.fr       */
+/*   Updated: 2020/02/22 20:25:29 by thverney         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ typedef struct		s_env
 	char			*copy_free;
 	char			**av_pipe;
 	char			**cpy_pipe;
-	char			**path;	
+	char			**path;
 	t_var			*var;
 	t_var			*first;
 	t_var			*save;
@@ -81,20 +81,23 @@ typedef struct		s_env
 void				loop_shell(t_env *env);
 void				is_command(char *cmd, t_env *env);
 void				is_pipe_here(t_env *env);
+void				is_pipe_here_two(t_env *env);
 void				ft_pipe_is_cmd(t_env *env, int old_fd);
 void				verify_cmd_pipe(char *cmd, int indic, t_env *env);
 char				**split_commands(t_env *env);
 int					is_multi_line_quote(t_cmd *cmd, int i);
 void				is_multi_line_quote_two(t_cmd *cmd, int i);
-char				*get_semi_coma(t_cmd *cmd, char *str, char c);
-char				*get_semi_coma(t_cmd *cmd, char *str, char c);
 char				**split_pipes(t_env *env);
-int					stock_redir_file(char *str, int tmp, t_env *env, t_cmd *cmd);
+int					stock_file(char *str, int tmp, t_env *env, t_cmd *cmd);
 void				ft_redir(t_env *env);
 void				set_fd_redirection(t_env *env);
 void				restore_fd_redirection(t_env *env);
 int					count_dollar(t_env *env, char *str);
-int					ft_replace_word(t_env *env, char *line, char *str, char *cpy);
+int					replace_word(t_env *env, char *line, char *str, char *cpy);
+void				child_ps(t_env *env, int old_fd);
+void				parent_ps(t_env *env, int old_fd, int pid);
+char				**split_parse_done(t_env *env, char *line, t_cmd *cmd);
+int					count_chars(t_cmd *cmd, char *line);
 
 /*
 **	Utils
@@ -104,6 +107,7 @@ int					next_space(char *str, int i);
 int					next_none_space(char *str, int i);
 int					count_redir_file(char *str, int i, t_cmd *cmd);
 int					ft_error_syntax(t_env *env);
+int					is_builtin_no_pipe(char *cmd, t_env *env);
 
 /*
 **	Echo

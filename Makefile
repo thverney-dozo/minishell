@@ -22,6 +22,9 @@ SRC_FILE   =   main.c 			\
 			utils.c				\
 			signals.c			\
 			export3.c			\
+			iscmd2.c			\
+			split_commands2.c	\
+			split_commands3.c	\
 
 INCS_NAME   =   minishell.h
 

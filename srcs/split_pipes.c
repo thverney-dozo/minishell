@@ -6,7 +6,7 @@
 /*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/10 17:48:25 by thverney          #+#    #+#             */
-/*   Updated: 2020/02/18 15:44:11 by thverney         ###   ########.fr       */
+/*   Updated: 2020/02/22 19:11:06 by thverney         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,7 +165,7 @@ char	**split_parse_done_pipe(t_env *env, char *line, t_cmd *cmd)
 						if (line[i] == '$' && !how_many_backslash(line, i, cmd))
 						{
 							i++;
-							j += ft_replace_word(env, line + i, &(str[tmp][j]), &(env->cpy_pipe[tmp][j])) - 1;	
+							j += replace_word(env, line + i, &(str[tmp][j]), &(env->cpy_pipe[tmp][j])) - 1;	
 							while (line[i] && line[i] > 32 && line[i] != '\\' && line[i] != '$'
 							&& line[i] != 34 && line[i] != 39 && line[i] != '|' && line[i] != '<'
 							&& line[i] != '>')
@@ -206,7 +206,7 @@ char	**split_parse_done_pipe(t_env *env, char *line, t_cmd *cmd)
 			else if (line[i] == '$' && !how_many_backslash(line, i, cmd))
 			{
 				i++;
-				j += ft_replace_word(env, line + i, &(str[tmp][j]), &(env->cpy_pipe[tmp][j]));	
+				j += replace_word(env, line + i, &(str[tmp][j]), &(env->cpy_pipe[tmp][j]));	
 				while (line[i] && line[i] > 32 && line[i] != '\\' && line[i] != '$'
 				&& line[i] != 34 && line[i] != 39 && line[i] != '|' && line[i] != '<'
 				&& line[i] != '>')
@@ -220,7 +220,7 @@ char	**split_parse_done_pipe(t_env *env, char *line, t_cmd *cmd)
 				env->isred[tmp] = (line[i] == '>' ? '3' : env->isred[tmp]);
 				(line[i] == '>' ? i++ : 0);
 				i = next_none_space(line, i);
-				i += stock_redir_file(line + i , tmp, env, cmd);
+				i += stock_file(line + i , tmp, env, cmd);
 			}
 			else if (line[i] == 92 && line[i + 1] == 92)
 			{

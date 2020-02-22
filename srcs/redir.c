@@ -6,17 +6,16 @@
 /*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/11 11:24:51 by antoine           #+#    #+#             */
-/*   Updated: 2020/02/17 19:37:46 by thverney         ###   ########.fr       */
+/*   Updated: 2020/02/22 19:40:00 by thverney         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int		stock_redir_file(char *str, int tmp, t_env *env, t_cmd *cmd)
+int		stock_file(char *str, int tmp, t_env *env, t_cmd *cmd)
 {
 	int	j;
 	int i;
-
 
 	j = 0;
 	i = 0;
@@ -40,7 +39,7 @@ int		stock_redir_file(char *str, int tmp, t_env *env, t_cmd *cmd)
 int		count_redir_file(char *str, int i, t_cmd *cmd)
 {
 	int tmp;
-	
+
 	tmp = 0;
 	while (str[i] && str[i] > 32 && !how_many_backslash(str, i, cmd)
 	&& str[i] != '|')
@@ -56,7 +55,7 @@ int		count_redir_file(char *str, int i, t_cmd *cmd)
 		}
 		else
 			tmp++;
-		i++;	
+		i++;
 	}
 	return (tmp);
 }
@@ -64,14 +63,18 @@ int		count_redir_file(char *str, int i, t_cmd *cmd)
 /*
 **	isred	{1 == <}	{2 == >}	{3 == >>}
 */
-void		ft_redir(t_env *env)
+
+void	ft_redir(t_env *env)
 {
 	if (env->isred[env->x] == '1')
-		env->fd_red = open(env->redir[env->x], O_RDONLY, 0644);
+		env->fd_red = open(env->redir[env->x]
+		, O_RDONLY, 0644);
 	else if (env->isred[env->x] == '2')
-		env->fd_red = open(env->redir[env->x], O_CREAT | O_WRONLY | O_TRUNC, 0644);
+		env->fd_red = open(env->redir[env->x]
+		, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	else if (env->isred[env->x] == '3')
-		env->fd_red = open(env->redir[env->x], O_CREAT | O_WRONLY | O_APPEND, 0644);
+		env->fd_red = open(env->redir[env->x]
+		, O_CREAT | O_WRONLY | O_APPEND, 0644);
 }
 
 void	set_fd_redirection(t_env *env)
@@ -94,5 +97,4 @@ void	restore_fd_redirection(t_env *env)
 		dup2(STDIN_FILENO, 1);
 	else if (env->isred[env->x] == '3')
 		dup2(STDIN_FILENO, 1);
-
 }
