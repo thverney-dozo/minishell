@@ -6,7 +6,7 @@
 /*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/12 16:54:21 by anloubie          #+#    #+#             */
-/*   Updated: 2020/02/18 15:42:06 by thverney         ###   ########.fr       */
+/*   Updated: 2020/02/23 00:43:24 by thverney         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ void	loop_shell(t_env *env)
 		env->i = 0;
 		while (env->args[env->i])
 		{
-			env->j = 0;
 			if (env->args[env->i])
 				is_pipe_here(env);
 			free(env->args[env->i]);

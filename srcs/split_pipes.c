@@ -6,42 +6,11 @@
 /*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/10 17:48:25 by thverney          #+#    #+#             */
-/*   Updated: 2020/02/22 19:11:06 by thverney         ###   ########.fr       */
+/*   Updated: 2020/02/23 01:12:21 by thverney         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	is_multi_line_quote_two_pipe(t_cmd *cmd, int i)
-{
-	while (cmd->cpy[i])
-	{
-		if ((cmd->cpy[i] == 39 || cmd->cpy[i] == 34)
-		&& !how_many_backslash(cmd->cpy, i, cmd))
-		{
-			cmd->wichquote = (cmd->cpy[i] == 34 ? 34 : 39);
-			i++;
-			while (cmd->cpy[i])
-			{
-				if (((cmd->cpy[i] == 34 && !how_many_backslash(cmd->cpy, i, cmd))
-				|| cmd->cpy[i] == 39) && cmd->cpy[i] == cmd->wichquote)  
-						break ;
-				i++;
-			}
-			if (!(cmd->cpy[i]))
-				return ;
-		}
-		else if (cmd->cpy[i] == '|' && !how_many_backslash(cmd->cpy, i, cmd))
-			is_word(cmd, i);
-		i++;
-	}
-}
-
-void	is_multi_line_quote_pipe(t_cmd *cmd, int i)
-{
-	cmd->words = 1;
-	is_multi_line_quote_two_pipe(cmd, i);
-}
 
 int		count_chars_pipes(t_cmd *cmd, char *line, t_env *env)
 {
@@ -76,18 +45,11 @@ int		count_chars_pipes(t_cmd *cmd, char *line, t_env *env)
 				i++;
 			}
 		}
-		else if (line[i] == 39 && !how_many_backslash(line, i, cmd))
-		{
-			i++;
-			while (line[i] && line[i] != 39)
-			{
-				i++;
+		else if (line[i] == 39 && !how_many_backslash(line, i, cmd) && i++)
+			while (line[i] && line[i] != 39 && i++)
 				count++;
-			}
-		}
-		else if (line[i] == '$' && !how_many_backslash(line, i, cmd))
+		else if (line[i] == '$' && !how_many_backslash(line, i, cmd) && i++)
 		{
-			i++;
 			count += count_dollar(env, line + i);
 			while (line[i] && line[i] > 32 && line[i] != '\\' && line[i] != '$'
 			&& line[i] != 34 && line[i] != 39 && line[i] != '|' && line[i] != '<'
@@ -102,11 +64,8 @@ int		count_chars_pipes(t_cmd *cmd, char *line, t_env *env)
 			env->count_redir = count_redir_file(line, i, cmd);
 			i = next_space(line, i);
 		}
-		else if (line[i] == 92 && line[i + 1] == 92)
-		{
+		else if (line[i] == 92 && line[i + 1] == 92 && i++)
 			count++;
-			i++;
-		}
 		else if (((line[i + 1] == '|' && line[i] < 33) || line[i] == '|')
 		&& !how_many_backslash(line, i, cmd))
 			break ;
@@ -129,11 +88,9 @@ char	**split_parse_done_pipe(t_env *env, char *line, t_cmd *cmd)
 	int		tmp;
 	int		i;
 
-	if (!(str = (char**)malloc(sizeof(char*) * (cmd->words + 1))))
-		return (NULL);
-	if (!(env->cpy_pipe = (char**)malloc(sizeof(char*) * (cmd->words + 1))))
-		return (NULL);
-	if (!(env->redir = (char**)malloc(sizeof(char*) * (cmd->words + 1))))
+	if (!(str = (char**)malloc(sizeof(char*) * (cmd->words + 1)))
+	|| !(env->cpy_pipe = (char**)malloc(sizeof(char*) * (cmd->words + 1)))
+	|| !(env->redir = (char**)malloc(sizeof(char*) * (cmd->words + 1))))
 		return (NULL);
 	i = 0;
 	tmp = 0;
@@ -142,11 +99,9 @@ char	**split_parse_done_pipe(t_env *env, char *line, t_cmd *cmd)
 		j = 0;
 		env->isred[tmp] = '0';
 		env->count = count_chars_pipes(cmd, line + i, env);
-		if (!(str[tmp] = (char*)malloc(sizeof(char) * (env->count + 1))))
-			return (NULL);
-		if (!(env->cpy_pipe[tmp] = (char*)malloc(sizeof(char) * (env->count + 1))))
-			return (NULL);
-		if (!(env->redir[tmp] = (char *)malloc(sizeof(char) * (env->count_redir + 1))))
+		if (!(str[tmp] = (char*)malloc(sizeof(char) * (env->count + 1)))
+		|| !(env->cpy_pipe[tmp] = (char*)malloc(sizeof(char) * (env->count + 1)))
+		|| !(env->redir[tmp] = (char *)malloc(sizeof(char) * (env->count_redir + 1))))
 			return (NULL);
 		while (line[i] && line[i] < 33)
 			i++;

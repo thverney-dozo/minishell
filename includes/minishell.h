@@ -6,7 +6,7 @@
 /*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/27 18:49:54 by thverney          #+#    #+#             */
-/*   Updated: 2020/02/22 20:25:29 by thverney         ###   ########.fr       */
+/*   Updated: 2020/02/23 01:02:52 by thverney         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,8 @@ void				verify_cmd_pipe(char *cmd, int indic, t_env *env);
 char				**split_commands(t_env *env);
 int					is_multi_line_quote(t_cmd *cmd, int i);
 void				is_multi_line_quote_two(t_cmd *cmd, int i);
+void				is_multi_line_quote_pipe(t_cmd *cmd, int i);
+void				is_multi_line_quote_two_pipe(t_cmd *cmd, int i);
 char				**split_pipes(t_env *env);
 int					stock_file(char *str, int tmp, t_env *env, t_cmd *cmd);
 void				ft_redir(t_env *env);
@@ -96,7 +98,7 @@ int					count_dollar(t_env *env, char *str);
 int					replace_word(t_env *env, char *line, char *str, char *cpy);
 void				child_ps(t_env *env, int old_fd);
 void				parent_ps(t_env *env, int old_fd, int pid);
-char				**split_parse_done(t_env *env, char *line, t_cmd *cmd);
+char				**split_parse(t_env *env, t_cmd *cmd, int i);
 int					count_chars(t_cmd *cmd, char *line);
 
 /*

@@ -6,59 +6,63 @@
 /*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/22 20:01:58 by thverney          #+#    #+#             */
-/*   Updated: 2020/02/22 20:26:06 by thverney         ###   ########.fr       */
+/*   Updated: 2020/02/23 01:00:40 by thverney         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	**split_parse_done(t_env *env, char *line, t_cmd *cmd)
+int		split_parse_two(int i, t_env *env, t_cmd *cmd, char **str)
+{
+	if ((cmd->cpy[i] == 39 || cmd->cpy[i] == 34)
+	&& !how_many_backslash(cmd->cpy, i, cmd))
+	{
+		cmd->wichquote = (cmd->cpy[i] == 34 ? 34 : 39);
+		str[env->y][env->j++] = cmd->cpy[i++];
+		while (cmd->cpy[i] && i <= env->count)
+		{
+			if (((cmd->cpy[i] == 34 && !how_many_backslash(cmd->cpy, i, cmd))
+			|| cmd->cpy[i] == 39) && cmd->cpy[i] == cmd->wichquote)
+				break ;
+			str[env->y][env->j++] = cmd->cpy[i++];
+		}
+		str[env->y][env->j++] = cmd->cpy[i++];
+	}
+	else if (cmd->cpy[i] == ';' && !how_many_backslash(cmd->cpy, i, cmd) && i++)
+		return (-1);
+	else
+	{
+		if (i <= env->count)
+			str[env->y][env->j++] = cmd->cpy[i];
+		i++;
+	}
+	return (i);
+}
+
+char	**split_parse(t_env *env, t_cmd *cmd, int i)
 {
 	char	**str;
-	int		j;
-	int		tmp;
-	int		i;
 
 	if (!(str = (char**)malloc(sizeof(char*) * (cmd->words + 1))))
 		return (NULL);
-	i = 0;
-	tmp = 0;
-	while (tmp < cmd->words)
+	env->y = 0;
+	while (env->y < cmd->words)
 	{
-		j = 0;
-		env->count = count_chars(cmd, line + i);
-		if (!(str[tmp] = (char*)malloc(sizeof(char) * (env->count + 1))))
+		env->j = 0;
+		env->count = count_chars(cmd, cmd->cpy + i);
+		if (!(str[env->y] = (char*)malloc(sizeof(char) * (env->count + 1))))
 			return (NULL);
 		env->count += i;
-		while (line[i] && line[i] < 33 && i <= env->count)
+		while (cmd->cpy[i] && cmd->cpy[i] < 33 && i <= env->count)
 			i++;
-		while (line[i])
+		while (cmd->cpy[i])
 		{
-			if ((line[i] == 39 || line[i] == 34)
-			&& !how_many_backslash(line, i, cmd))
-			{
-				cmd->wichquote = (line[i] == 34 ? 34 : 39);
-				str[tmp][j++] = line[i++];
-				while (line[i] && i <= env->count)
-				{
-					if (((line[i] == 34 && !how_many_backslash(line, i, cmd))
-					|| line[i] == 39) && line[i] == cmd->wichquote)
-						break ;
-					str[tmp][j++] = line[i++];
-				}
-				str[tmp][j++] = line[i++];
-			}
-			else if (line[i] == ';' && !how_many_backslash(line, i, cmd) && i++)
+			i = split_parse_two(i, env, cmd, &str);
+			if (i == -1)
 				break ;
-			else
-			{
-				if (i <= env->count)
-					str[tmp][j++] = line[i];
-				i++;
-			}
 		}
-		str[tmp++][j] = '\0';
+		str[env->y++][env->j] = '\0';
 	}
-	str[tmp] = 0;
+	str[env->y] = 0;
 	return (str);
 }

@@ -6,7 +6,7 @@
 /*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/10 01:58:05 by thverney          #+#    #+#             */
-/*   Updated: 2020/02/22 20:24:41 by thverney         ###   ########.fr       */
+/*   Updated: 2020/02/23 00:45:25 by thverney         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,5 +60,5 @@ char	**split_commands(t_env *env)
 	cmd->error = 0;
 	if (!is_multi_line_quote(cmd, 0))
 		return (NULL);
-	return (split_parse_done(env, cmd->cpy, cmd));
+	return (split_parse(env, cmd, 0));
 }
