@@ -6,7 +6,7 @@
 /*   By: anloubie <anloubie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/04 18:28:21 by anloubie          #+#    #+#             */
-/*   Updated: 2020/02/12 14:27:22 by anloubie         ###   ########.fr       */
+/*   Updated: 2020/02/24 13:52:10 by anloubie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,7 @@ void		ft_unset(t_env *env)
 	int		i;
 
 	if (!env->flags[1])
-	{
-		ft_putendl_fd("unset: not enough arguments", 1);
 		return ;
-	}
 	i = 1;
 	while (env->flags[i])
 	{

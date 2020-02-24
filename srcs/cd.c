@@ -3,19 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
+/*   By: anloubie <anloubie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/29 13:55:18 by anloubie          #+#    #+#             */
-/*   Updated: 2020/02/17 19:36:13 by thverney         ###   ########.fr       */
+/*   Updated: 2020/02/24 13:31:45 by anloubie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_cd_error(char *str)
+void	ft_cd_error(char *str, t_env *env)
 {
 	ft_putstr_fd("cd : No such file or directory : ", 2);
 	ft_putendl_fd(str, 2);
+	env->ret = 1;
 }
 
 char	*ft_get_home(t_env *env)
@@ -43,9 +44,9 @@ void	ft_cd(t_env *env)
 		return ;
 	}
 	else if ((!(env->flags[1])) || (!(ft_strcmp(env->flags[1], "~"))))
-		chdir(temp);
+		env->ret = chdir(temp);
 	else
 		ret = chdir(env->flags[1]);
 	if (ret == -1)
-		ft_cd_error(env->flags[1]);
+		ft_cd_error(env->flags[1], env);
 }

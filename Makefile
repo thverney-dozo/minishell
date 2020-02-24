@@ -15,6 +15,7 @@ SRC_FILE   =   main.c 			\
 			execute.c			\
 			split_commands.c	\
 			split_pipes.c		\
+			split_pipes2.c		\
 			clear_screen.c		\
 			use_env_var.c		\
 			export2.c		 	\

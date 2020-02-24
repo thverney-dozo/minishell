@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
+/*   By: anloubie <anloubie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/27 18:49:54 by thverney          #+#    #+#             */
-/*   Updated: 2020/02/23 01:02:52 by thverney         ###   ########.fr       */
+/*   Updated: 2020/02/24 14:12:26 by anloubie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ typedef struct		s_env
 	t_var			*first;
 	t_var			*save;
 	int				fd_red;
+	int				ret;
 }					t_env;
 
 /*
@@ -100,6 +101,7 @@ void				child_ps(t_env *env, int old_fd);
 void				parent_ps(t_env *env, int old_fd, int pid);
 char				**split_parse(t_env *env, t_cmd *cmd, int i);
 int					count_chars(t_cmd *cmd, char *line);
+void				is_multi_line_quote_pipe(t_cmd *cmd, int i);
 
 /*
 **	Utils
@@ -165,7 +167,7 @@ void				ft_use_env_var(t_env *env);
 /*
 **	Not found
 */
-void				ft_not_found(char *cmd);
+void				ft_not_found(char *cmd, t_env *env);
 
 /*
 **	Clear screen

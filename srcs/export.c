@@ -6,7 +6,7 @@
 /*   By: anloubie <anloubie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/03 15:03:14 by anloubie          #+#    #+#             */
-/*   Updated: 2020/02/18 15:23:02 by anloubie         ###   ########.fr       */
+/*   Updated: 2020/02/24 12:18:52 by anloubie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,7 @@ void		ft_export(t_env *env)
 		{
 			ft_export_error(env->flags[i]);
 			err++;
+			env->ret = 1;
 		}
 		i++;
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
+/*   By: anloubie <anloubie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/12 16:54:21 by anloubie          #+#    #+#             */
-/*   Updated: 2020/02/23 00:43:24 by thverney         ###   ########.fr       */
+/*   Updated: 2020/02/24 14:52:41 by anloubie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ int		syntax_error(t_env *env)
 
 void	loop_shell(t_env *env)
 {
+	env->ret = 0;
 	if ((env->i = get_next_line(0, &env->copy_free)) > 0)
 	{
 		if (syntax_error(env))
@@ -55,6 +56,7 @@ void	loop_shell(t_env *env)
 		free(env->args);
 		env->args = NULL;
 	}
+	printf("$? = |%d|\n", env->ret);
 }
 
 void	prompt_display(t_env *env)

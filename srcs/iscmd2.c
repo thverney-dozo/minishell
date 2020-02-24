@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   iscmd2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
+/*   By: anloubie <anloubie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/22 19:21:30 by thverney          #+#    #+#             */
-/*   Updated: 2020/02/22 19:36:38 by thverney         ###   ########.fr       */
+/*   Updated: 2020/02/24 16:33:52 by anloubie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,9 @@ void	parent_ps(t_env *env, int old_fd, int pid)
 			env->isred[env->x] > '0' ? set_fd_redirection(env) : 0;
 			is_command(env->flags[0], env);
 			env->isred[env->x] > '0' ? restore_fd_redirection(env) : 0;
-			exit(0);
+			exit(env->ret);
 		}
-		waitpid(pid, 0, 0);
+		waitpid(pid, &env->ret, 0);
 	}
 }
 
@@ -64,9 +64,10 @@ void	is_pipe_here_two(t_env *env)
 			env->isred[env->x] > '0' ? set_fd_redirection(env) : 0;
 			is_command(env->flags[0], env);
 			env->isred[env->x] > '0' ? restore_fd_redirection(env) : 0;
-			exit(0);
+			exit(env->ret);
 		}
-		waitpid(pid, 0, 0);
+		waitpid(pid, &env->ret, 0);
+		env->ret /= 256;
 	}
 	else
 	{

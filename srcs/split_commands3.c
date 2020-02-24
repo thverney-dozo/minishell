@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_commands3.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
+/*   By: anloubie <anloubie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/22 20:01:58 by thverney          #+#    #+#             */
-/*   Updated: 2020/02/23 01:00:40 by thverney         ###   ########.fr       */
+/*   Updated: 2020/02/24 11:20:55 by anloubie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ char	**split_parse(t_env *env, t_cmd *cmd, int i)
 			i++;
 		while (cmd->cpy[i])
 		{
-			i = split_parse_two(i, env, cmd, &str);
+			i = split_parse_two(i, env, cmd, str);
 			if (i == -1)
 				break ;
 		}

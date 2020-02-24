@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   iscmd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
+/*   By: anloubie <anloubie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/28 16:08:15 by anloubie          #+#    #+#             */
-/*   Updated: 2020/02/22 19:37:38 by thverney         ###   ########.fr       */
+/*   Updated: 2020/02/24 14:50:06 by anloubie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,10 @@ void	is_command(char *cmd, t_env *env)
 	else if (is_executable(env, 0))
 		;
 	else
-		ft_not_found(cmd);
+	{
+		ft_not_found(cmd, env);
+		env->ret = 127;
+	}
 }
 
 void	ft_pipe_is_cmd(t_env *env, int old_fd)
