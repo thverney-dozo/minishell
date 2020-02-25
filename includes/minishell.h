@@ -6,7 +6,7 @@
 /*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/27 18:49:54 by thverney          #+#    #+#             */
-/*   Updated: 2020/02/25 04:59:43 by thverney         ###   ########.fr       */
+/*   Updated: 2020/02/25 08:22:27 by thverney         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ typedef struct		s_cmd
 
 typedef struct		s_env
 {
+	char			*line;
+	int				t;
 	int				is_join;
 	char			*join;
 	int				ret_gnl;
@@ -65,6 +67,7 @@ typedef struct		s_env
 	char			**flags;
 	int				i;
 	int				j;
+	int				k;
 	int				x;
 	int				y;
 	char			**copy_args;
@@ -106,17 +109,23 @@ void				parent_ps(t_env *env, int old_fd, int pid);
 char				**split_parse(t_env *env, t_cmd *cmd, int i);
 int					count_chars(t_cmd *cmd, char *line);
 void				is_multi_line_quote_pipe(t_cmd *cmd, int i);
-
+int					count_chars_pipes(t_cmd *cmd, char *line, t_env *env);
+int					split_pipe_dbquote(int i, t_env *env, t_cmd *cmd);
+int					split_pipe_line_two(int i, t_env *env, t_cmd *cmd);
 /*
 **	Utils
 */
-int					how_many_backslash(char *str, int i, t_cmd *cmd);
+int					nbslash(char *str, int i, t_cmd *cmd);
 int					next_space(char *str, int i);
 int					next_none_space(char *str, int i);
 int					count_redir_file(char *str, int i, t_cmd *cmd);
 int					ft_error_syntax(t_env *env);
 int					is_builtin_no_pipe(char *cmd, t_env *env);
 int					syntax_error(t_env *env);
+void				fill_triple_string(t_env *env, int j, char slash, char line);
+int					is_forbidden_letter(char c);
+int					malloc_triple_tab(t_env *env, t_cmd *cmd);
+int					malloc_tab(t_env *env);
 
 /*
 **	Echo

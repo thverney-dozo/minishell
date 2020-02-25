@@ -6,7 +6,7 @@
 /*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/16 16:39:39 by thverney          #+#    #+#             */
-/*   Updated: 2020/02/22 19:54:35 by thverney         ###   ########.fr       */
+/*   Updated: 2020/02/25 07:50:17 by thverney         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int		ft_error_syntax(t_env *env)
 	return (1);
 }
 
-int		how_many_backslash(char *str, int i, t_cmd *cmd)
+int		nbslash(char *str, int i, t_cmd *cmd)
 {
 	if (str[i - 1])
 		i--;

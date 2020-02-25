@@ -6,7 +6,7 @@
 /*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/12 16:54:21 by anloubie          #+#    #+#             */
-/*   Updated: 2020/02/25 05:07:12 by thverney         ###   ########.fr       */
+/*   Updated: 2020/02/25 08:26:27 by thverney         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,20 +16,18 @@ t_env g_env;
 
 int		loop_shell(t_env *env)
 {
-	env->is_join = g_env.is_join;
 	if (g_env.is_join == 0 && (env->is_join = 1))
 	{
-		if (env->copy_free)
+		if ((g_env.is_join = 1) && env->copy_free)
 		{
 			free(env->copy_free);
 			env->copy_free = NULL;
 		}
-		g_env.is_join = 1;
 		return (1);
 	}
 	if (env->join && env->is_join)
 		env->copy_free = ft_strjoin(env->join, env->copy_free);
-	if (syntax_error(env) && (env->is_join = 1))
+	if ((env->is_join = 1) && syntax_error(env))
 		return (1);
 	if ((env->args = split_commands(env)) == NULL)
 		return (1);
@@ -39,10 +37,9 @@ int		loop_shell(t_env *env)
 	{
 		is_pipe_here(env);
 		free(env->args[env->i]);
-		env->args[env->i++] = NULL;
+		env->args[env->i] = NULL;
+		env->i++;
 	}
-	free(env->args);
-	env->args = NULL;
 	return (0);
 }
 
@@ -51,8 +48,11 @@ void	init_loop(t_env *env)
 	if ((env->ret_gnl = get_next_line(0, &env->copy_free)) > 0
 	&& env->ret_gnl != 2)
 	{
+		env->is_join = g_env.is_join;
 		if (loop_shell(env))
 			return ;
+		free(env->args);
+		env->args = NULL;
 	}
 	if (env->ret_gnl == 2 && env->copy_free)
 	{

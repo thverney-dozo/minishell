@@ -14,8 +14,11 @@ SRC_FILE   =   main.c 			\
 			unset.c				\
 			execute.c			\
 			split_commands.c	\
+			split_commands2.c	\
+			split_commands3.c	\
 			split_pipes.c		\
 			split_pipes2.c		\
+			split_pipes3.c		\
 			clear_screen.c		\
 			use_env_var.c		\
 			export2.c		 	\
@@ -24,8 +27,6 @@ SRC_FILE   =   main.c 			\
 			signals.c			\
 			export3.c			\
 			iscmd2.c			\
-			split_commands2.c	\
-			split_commands3.c	\
 			utils2.c			\
 
 INCS_NAME   =   minishell.h

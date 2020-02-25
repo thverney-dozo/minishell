@@ -6,7 +6,7 @@
 /*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/10 01:58:05 by thverney          #+#    #+#             */
-/*   Updated: 2020/02/23 00:45:25 by thverney         ###   ########.fr       */
+/*   Updated: 2020/02/25 07:50:17 by thverney         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,20 +17,20 @@ int		count_chars_two(t_cmd *cmd, char *line, int i, int count)
 	while (line[i])
 	{
 		if ((line[i] == 39 || line[i] == 34)
-		&& !how_many_backslash(line, i, cmd))
+		&& !nbslash(line, i, cmd))
 		{
 			cmd->wichquote = (line[i] == 34 ? 34 : 39);
 			i++ && count++;
 			while (line[i])
 			{
-				if (((line[i] == 34 && !how_many_backslash(line, i, cmd))
+				if (((line[i] == 34 && !nbslash(line, i, cmd))
 				|| line[i] == 39) && line[i] == cmd->wichquote)
 					break ;
 				i++ && count++;
 			}
 			i++ && count++;
 		}
-		else if (line[i] == ';' && !how_many_backslash(line, i, cmd))
+		else if (line[i] == ';' && !nbslash(line, i, cmd))
 			break ;
 		i++ && count++;
 	}
