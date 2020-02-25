@@ -6,7 +6,7 @@
 /*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/12 16:54:21 by anloubie          #+#    #+#             */
-/*   Updated: 2020/02/25 04:40:04 by thverney         ###   ########.fr       */
+/*   Updated: 2020/02/25 05:07:12 by thverney         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,66 +14,45 @@
 
 t_env g_env;
 
-int		syntax_error(t_env *env)
+int		loop_shell(t_env *env)
 {
-	env->i = 0;
-	if (!(env->copy_free[env->i]) || !(env->copy_free))
-		return (1);
-	env->ret = 0;
-	while (env->copy_free[env->i] && env->copy_free[env->i] < 33)
-		env->i++;
-	if (env->copy_free[env->i] == '|' || env->copy_free[env->i] == ';')
-		return (ft_error_syntax(env));
-	while (env->copy_free[env->i])
+	env->is_join = g_env.is_join;
+	if (g_env.is_join == 0 && (env->is_join = 1))
 	{
-		if (env->copy_free[env->i] == '|' || env->copy_free[env->i] == ';')
+		if (env->copy_free)
 		{
-			env->copy_free[env->i] ? env->i++ : 0;
-			while (env->copy_free[env->i] && env->copy_free[env->i] < 33)
-				env->i++;
-			if (env->copy_free[env->i] == '|' || env->copy_free[env->i] == ';')
-				return (ft_error_syntax(env));
+			free(env->copy_free);
+			env->copy_free = NULL;
 		}
-		env->i++;
+		g_env.is_join = 1;
+		return (1);
 	}
+	if (env->join && env->is_join)
+		env->copy_free = ft_strjoin(env->join, env->copy_free);
+	if (syntax_error(env) && (env->is_join = 1))
+		return (1);
+	if ((env->args = split_commands(env)) == NULL)
+		return (1);
+	ft_clear(&env->copy_free);
+	env->i = 0;
+	while (env->args[env->i])
+	{
+		is_pipe_here(env);
+		free(env->args[env->i]);
+		env->args[env->i++] = NULL;
+	}
+	free(env->args);
+	env->args = NULL;
 	return (0);
 }
 
-void	loop_shell(t_env *env)
+void	init_loop(t_env *env)
 {
 	if ((env->ret_gnl = get_next_line(0, &env->copy_free)) > 0
 	&& env->ret_gnl != 2)
 	{
-		env->is_join = g_env.is_join;
-		if (g_env.is_join == 0)
-		{
-			if (env->copy_free)
-			{
-				free(env->copy_free);
-				env->copy_free = NULL;
-			}
-			env->is_join = 1;
+		if (loop_shell(env))
 			return ;
-		}
-		if (env->join && env->is_join)
-			env->copy_free = ft_strjoin(env->join, env->copy_free);
-		env->is_join = 1;
-		if (syntax_error(env))
-			return ;
-		if ((env->args = split_commands(env)) == NULL)
-			return ;
-		ft_clear(&env->copy_free);
-		env->i = 0;
-		while (env->args[env->i])
-		{
-			if (env->args[env->i])
-				is_pipe_here(env);
-			free(env->args[env->i]);
-			env->args[env->i] = NULL;
-			env->i++;
-		}
-		free(env->args);
-		env->args = NULL;
 	}
 	if (env->ret_gnl == 2 && env->copy_free)
 	{
@@ -96,8 +75,7 @@ void	prompt_display(t_env *env)
 		free(env->dir);
 		write(1, ")\033[31m#>\033[00m ", 15);
 	}
-
-	loop_shell(env);
+	init_loop(env);
 }
 
 void	get_signal(void)

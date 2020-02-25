@@ -26,6 +26,7 @@ SRC_FILE   =   main.c 			\
 			iscmd2.c			\
 			split_commands2.c	\
 			split_commands3.c	\
+			utils2.c			\
 
 INCS_NAME   =   minishell.h
 

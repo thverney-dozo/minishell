@@ -6,7 +6,7 @@
 /*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/27 18:49:54 by thverney          #+#    #+#             */
-/*   Updated: 2020/02/25 00:50:48 by thverney         ###   ########.fr       */
+/*   Updated: 2020/02/25 04:59:43 by thverney         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ extern				t_env g_env;
 /*
 **	Main and redirections
 */
-void				loop_shell(t_env *env);
+int					loop_shell(t_env *env);
 void				is_command(char *cmd, t_env *env);
 void				is_pipe_here(t_env *env);
 void				is_pipe_here_two(t_env *env);
@@ -116,6 +116,7 @@ int					next_none_space(char *str, int i);
 int					count_redir_file(char *str, int i, t_cmd *cmd);
 int					ft_error_syntax(t_env *env);
 int					is_builtin_no_pipe(char *cmd, t_env *env);
+int					syntax_error(t_env *env);
 
 /*
 **	Echo
