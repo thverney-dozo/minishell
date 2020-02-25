@@ -6,7 +6,7 @@
 /*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/10 17:48:25 by thverney          #+#    #+#             */
-/*   Updated: 2020/02/23 01:12:21 by thverney         ###   ########.fr       */
+/*   Updated: 2020/02/25 03:00:10 by thverney         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ int		count_chars_pipes(t_cmd *cmd, char *line, t_env *env)
 			i++;
 			while (line[i])
 			{
-				if (line[i] == '$' && !how_many_backslash(line, i, cmd))
+				if (line[i] == '$' && !how_many_backslash(line, i, cmd)
+				&& line[i + 1] != ' ' && line[i + 1] != '\\')
 				{
 					i++;
 					count += count_dollar(env, line + i);
@@ -83,14 +84,12 @@ int		count_chars_pipes(t_cmd *cmd, char *line, t_env *env)
 
 char	**split_parse_done_pipe(t_env *env, char *line, t_cmd *cmd)
 {
-	char	**str;
 	int		j;
 	int		tmp;
 	int		i;
 
-	if (!(str = (char**)malloc(sizeof(char*) * (cmd->words + 1)))
-	|| !(env->cpy_pipe = (char**)malloc(sizeof(char*) * (cmd->words + 1)))
-	|| !(env->redir = (char**)malloc(sizeof(char*) * (cmd->words + 1))))
+	if (!(env->pipe[0] = (char**)malloc(sizeof(char*) * (cmd->words + 1)))
+	|| (!(env->pipe[1] = (char**)malloc(sizeof(char*) * (cmd->words + 1)))))
 		return (NULL);
 	i = 0;
 	tmp = 0;
@@ -99,28 +98,32 @@ char	**split_parse_done_pipe(t_env *env, char *line, t_cmd *cmd)
 		j = 0;
 		env->isred[tmp] = '0';
 		env->count = count_chars_pipes(cmd, line + i, env);
-		if (!(str[tmp] = (char*)malloc(sizeof(char) * (env->count + 1)))
-		|| !(env->cpy_pipe[tmp] = (char*)malloc(sizeof(char) * (env->count + 1)))
-		|| !(env->redir[tmp] = (char *)malloc(sizeof(char) * (env->count_redir + 1))))
+		// dprintf(2, "count{%d}\n", env->count);
+		if (!(env->pipe[0][tmp] = (char*)malloc(sizeof(char) * (env->count + 1)))
+		|| (!(env->pipe[1][tmp] = (char*)malloc(sizeof(char) * (env->count + 1)))))
 			return (NULL);
+
 		while (line[i] && line[i] < 33)
 			i++;
 		while (line[i])
 		{
 			if (line[i] == 34 && !how_many_backslash(line, i, cmd))
 			{
-				cmd->wichquote = line[i];
-				i++;
+				cmd->wichquote = line[i++];
 				if (line[i] && line[i] != cmd->wichquote)
 				{
 					while (line[i])
 					{
 						if (line[i] == 34 && !how_many_backslash(line, i, cmd))
 							break ;
-						if (line[i] == '$' && !how_many_backslash(line, i, cmd))
+						if (line[i] == '$' && (line[i + 1] == ' ' || line[i + 1] == '\\'))
 						{
-							i++;
-							j += replace_word(env, line + i, &(str[tmp][j]), &(env->cpy_pipe[tmp][j])) - 1;	
+							env->pipe[0][tmp][j] = line[i];
+							env->pipe[1][tmp][j] = '2';
+						}
+						else if (line[i] == '$' && !how_many_backslash(line, i, cmd) && i++)
+						{
+							j += replace_word(env, line + i, &(env->pipe[0][tmp][j]), &(env->pipe[1][tmp][j])) - 1;	
 							while (line[i] && line[i] > 32 && line[i] != '\\' && line[i] != '$'
 							&& line[i] != 34 && line[i] != 39 && line[i] != '|' && line[i] != '<'
 							&& line[i] != '>')
@@ -129,39 +132,38 @@ char	**split_parse_done_pipe(t_env *env, char *line, t_cmd *cmd)
 						}
 						else if (line[i] == 92 && line[i + 1] == 92)
 						{
-							str[tmp][j] = line[i];
-							env->cpy_pipe[tmp][j] = '2';
-							i++;
+							env->pipe[1][tmp][j] = '2';
+							env->pipe[0][tmp][j] = line[i++];
 						}
 						else
 						{
-							str[tmp][j] = line[i];
-							env->cpy_pipe[tmp][j] = (line[i] == '\\' ? '0' : '2');
+							env->pipe[0][tmp][j] = line[i];
+							env->pipe[1][tmp][j] = (line[i] == '\\' ? '0' : '2');
 						}
-						j++;
-						i++;
+						j++ && i++;
 					}
 				}
 			}
 			else if ((line[i] == 39) && !how_many_backslash(line, i, cmd))
 			{
-				cmd->wichquote = line[i];
-				i++;
+				cmd->wichquote = line[i++];
 				if (line[i] && line[i] != cmd->wichquote)
 				{
 					while (line[i] && line[i] != cmd->wichquote)
 					{
-						str[tmp][j] = line[i];
-						env->cpy_pipe[tmp][j] = '2';
-						j++;
-						i++;
+						env->pipe[1][tmp][j] = '2';
+						env->pipe[0][tmp][j++] = line[i++];
 					}
 				}
 			}
-			else if (line[i] == '$' && !how_many_backslash(line, i, cmd))
+			else if (line[i] == '$' && (line[i + 1] == ' ' || line[i + 1] == '\\'))
 			{
-				i++;
-				j += replace_word(env, line + i, &(str[tmp][j]), &(env->cpy_pipe[tmp][j]));	
+				env->pipe[0][tmp][j] = line[i];
+				env->pipe[1][tmp][j] = '2';
+			}
+			else if (line[i] == '$' && !how_many_backslash(line, i, cmd) && i++)
+			{
+				j += replace_word(env, line + i, &(env->pipe[0][tmp][j]), &(env->pipe[1][tmp][j]));	
 				while (line[i] && line[i] > 32 && line[i] != '\\' && line[i] != '$'
 				&& line[i] != 34 && line[i] != 39 && line[i] != '|' && line[i] != '<'
 				&& line[i] != '>')
@@ -170,8 +172,7 @@ char	**split_parse_done_pipe(t_env *env, char *line, t_cmd *cmd)
 			}
 			else if (!how_many_backslash(line, i, cmd) && (line[i] == '>' || line[i] == '<'))
 			{
-				env->isred[tmp] = (line[i] == '>' ? '2' : '1');
-				i++;
+				env->isred[tmp] = (line[i++] == '>' ? '2' : '1');
 				env->isred[tmp] = (line[i] == '>' ? '3' : env->isred[tmp]);
 				(line[i] == '>' ? i++ : 0);
 				i = next_none_space(line, i);
@@ -179,36 +180,32 @@ char	**split_parse_done_pipe(t_env *env, char *line, t_cmd *cmd)
 			}
 			else if (line[i] == 92 && line[i + 1] == 92)
 			{
-				env->cpy_pipe[tmp][j] = '2';
-				str[tmp][j] = line[i];
-				i++;
-				j++;
+				env->pipe[1][tmp][j] = '2';
+				env->pipe[0][tmp][j++] = line[i++];
 			}
-			else if (line[i] == '|' && !how_many_backslash(line, i, cmd))
-			{
-				i++;
+			else if (line[i] == '|' && !how_many_backslash(line, i, cmd) && i++)
 				break ;
-			}
 			else
 			{
 				if (env->count > j)
 				{
-					env->cpy_pipe[tmp][j] = (line[i] == '\\' ? '0' : '2');
-					(line[i] < 33 ? env->cpy_pipe[tmp][j] = '1' : 0);
-					str[tmp][j] = line[i];
+					env->pipe[1][tmp][j] = (line[i] == '\\' ? '0' : '2');
+					(line[i] < 33 ? env->pipe[1][tmp][j] = '1' : 0);
+					env->pipe[0][tmp][j] = line[i];
 					j++;
 				}
 			}
 			line[i] ? i++ : 0;
 		}
-		str[tmp][j] = '\0';
-		env->cpy_pipe[tmp][j] = '\0';
+		env->pipe[0][tmp][j] = '\0';
+		env->pipe[1][tmp][j] = '\0';
+		// dprintf(2, "len de 1{%zu}\n", ft_strlen(env->pipe[1][tmp]));
+		// dprintf(2, "len de 0{%zu}\n", ft_strlen(env->pipe[0][tmp]));
 		tmp++;
 	}
-	str[tmp] = 0;
-	env->cpy_pipe[tmp] = 0;
-	env->redir[tmp] = 0;
-	return (str);
+	env->pipe[0][tmp] = 0;
+	env->pipe[1][tmp] = 0;
+	return (env->pipe[0]);
 }
 
 char	**split_pipes(t_env *env)

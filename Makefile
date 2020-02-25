@@ -49,6 +49,8 @@ LIB         =   $(addprefix $(LIB_DIR), $(LIB_NAME))
 
 CC          =   gcc
 CFLAGS      =   -Wall -Wextra -Werror -g3 -I $(INCS_DIR)
+CFLAGS_DEBUG=   -Wall -Wextra -Werror -g3 -fsanitize=address -I $(INCS_DIR)
+
 LIBH        =   -I $(LIB_DIR)includes/
 
 all: $(NAME)
@@ -75,6 +77,10 @@ clean:
 fclean: librm clean
 	@rm -f ${NAME}
 	@echo "\033[32;01m[Minishell fclean OK]\033[00m"
+
+debug: $(LIB) $(OBJS)
+	@$(CC) $(CFLAGS_DEBUG) $(LIB) $(OBJS) -o $(NAME)
+	@echo "\033[32;01m[Minishell DEBUG]\033[00m"
 
 re: fclean all
 

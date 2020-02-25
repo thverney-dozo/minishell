@@ -6,7 +6,7 @@
 /*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/29 17:12:36 by ade-temm          #+#    #+#             */
-/*   Updated: 2020/01/29 14:40:19 by thverney         ###   ########.fr       */
+/*   Updated: 2020/02/24 19:23:11 by thverney         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,8 @@ int		is_n(char *buff)
 	int		i;
 
 	i = 0;
+	if (!buff)
+		return (-1);
 	while (buff[i])
 	{
 		if (buff[i] == '\n')

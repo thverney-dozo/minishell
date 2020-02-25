@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anloubie <anloubie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/27 18:49:54 by thverney          #+#    #+#             */
-/*   Updated: 2020/02/24 14:12:26 by anloubie         ###   ########.fr       */
+/*   Updated: 2020/02/25 00:50:48 by thverney         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,9 @@ typedef struct		s_cmd
 
 typedef struct		s_env
 {
+	int				is_join;
+	char			*join;
+	int				ret_gnl;
 	char			*isred;
 	int				count_redir;
 	char			**redir;
@@ -67,7 +70,7 @@ typedef struct		s_env
 	char			**copy_args;
 	char			*copy_free;
 	char			**av_pipe;
-	char			**cpy_pipe;
+	char			**pipe[2];
 	char			**path;
 	t_var			*var;
 	t_var			*first;
@@ -76,6 +79,7 @@ typedef struct		s_env
 	int				ret;
 }					t_env;
 
+extern				t_env g_env;
 /*
 **	Main and redirections
 */

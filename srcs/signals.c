@@ -6,7 +6,7 @@
 /*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/17 17:41:17 by anloubie          #+#    #+#             */
-/*   Updated: 2020/02/22 19:40:24 by thverney         ###   ########.fr       */
+/*   Updated: 2020/02/25 03:52:39 by thverney         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ void		ft_sig_kill(int sig_id)
 	ft_putstr_fd(str, 1);
 	free(str);
 	write(1, ")\033[31m#>\033[00m ", 15);
+	g_env.is_join = 0;
+	// dprintf(2, "is join signal{%d}\n", g_env.is_join);
 }
 
 void		ft_sig_quit(int sig_id)
