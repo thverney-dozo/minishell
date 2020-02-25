@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
+/*   By: anloubie <anloubie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/12 16:54:21 by anloubie          #+#    #+#             */
-/*   Updated: 2020/02/25 08:26:27 by thverney         ###   ########.fr       */
+/*   Updated: 2020/02/25 13:48:58 by anloubie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,8 @@ void	init_loop(t_env *env)
 		write(1, "exit\n", 5);
 		exit(0);
 	}
+	if (!env->copy_free)
+		env->hold = env->ret;
 }
 
 void	prompt_display(t_env *env)
