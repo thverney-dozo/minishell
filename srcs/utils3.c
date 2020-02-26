@@ -1,22 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   clear_screen.c                                     :+:      :+:    :+:   */
+/*   utils3.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/02/03 15:01:38 by anloubie          #+#    #+#             */
-/*   Updated: 2020/02/26 04:46:42 by thverney         ###   ########.fr       */
+/*   Created: 2020/02/26 02:55:11 by thverney          #+#    #+#             */
+/*   Updated: 2020/02/26 05:06:14 by thverney         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_clear_screen(t_env *env)
+int		free_cpy(t_env *env)
 {
-	const char *clear_screen;
+	free(env->copy_free);
+	env->copy_free = NULL;
+	return (1);
+}
 
-	(void)env;
-	clear_screen = "\033c";
-	write(1, clear_screen, 3);
+void	how_many_redir(t_env *env)
+{
+	int	i;
+
+	i = 0;
+	while (env->copy_free[i])
+	{
+		if ((env->copy_free[i] == '>' || env->copy_free[i] == '<')
+		&& !nbslash(env->copy_free, i))
+			env->count_redir++;
+		i++;
+		if (env->copy_free[i] == '>' || env->copy_free[i] == '<')
+			i++;
+	}
 }

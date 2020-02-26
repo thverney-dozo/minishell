@@ -6,7 +6,7 @@
 /*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/06 22:20:16 by thverney          #+#    #+#             */
-/*   Updated: 2020/02/22 19:16:57 by thverney         ###   ########.fr       */
+/*   Updated: 2020/02/26 05:08:56 by thverney         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int		is_exec_two(t_env *env, int i)
 
 	if (!(dirent = (struct dirent*)malloc(sizeof(struct dirent))))
 		return (0);
-	while (env->path[i])
+	while (env->path[++i])
 	{
 		if (!(dir = opendir(env->path[i])))
 			return (-1);
@@ -35,8 +35,9 @@ int		is_exec_two(t_env *env, int i)
 			}
 		}
 		closedir(dir);
-		i++;
 	}
+	free(dirent);
+	dirent = NULL;
 	return (0);
 }
 
@@ -56,6 +57,6 @@ int		is_executable(t_env *env, int indic)
 				return (1);
 			}
 		}
-		return (is_exec_two(env, 0));
+		return (is_exec_two(env, -1));
 	}
 }

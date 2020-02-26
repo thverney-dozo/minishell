@@ -6,7 +6,7 @@
 /*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/27 18:49:54 by thverney          #+#    #+#             */
-/*   Updated: 2020/02/25 08:22:27 by thverney         ###   ########.fr       */
+/*   Updated: 2020/02/26 04:17:47 by thverney         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ typedef struct		s_cmd
 
 typedef struct		s_env
 {
+	int				count_char_redir;
+	int				nb_redir;
 	char			*line;
 	int				t;
 	int				is_join;
@@ -98,7 +100,7 @@ void				is_multi_line_quote_two(t_cmd *cmd, int i);
 void				is_multi_line_quote_pipe(t_cmd *cmd, int i);
 void				is_multi_line_quote_two_pipe(t_cmd *cmd, int i);
 char				**split_pipes(t_env *env);
-int					stock_file(char *str, int tmp, t_env *env, t_cmd *cmd);
+int					stock_file(char *str, int tmp, t_env *env);
 void				ft_redir(t_env *env);
 void				set_fd_redirection(t_env *env);
 void				restore_fd_redirection(t_env *env);
@@ -109,23 +111,26 @@ void				parent_ps(t_env *env, int old_fd, int pid);
 char				**split_parse(t_env *env, t_cmd *cmd, int i);
 int					count_chars(t_cmd *cmd, char *line);
 void				is_multi_line_quote_pipe(t_cmd *cmd, int i);
-int					count_chars_pipes(t_cmd *cmd, char *line, t_env *env);
-int					split_pipe_dbquote(int i, t_env *env, t_cmd *cmd);
-int					split_pipe_line_two(int i, t_env *env, t_cmd *cmd);
+void				count_chars_pipes(char *line, t_env *env, int i);
+int					split_pipe_dbquote(int i, t_env *env);
+int					split_pipe_line_two(int i, t_env *env);
 /*
 **	Utils
 */
-int					nbslash(char *str, int i, t_cmd *cmd);
+int					nbslash(char *str, int i);
 int					next_space(char *str, int i);
 int					next_none_space(char *str, int i);
-int					count_redir_file(char *str, int i, t_cmd *cmd);
+int					count_redir_file(char *str, int i);
 int					ft_error_syntax(t_env *env);
 int					is_builtin_no_pipe(char *cmd, t_env *env);
 int					syntax_error(t_env *env);
-void				fill_triple_string(t_env *env, int j, char slash, char line);
+void				fill_triple_string(t_env *env, int j, char slash,
+char line);
 int					is_forbidden_letter(char c);
 int					malloc_triple_tab(t_env *env, t_cmd *cmd);
 int					malloc_tab(t_env *env);
+int					free_cpy(t_env *env);
+void				how_many_redir(t_env *env);
 
 /*
 **	Echo

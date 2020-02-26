@@ -6,7 +6,7 @@
 /*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/28 16:08:15 by anloubie          #+#    #+#             */
-/*   Updated: 2020/02/25 02:59:45 by thverney         ###   ########.fr       */
+/*   Updated: 2020/02/26 05:14:14 by thverney         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,8 @@ int		is_builtin_no_pipe(char *cmd, t_env *env)
 
 void	is_pipe_here(t_env *env)
 {
+	if (!(env->redir = (char**)malloc(sizeof(char*) * (env->count_redir + 1))))
+		return ;
 	env->av_pipe = split_pipes(env);
 	ft_is_exit_here(env);
 	env->x = 0;
@@ -100,6 +102,10 @@ void	is_pipe_here(t_env *env)
 		env->av_pipe[env->x] = NULL;
 		env->x++;
 	}
+	free(env->redir);
+	env->redir = NULL;
+	free(env->isred);
+	env->isred = NULL;
 	free(env->av_pipe);
 	env->av_pipe = NULL;
 }

@@ -6,7 +6,7 @@
 /*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/12 16:54:21 by anloubie          #+#    #+#             */
-/*   Updated: 2020/02/25 08:26:27 by thverney         ###   ########.fr       */
+/*   Updated: 2020/02/26 05:14:22 by thverney         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@ int		loop_shell(t_env *env)
 		return (1);
 	}
 	if (env->join && env->is_join)
-		env->copy_free = ft_strjoin(env->join, env->copy_free);
-	if ((env->is_join = 1) && syntax_error(env))
+		env->copy_free = ft_strjoinfree(env->join, env->copy_free, 3);
+	if ((env->is_join = 1) && syntax_error(env) && free_cpy(env))
 		return (1);
 	if ((env->args = split_commands(env)) == NULL)
 		return (1);
@@ -48,6 +48,7 @@ void	init_loop(t_env *env)
 	if ((env->ret_gnl = get_next_line(0, &env->copy_free)) > 0
 	&& env->ret_gnl != 2)
 	{
+		how_many_redir(env);
 		env->is_join = g_env.is_join;
 		if (loop_shell(env))
 			return ;
@@ -99,6 +100,7 @@ int		main(int ac, char **av, char **envi)
 	env->fd_red = 1;
 	env->ret_gnl = 0;
 	env->join = NULL;
+	env->count_redir = 0;
 	g_env.is_join = 1;
 	env->copy_free = NULL;
 	get_signal();

@@ -6,7 +6,7 @@
 /*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/22 20:01:58 by thverney          #+#    #+#             */
-/*   Updated: 2020/02/25 07:50:17 by thverney         ###   ########.fr       */
+/*   Updated: 2020/02/26 02:25:55 by thverney         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,20 +15,20 @@
 int		split_parse_two(int i, t_env *env, t_cmd *cmd, char **str)
 {
 	if ((cmd->cpy[i] == 39 || cmd->cpy[i] == 34)
-	&& !nbslash(cmd->cpy, i, cmd))
+	&& !nbslash(cmd->cpy, i))
 	{
 		cmd->wichquote = (cmd->cpy[i] == 34 ? 34 : 39);
 		str[env->y][env->j++] = cmd->cpy[i++];
 		while (cmd->cpy[i] && i <= env->count)
 		{
-			if (((cmd->cpy[i] == 34 && !nbslash(cmd->cpy, i, cmd))
+			if (((cmd->cpy[i] == 34 && !nbslash(cmd->cpy, i))
 			|| cmd->cpy[i] == 39) && cmd->cpy[i] == cmd->wichquote)
 				break ;
 			str[env->y][env->j++] = cmd->cpy[i++];
 		}
 		str[env->y][env->j++] = cmd->cpy[i++];
 	}
-	else if (cmd->cpy[i] == ';' && !nbslash(cmd->cpy, i, cmd))
+	else if (cmd->cpy[i] == ';' && !nbslash(cmd->cpy, i))
 		return (i);
 	else
 	{

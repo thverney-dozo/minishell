@@ -6,11 +6,23 @@
 /*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/28 16:41:06 by anloubie          #+#    #+#             */
-/*   Updated: 2020/02/25 01:00:35 by thverney         ###   ########.fr       */
+/*   Updated: 2020/02/26 05:06:01 by thverney         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int			withoutspace(char *str)
+{
+	int i;
+
+	i = 0;
+	while (str[i])
+		i++;
+	while (str[i - 1] && str[i - 1] < 33 && !nbslash(str, i - 1))
+		i--;
+	return (i);
+}
 
 void		ft_echo_n(int i, int tmp, t_env *env)
 {
@@ -28,21 +40,21 @@ void		ft_echo_n(int i, int tmp, t_env *env)
 	while (env->av_pipe[env->x][tmp])
 		tmp++;
 	new = ft_substr(env->av_pipe[env->x], i, tmp - i);
-	write(env->fd_red, new, ft_strlen(new));
+	write(1, new, ft_strlen(new));
 }
 
 void		ft_echo_two(t_env *env)
 {
 	int		i;
-	int		tmp;
+	int		max;
 
 	i = next_none_space(env->av_pipe[env->x], 0);
 	i = next_space(env->av_pipe[env->x], i);
 	while (env->av_pipe[env->x][i] && env->av_pipe[env->x][i] < 33
 	&& env->pipe[1][env->x][i] == '1')
 		i++;
-	tmp = 0;
-	while (env->av_pipe[env->x][i])
+	max = withoutspace(env->av_pipe[env->x] + i);
+	while (env->av_pipe[env->x][i] && max--)
 	{
 		if (env->pipe[1][env->x][i] != '0')
 			write(1, &env->av_pipe[env->x][i], 1);
@@ -52,11 +64,23 @@ void		ft_echo_two(t_env *env)
 
 void		ft_echo(t_env *env)
 {
+	int i;
+
 	if (env->flags[1] && !ft_strncmp(env->flags[1], "-n", 3))
 	{
 		ft_echo_n(0, 0, env);
 		return ;
 	}
 	ft_echo_two(env);
-	write(env->fd_red, "\n", 1);
+	write(1, "\n", 1);
+	free(env->av_pipe[env->x]);
+	env->av_pipe[env->x] = NULL;
+	free(env->pipe[1][env->x]);
+	env->pipe[1][env->x] = NULL;
+	i = 0;
+	while (env->flags[i])
+	{
+		free(env->flags[i]);
+		env->flags[i] = NULL;
+	}
 }

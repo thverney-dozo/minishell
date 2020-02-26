@@ -6,7 +6,7 @@
 /*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/16 16:39:39 by thverney          #+#    #+#             */
-/*   Updated: 2020/02/25 07:50:17 by thverney         ###   ########.fr       */
+/*   Updated: 2020/02/26 02:36:40 by thverney         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,19 +36,21 @@ int		ft_error_syntax(t_env *env)
 	return (1);
 }
 
-int		nbslash(char *str, int i, t_cmd *cmd)
+int		nbslash(char *str, int i)
 {
+	int backslash;
+
 	if (str[i - 1])
 		i--;
 	else
 		return (0);
-	cmd->backslash = 0;
+	backslash = 0;
 	while (str[i] == '\\')
 	{
-		cmd->backslash++;
+		backslash++;
 		i--;
 	}
-	return (cmd->backslash % 2);
+	return (backslash % 2);
 }
 
 void	is_word(t_cmd *cmd, int i)

@@ -6,7 +6,7 @@
 /*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/22 19:53:41 by thverney          #+#    #+#             */
-/*   Updated: 2020/02/25 07:50:17 by thverney         ###   ########.fr       */
+/*   Updated: 2020/02/26 02:25:34 by thverney         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,14 @@ void	is_multi_line_quote_two(t_cmd *cmd, int i)
 	while (cmd->cpy[i])
 	{
 		if ((cmd->cpy[i] == 39 || cmd->cpy[i] == 34)
-		&& !nbslash(cmd->cpy, i, cmd))
+		&& !nbslash(cmd->cpy, i))
 		{
 			cmd->wichquote = (cmd->cpy[i] == 34 ? 34 : 39);
 			i++;
 			while (cmd->cpy[i])
 			{
 				if (((cmd->cpy[i] == 34
-				&& !nbslash(cmd->cpy, i, cmd))
+				&& !nbslash(cmd->cpy, i))
 				|| cmd->cpy[i] == 39) && cmd->cpy[i] == cmd->wichquote)
 					break ;
 				i++;
@@ -35,7 +35,7 @@ void	is_multi_line_quote_two(t_cmd *cmd, int i)
 				return ;
 			}
 		}
-		else if (cmd->cpy[i] == ';' && !nbslash(cmd->cpy, i, cmd))
+		else if (cmd->cpy[i] == ';' && !nbslash(cmd->cpy, i))
 			is_word(cmd, i);
 		i++;
 	}
@@ -45,7 +45,7 @@ void	is_valid_redir(t_cmd *cmd, int i)
 {
 	while (cmd->cpy[i])
 	{
-		if (!nbslash(cmd->cpy, i, cmd) && (cmd->cpy[i] == '>'
+		if (!nbslash(cmd->cpy, i) && (cmd->cpy[i] == '>'
 		|| cmd->cpy[i] == '<'))
 		{
 			i++;
