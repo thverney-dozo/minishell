@@ -6,7 +6,7 @@
 /*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/22 19:21:30 by thverney          #+#    #+#             */
-/*   Updated: 2020/02/26 08:22:50 by thverney         ###   ########.fr       */
+/*   Updated: 2020/02/26 11:32:55 by thverney         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ void	child_ps(t_env *env, int old_fd)
 	env->isred[env->x] > '0' ? set_fd_redirection(env) : 0;
 	is_command(env->flags[env->x][0], env);
 	env->isred[env->x] > '0' ? restore_fd_redirection(env) : 0;
+	free_pipe_fork(env, 0, 0);
 	exit(0);
 }
 
@@ -44,6 +45,7 @@ void	parent_ps(t_env *env, int old_fd, int pid)
 			env->isred[env->x] > '0' ? set_fd_redirection(env) : 0;
 			is_command(env->flags[env->x][0], env);
 			env->isred[env->x] > '0' ? restore_fd_redirection(env) : 0;
+			free_pipe_fork(env, 0, 0);
 			exit(env->ret);
 		}
 		waitpid(pid, &env->ret, 0);
@@ -64,6 +66,7 @@ void	is_pipe_here_two(t_env *env)
 			env->isred[env->x] > '0' ? set_fd_redirection(env) : 0;
 			is_command(env->flags[env->x][0], env);
 			env->isred[env->x] > '0' ? restore_fd_redirection(env) : 0;
+			free_flags(env);
 			exit(env->ret);
 		}
 		waitpid(pid, &env->ret, 0);

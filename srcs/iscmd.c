@@ -6,7 +6,7 @@
 /*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/28 16:08:15 by anloubie          #+#    #+#             */
-/*   Updated: 2020/02/26 10:50:09 by thverney         ###   ########.fr       */
+/*   Updated: 2020/02/26 14:02:27 by thverney         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,7 @@
 
 void	is_command(char *cmd, t_env *env)
 {
-	env->ret = 0;
-	if (!ft_strncmp(cmd, "exit\0", 5))
+	if (!(env->ret = 0) && !ft_strncmp(cmd, "exit\0", 5))
 		env->exit = 1;
 	else if (!ft_strncmp(cmd, "echo\0", 5))
 		ft_echo(env);

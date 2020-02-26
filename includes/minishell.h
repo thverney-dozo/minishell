@@ -6,7 +6,7 @@
 /*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/27 18:49:54 by thverney          #+#    #+#             */
-/*   Updated: 2020/02/26 08:21:58 by thverney         ###   ########.fr       */
+/*   Updated: 2020/02/26 12:05:40 by thverney         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ typedef struct		s_cmd
 
 typedef struct		s_env
 {
+	char			*value_env;
 	int				count_char_redir;
 	int				nb_redir;
 	char			*line;
@@ -141,6 +142,7 @@ void				free_pipe(t_env *env, int i, int pipe);
 void				free_args(t_env *env);
 void				free_flags(t_env *env);
 void				free_pipe_two(t_env *env);
+void				free_pipe_fork(t_env *env, int i, int pipe);
 /*
 **	Echo
 */

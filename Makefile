@@ -29,6 +29,7 @@ SRC_FILE   =   main.c 			\
 			utils.c				\
 			utils2.c			\
 			utils3.c			\
+			utils4.c			\
 
 INCS_NAME   =   minishell.h
 

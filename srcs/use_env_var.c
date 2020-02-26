@@ -6,7 +6,7 @@
 /*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/10 14:26:55 by anloubie          #+#    #+#             */
-/*   Updated: 2020/02/26 10:48:38 by thverney         ###   ########.fr       */
+/*   Updated: 2020/02/26 14:02:57 by thverney         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ int		try_question_mark(t_env *env, char *str, char *cpy, char *tmp)
 	{
 		i = 0;
 		nb = ft_itoa(env->ret);
-		// dprintf(2, "tmp {%s}", nb);
 		len = ft_strlen(nb);
 		while (i < len)
 		{
@@ -60,7 +59,6 @@ int		replace_word_two(t_env *env, char *str, char *cpy, char *tmp)
 		}
 		env->var = env->var->next;
 	}
-	// dprintf(2, "LA== {%s}\n", tmp);
 	i = try_question_mark(env, str, cpy, tmp);
 	free(tmp);
 	env->var = env->first;

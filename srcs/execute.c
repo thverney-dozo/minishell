@@ -6,18 +6,37 @@
 /*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/06 22:20:16 by thverney          #+#    #+#             */
-/*   Updated: 2020/02/26 06:03:22 by thverney         ###   ########.fr       */
+/*   Updated: 2020/02/26 14:00:26 by thverney         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int		is_exec_two(t_env *env, int i)
+int		is_exec_three(t_env *env, struct dirent	*dirent)
 {
-	DIR				*dir;
-	struct dirent	*dirent;
+	t_var	*tmp;
 
 	if (!(dirent = (struct dirent*)malloc(sizeof(struct dirent))))
+		return (1);
+	tmp = env->first;
+	while (tmp)
+	{
+		if (!ft_strcmp(tmp->name, "PATH\0"))
+		{
+			env->path = ft_split(tmp->value, ':');
+			return (0);
+		}
+		tmp = tmp->next;
+	}
+	env->path = NULL;
+	return (1);
+}
+
+int		is_exec_two(t_env *env, int i, struct dirent *dirent)
+{
+	DIR				*dir;
+
+	if (is_exec_three(env, dirent))
 		return (0);
 	while (env->path[++i])
 	{
@@ -43,6 +62,9 @@ int		is_exec_two(t_env *env, int i)
 
 int		is_executable(t_env *env, int indic)
 {
+	struct dirent	*dirent;
+
+	dirent = NULL;
 	if (indic)
 		return (0);
 	else
@@ -57,6 +79,6 @@ int		is_executable(t_env *env, int indic)
 				return (1);
 			}
 		}
-		return (is_exec_two(env, -1));
+		return (is_exec_two(env, -1, dirent));
 	}
 }
