@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
+/*   By: anloubie <anloubie@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/16 16:39:39 by thverney          #+#    #+#             */
-/*   Updated: 2020/02/26 02:36:40 by thverney         ###   ########.fr       */
+/*   Updated: 2020/02/26 14:30:20 by anloubie         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int		nbslash(char *str, int i)
 {
 	int backslash;
 
-	if (str[i - 1])
+	if (i > 0)
 		i--;
 	else
 		return (0);
