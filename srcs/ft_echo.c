@@ -6,7 +6,7 @@
 /*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/28 16:41:06 by anloubie          #+#    #+#             */
-/*   Updated: 2020/02/26 05:06:01 by thverney         ###   ########.fr       */
+/*   Updated: 2020/02/26 06:25:20 by thverney         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ void		ft_echo_n(int i, int tmp, t_env *env)
 		tmp++;
 	new = ft_substr(env->av_pipe[env->x], i, tmp - i);
 	write(1, new, ft_strlen(new));
+	free(new);
+	new = NULL;
 }
 
 void		ft_echo_two(t_env *env)
@@ -64,23 +66,13 @@ void		ft_echo_two(t_env *env)
 
 void		ft_echo(t_env *env)
 {
-	int i;
-
-	if (env->flags[1] && !ft_strncmp(env->flags[1], "-n", 3))
+	if (env->flags[env->x][1] && !ft_strncmp(env->flags[env->x][1], "-n", 3))
 	{
 		ft_echo_n(0, 0, env);
 		return ;
 	}
 	ft_echo_two(env);
 	write(1, "\n", 1);
-	free(env->av_pipe[env->x]);
-	env->av_pipe[env->x] = NULL;
 	free(env->pipe[1][env->x]);
 	env->pipe[1][env->x] = NULL;
-	i = 0;
-	while (env->flags[i])
-	{
-		free(env->flags[i]);
-		env->flags[i] = NULL;
-	}
 }

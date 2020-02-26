@@ -6,7 +6,7 @@
 /*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/12 16:54:21 by anloubie          #+#    #+#             */
-/*   Updated: 2020/02/26 05:20:41 by thverney         ###   ########.fr       */
+/*   Updated: 2020/02/26 09:22:53 by thverney         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@ int		loop_shell(t_env *env)
 	}
 	if (env->join && env->is_join)
 		env->copy_free = ft_strjoinfree(env->join, env->copy_free, 3);
-	if ((env->is_join = 1) && syntax_error(env) && free_cpy(env))
-		return (1);
+	if ((env->is_join = 1) && syntax_error(env))
+		return (free_syntax_error(env));
 	if ((env->args = split_commands(env)) == NULL)
 		return (1);
 	ft_clear(&env->copy_free);
@@ -36,10 +36,9 @@ int		loop_shell(t_env *env)
 	while (env->args[env->i])
 	{
 		is_pipe_here(env);
-		free(env->args[env->i]);
-		env->args[env->i] = NULL;
 		env->i++;
 	}
+	free_args(env);
 	return (0);
 }
 
@@ -48,6 +47,8 @@ void	init_loop(t_env *env)
 	if ((env->ret_gnl = get_next_line(0, &env->copy_free)) > 0
 	&& env->ret_gnl != 2)
 	{
+		if (blank_line(env))
+			return ;
 		how_many_redir(env);
 		env->is_join = g_env.is_join;
 		if (loop_shell(env))
@@ -76,6 +77,7 @@ void	prompt_display(t_env *env)
 		ft_get_dir(env);
 		ft_putstr_fd(env->dir, 1);
 		free(env->dir);
+		env->dir = NULL;
 		write(1, ")\033[31m#>\033[00m ", 15);
 	}
 	init_loop(env);

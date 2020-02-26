@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   iscmd2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anloubie <anloubie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/22 19:21:30 by thverney          #+#    #+#             */
-/*   Updated: 2020/02/24 16:33:52 by anloubie         ###   ########.fr       */
+/*   Updated: 2020/02/26 08:22:50 by thverney         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@ void	child_ps(t_env *env, int old_fd)
 	dup2(env->fd[1], STDOUT_FILENO);
 	if (old_fd > -1)
 		dup2(old_fd, STDIN_FILENO);
-	env->flags = split_wh_sp(env->av_pipe[env->x]);
+	env->flags[env->x] = split_wh_sp(env->av_pipe[env->x]);
 	env->isred[env->x] > '0' ? set_fd_redirection(env) : 0;
-	is_command(env->flags[0], env);
+	is_command(env->flags[env->x][0], env);
 	env->isred[env->x] > '0' ? restore_fd_redirection(env) : 0;
 	exit(0);
 }
@@ -40,9 +40,9 @@ void	parent_ps(t_env *env, int old_fd, int pid)
 		{
 			if (old_fd > -1)
 				dup2(old_fd, STDIN_FILENO);
-			env->flags = split_wh_sp(env->av_pipe[env->x]);
+			env->flags[env->x] = split_wh_sp(env->av_pipe[env->x]);
 			env->isred[env->x] > '0' ? set_fd_redirection(env) : 0;
-			is_command(env->flags[0], env);
+			is_command(env->flags[env->x][0], env);
 			env->isred[env->x] > '0' ? restore_fd_redirection(env) : 0;
 			exit(env->ret);
 		}
@@ -54,15 +54,15 @@ void	is_pipe_here_two(t_env *env)
 {
 	int pid;
 
-	env->flags = split_wh_sp(env->av_pipe[env->x]);
-	if (is_builtin_no_pipe(env->flags[0], env))
+	env->flags[env->x] = split_wh_sp(env->av_pipe[env->x]);
+	if (is_builtin_no_pipe(env->flags[env->x][0], env))
 	{
 		if ((pid = fork()) < 0)
 			exit(EXIT_FAILURE);
 		if (pid == 0)
 		{
 			env->isred[env->x] > '0' ? set_fd_redirection(env) : 0;
-			is_command(env->flags[0], env);
+			is_command(env->flags[env->x][0], env);
 			env->isred[env->x] > '0' ? restore_fd_redirection(env) : 0;
 			exit(env->ret);
 		}
@@ -72,7 +72,7 @@ void	is_pipe_here_two(t_env *env)
 	else
 	{
 		env->isred[env->x] > '0' ? set_fd_redirection(env) : 0;
-		is_command(env->flags[0], env);
+		is_command(env->flags[env->x][0], env);
 		env->isred[env->x] > '0' ? restore_fd_redirection(env) : 0;
 	}
 }

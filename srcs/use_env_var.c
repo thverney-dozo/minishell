@@ -6,11 +6,36 @@
 /*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/10 14:26:55 by anloubie          #+#    #+#             */
-/*   Updated: 2020/02/22 19:48:50 by thverney         ###   ########.fr       */
+/*   Updated: 2020/02/26 10:48:38 by thverney         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int		try_question_mark(t_env *env, char *str, char *cpy, char *tmp)
+{
+	int		i;
+	char	*nb;
+	int		len;
+
+	if (!(ft_strcmp(tmp, "?")))
+	{
+		i = 0;
+		nb = ft_itoa(env->ret);
+		// dprintf(2, "tmp {%s}", nb);
+		len = ft_strlen(nb);
+		while (i < len)
+		{
+			str[i] = nb[i];
+			cpy[i] = '2';
+			i++;
+		}
+		free(nb);
+		nb = NULL;
+		return (i);
+	}
+	return (0);
+}
 
 int		replace_word_two(t_env *env, char *str, char *cpy, char *tmp)
 {
@@ -35,9 +60,11 @@ int		replace_word_two(t_env *env, char *str, char *cpy, char *tmp)
 		}
 		env->var = env->var->next;
 	}
+	// dprintf(2, "LA== {%s}\n", tmp);
+	i = try_question_mark(env, str, cpy, tmp);
 	free(tmp);
 	env->var = env->first;
-	return (0);
+	return (i);
 }
 
 int		replace_word(t_env *env, char *line, char *str, char *cpy)
@@ -52,6 +79,22 @@ int		replace_word(t_env *env, char *line, char *str, char *cpy)
 		i++;
 	tmp = ft_substr(line, 0, i);
 	return (replace_word_two(env, str, cpy, tmp));
+}
+
+int		try_question_mark_count(t_env *env, char *tmp)
+{
+	int		len;
+	char	*nb;
+
+	if (!(ft_strcmp(tmp, "?")))
+	{
+		nb = ft_itoa(env->ret);
+		len = ft_strlen(nb);
+		free(nb);
+		nb = NULL;
+		return (len);
+	}
+	return (0);
 }
 
 int		count_dollar(t_env *env, char *str)
@@ -75,7 +118,8 @@ int		count_dollar(t_env *env, char *str)
 		}
 		env->var = env->var->next;
 	}
+	i = try_question_mark_count(env, tmp);
 	free(tmp);
 	env->var = env->first;
-	return (0);
+	return (i);
 }

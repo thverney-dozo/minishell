@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anloubie <anloubie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/03 15:03:14 by anloubie          #+#    #+#             */
-/*   Updated: 2020/02/24 12:18:52 by anloubie         ###   ########.fr       */
+/*   Updated: 2020/02/26 06:03:22 by thverney         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,13 +95,13 @@ void		ft_export(t_env *env)
 	err = 0;
 	new = NULL;
 	i = 1;
-	while (env->flags[i])
+	while (env->flags[env->x][i])
 	{
-		if (!isnb(env->flags[i][0]))
-			ft_export2(env->flags[i], env, new);
+		if (!isnb(env->flags[env->x][i][0]))
+			ft_export2(env->flags[env->x][i], env, new);
 		else if (err == 0)
 		{
-			ft_export_error(env->flags[i]);
+			ft_export_error(env->flags[env->x][i]);
 			err++;
 			env->ret = 1;
 		}

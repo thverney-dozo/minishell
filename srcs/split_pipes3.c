@@ -6,7 +6,7 @@
 /*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/25 07:40:11 by thverney          #+#    #+#             */
-/*   Updated: 2020/02/26 04:16:49 by thverney         ###   ########.fr       */
+/*   Updated: 2020/02/26 10:17:59 by thverney         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,9 @@
 
 int		count_chars_pipes_three(char *line, t_env *env, int i)
 {
+	if (line[i] == '$' && (line[i + 1] == ' '
+	|| line[i + 1] == '\\') && i++)
+		env->count++;
 	if (line[i] == '$' && !nbslash(line, i) && i++)
 	{
 		env->count += count_dollar(env, line + i);

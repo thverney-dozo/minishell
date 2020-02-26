@@ -6,7 +6,7 @@
 /*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/23 01:02:17 by thverney          #+#    #+#             */
-/*   Updated: 2020/02/26 04:10:07 by thverney         ###   ########.fr       */
+/*   Updated: 2020/02/26 08:43:57 by thverney         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	is_multi_line_quote_two_pipe(t_cmd *cmd, int i)
 		}
 		else if (cmd->cpy[i] == '|' && !nbslash(cmd->cpy, i))
 			is_word(cmd, i);
-		i++;
+		cmd->cpy[i] ? i++ : 0;
 	}
 }
 

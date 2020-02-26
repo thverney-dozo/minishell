@@ -6,7 +6,7 @@
 /*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/28 16:08:15 by anloubie          #+#    #+#             */
-/*   Updated: 2020/02/26 05:20:49 by thverney         ###   ########.fr       */
+/*   Updated: 2020/02/26 10:50:09 by thverney         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 void	is_command(char *cmd, t_env *env)
 {
+	env->ret = 0;
 	if (!ft_strncmp(cmd, "exit\0", 5))
 		env->exit = 1;
 	else if (!ft_strncmp(cmd, "echo\0", 5))
@@ -24,9 +25,9 @@ void	is_command(char *cmd, t_env *env)
 		ft_cd(env);
 	else if (!(ft_strncmp(cmd, "clear\0", 6)))
 		ft_clear_screen(env);
-	else if ((!(ft_strncmp(cmd, "export\0", 7))) && env->flags[1])
+	else if ((!(ft_strncmp(cmd, "export\0", 7))) && env->flags[env->x][1])
 		ft_export(env);
-	else if ((!(ft_strncmp(cmd, "export\0", 7))) && (!env->flags[1]))
+	else if ((!(ft_strncmp(cmd, "export\0", 7))) && (!env->flags[env->x][1]))
 		env_malloc(env);
 	else if (!(ft_strcmp(cmd, "unset")))
 		ft_unset(env);
@@ -60,15 +61,19 @@ void	ft_is_exit_here(t_env *env)
 {
 	env->x = 0;
 	while (env->av_pipe[env->x])
+		env->x++;
+	if (!(env->flags = (char***)malloc(sizeof(char**) * (env->x + 1))))
+		return ;
+	env->x = 0;
+	while (env->av_pipe[env->x])
 	{
+		env->flags[env->x] = split_wh_sp(env->av_pipe[env->x]);
 		if (!(env->av_pipe[env->x + 1]))
-		{
-			env->flags = split_wh_sp(env->av_pipe[env->x]);
-			if (!ft_strcmp(env->flags[0], "exit\0"))
+			if (!ft_strcmp(env->flags[env->x][0], "exit\0"))
 				exit(0);
-		}
 		env->x++;
 	}
+	env->flags[env->x] = 0;
 }
 
 int		is_builtin_no_pipe(char *cmd, t_env *env)
@@ -95,17 +100,5 @@ void	is_pipe_here(t_env *env)
 		ft_pipe_is_cmd(env, -1);
 	else
 		is_pipe_here_two(env);
-	env->x = 0;
-	while (env->av_pipe[env->x])
-	{
-		free(env->av_pipe[env->x]);
-		env->av_pipe[env->x] = NULL;
-		env->x++;
-	}
-	free(env->redir);
-	env->redir = NULL;
-	free(env->isred);
-	env->isred = NULL;
-	free(env->av_pipe);
-	env->av_pipe = NULL;
+	free_pipe(env, 0, 0);
 }

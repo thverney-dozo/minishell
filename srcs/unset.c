@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anloubie <anloubie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/04 18:28:21 by anloubie          #+#    #+#             */
-/*   Updated: 2020/02/24 13:52:10 by anloubie         ###   ########.fr       */
+/*   Updated: 2020/02/26 06:03:22 by thverney         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +41,12 @@ void		ft_unset(t_env *env)
 {
 	int		i;
 
-	if (!env->flags[1])
+	if (!env->flags[env->x][1])
 		return ;
 	i = 1;
-	while (env->flags[i])
+	while (env->flags[env->x][i])
 	{
-		ft_unset_var(env->flags[i], env);
+		ft_unset_var(env->flags[env->x][i], env);
 		ft_save(env, env->var);
 		i++;
 	}

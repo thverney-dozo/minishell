@@ -6,7 +6,7 @@
 /*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/27 18:49:54 by thverney          #+#    #+#             */
-/*   Updated: 2020/02/26 05:20:33 by thverney         ###   ########.fr       */
+/*   Updated: 2020/02/26 08:21:58 by thverney         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ typedef struct		s_env
 	char			**my_env;
 	char			*dir;
 	char			**args;
-	char			**flags;
+	char			***flags;
 	int				i;
 	int				j;
 	int				k;
@@ -130,9 +130,17 @@ char line);
 int					is_forbidden_letter(char c);
 int					malloc_triple_tab(t_env *env, t_cmd *cmd);
 int					malloc_tab(t_env *env);
-int					free_cpy(t_env *env);
 void				how_many_redir(t_env *env);
+int					blank_line(t_env *env);
 
+/*
+**	Free
+*/
+int					free_syntax_error(t_env *env);
+void				free_pipe(t_env *env, int i, int pipe);
+void				free_args(t_env *env);
+void				free_flags(t_env *env);
+void				free_pipe_two(t_env *env);
 /*
 **	Echo
 */
