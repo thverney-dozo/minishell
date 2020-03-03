@@ -6,7 +6,7 @@
 /*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/06 22:20:16 by thverney          #+#    #+#             */
-/*   Updated: 2020/03/03 02:34:21 by thverney         ###   ########.fr       */
+/*   Updated: 2020/03/03 08:03:29 by thverney         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,17 @@ int		is_exec_three(t_env *env, struct dirent	*dirent)
 	{
 		if (!ft_strcmp(tmp->name, "PATH\0"))
 		{
+			if (env->path)
+			{
+				free(env->path);
+				env->path = NULL;
+			}
 			env->path = ft_split(tmp->value, ':');
 			return (0);
 		}
 		tmp = tmp->next;
 	}
+	free(env->path);
 	env->path = NULL;
 	return (1);
 }

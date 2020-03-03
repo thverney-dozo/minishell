@@ -6,7 +6,7 @@
 /*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/22 19:21:30 by thverney          #+#    #+#             */
-/*   Updated: 2020/02/26 11:32:55 by thverney         ###   ########.fr       */
+/*   Updated: 2020/03/03 08:05:48 by thverney         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@ void	is_pipe_here_two(t_env *env)
 {
 	int pid;
 
-	env->flags[env->x] = split_wh_sp(env->av_pipe[env->x]);
 	if (is_builtin_no_pipe(env->flags[env->x][0], env))
 	{
 		if ((pid = fork()) < 0)

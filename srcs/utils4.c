@@ -6,7 +6,7 @@
 /*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/26 14:03:41 by thverney          #+#    #+#             */
-/*   Updated: 2020/02/26 14:04:20 by thverney         ###   ########.fr       */
+/*   Updated: 2020/03/03 07:48:00 by thverney         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,14 +67,15 @@ void	free_args(t_env *env)
 	env->args = NULL;
 }
 
-void	free_pipe_two(t_env *env)
+void	join_gnl_loop(t_env *env)
 {
-	free(env->pipe[1]);
-	free(env->redir);
-	free(env->isred);
-	free(env->av_pipe);
-	env->pipe[1] = NULL;
-	env->redir = NULL;
-	env->isred = NULL;
-	env->av_pipe = NULL;
+	if (env->join)
+	{
+		free(env->join);
+		env->join = ft_strdup(env->copy_free);
+		free(env->copy_free);
+		env->copy_free = NULL;
+	}
+	else
+		env->join = NULL;
 }

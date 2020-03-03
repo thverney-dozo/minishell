@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_commands3.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anloubie <anloubie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/22 20:01:58 by thverney          #+#    #+#             */
-/*   Updated: 2020/02/26 14:35:59 by anloubie         ###   ########.fr       */
+/*   Updated: 2020/03/03 05:34:43 by thverney         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,8 @@ char	**split_parse(t_env *env, t_cmd *cmd, int i)
 {
 	char	**str;
 
-	if (!(str = (char**)malloc(sizeof(char*) * (cmd->words + 1))))
+	if (!(env->y = 0) && !(str = malloc(sizeof(char*) * (cmd->words + 1))))
 		return (NULL);
-	env->y = 0;
 	while (env->y < cmd->words)
 	{
 		env->j = 0;
@@ -64,5 +63,7 @@ char	**split_parse(t_env *env, t_cmd *cmd, int i)
 		str[env->y++][env->j] = '\0';
 	}
 	str[env->y] = 0;
+	free(cmd);
+	cmd = NULL;
 	return (str);
 }

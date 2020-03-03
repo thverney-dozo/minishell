@@ -6,7 +6,7 @@
 /*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/27 18:49:54 by thverney          #+#    #+#             */
-/*   Updated: 2020/02/26 12:05:40 by thverney         ###   ########.fr       */
+/*   Updated: 2020/03/03 07:58:27 by thverney         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,44 +46,39 @@ typedef struct		s_cmd
 
 typedef struct		s_env
 {
-	char			*value_env;
+	int				fd_red;
+	int				ret;
 	int				count_char_redir;
 	int				nb_redir;
-	char			*line;
 	int				t;
-	int				is_join;
-	char			*join;
 	int				ret_gnl;
-	char			*isred;
+	int				is_join;
 	int				count_redir;
-	char			**redir;
 	int				count;
 	int				fd[2];
 	int				old_fd;
 	int				input_pipe;
 	int				exit;
-	char			*buf;
-	char			*arg;
-	char			**my_env;
-	char			*dir;
-	char			**args;
-	char			***flags;
 	int				i;
 	int				j;
 	int				k;
 	int				x;
 	int				y;
-	char			**copy_args;
+	char			*isred;
+	char			*line;
+	char			*join;
+	char			*dir;
 	char			*copy_free;
+	char			**redir;
+	char			**my_env;
+	char			**args;
 	char			**av_pipe;
 	char			**pipe[2];
 	char			**path;
+	char			***flags;
 	t_var			*var;
 	t_var			*first;
 	t_var			*save;
-	int				fd_red;
-	int				ret;
-	int				hold;
 }					t_env;
 
 extern				t_env g_env;
@@ -133,6 +128,7 @@ int					malloc_triple_tab(t_env *env, t_cmd *cmd);
 int					malloc_tab(t_env *env);
 void				how_many_redir(t_env *env);
 int					blank_line(t_env *env);
+void				join_gnl_loop(t_env *env);
 
 /*
 **	Free

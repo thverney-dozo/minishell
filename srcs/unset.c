@@ -6,7 +6,7 @@
 /*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/04 18:28:21 by anloubie          #+#    #+#             */
-/*   Updated: 2020/02/26 06:03:22 by thverney         ###   ########.fr       */
+/*   Updated: 2020/03/03 04:42:03 by thverney         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ void		ft_unset_var(char *str, t_env *env)
 			ft_clear(&env->var->value);
 			ft_clear(&env->var->name);
 			free(env->var);
+			env->var = NULL;
 			break ;
 		}
 		else

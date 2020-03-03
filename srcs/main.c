@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anloubie <anloubie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/12 16:54:21 by anloubie          #+#    #+#             */
-/*   Updated: 2020/03/02 14:12:19 by anloubie         ###   ########.fr       */
+/*   Updated: 2020/03/03 07:48:01 by thverney         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,16 +57,12 @@ void	init_loop(t_env *env)
 		env->args = NULL;
 	}
 	if (env->ret_gnl == 2 && env->copy_free)
-	{
-		env->join = env->join ? ft_strdup(env->copy_free) : NULL;
-	}
+		join_gnl_loop(env);
 	else if (env->ret_gnl == 0)
 	{
 		write(1, "exit\n", 5);
 		exit(0);
 	}
-	if (!env->copy_free)
-		env->hold = env->ret;
 }
 
 void	prompt_display(t_env *env)
