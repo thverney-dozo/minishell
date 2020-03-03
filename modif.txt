@@ -1,1 +1,0 @@
-utils.c l.43 : modif if (str[i - 1]) en if (i > 0)
