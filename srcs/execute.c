@@ -6,7 +6,7 @@
 /*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/06 22:20:16 by thverney          #+#    #+#             */
-/*   Updated: 2020/02/26 14:00:26 by thverney         ###   ########.fr       */
+/*   Updated: 2020/03/03 02:34:21 by thverney         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,9 +70,9 @@ int		is_executable(t_env *env, int indic)
 	else
 	{
 		env->flags[env->x] = split_wh_sp(env->av_pipe[env->x]);
-		if (env->flags[env->x][0][0] == '.' && env->flags[env->x][0][1] == '/')
+		if (env->flags[env->x][0][0] == '.' || env->flags[env->x][0][0] == '/')
 		{
-			execve(*env->flags[env->x] + 2, env->flags[env->x], env->my_env);
+			execve(*env->flags[env->x], env->flags[env->x], env->my_env);
 			if (errno)
 			{
 				ft_putendl_fd(strerror(errno), 2);
