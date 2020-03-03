@@ -6,7 +6,7 @@
 /*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/27 18:49:54 by thverney          #+#    #+#             */
-/*   Updated: 2020/03/03 07:58:27 by thverney         ###   ########.fr       */
+/*   Updated: 2020/03/03 08:11:07 by thverney         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,6 +139,7 @@ void				free_args(t_env *env);
 void				free_flags(t_env *env);
 void				free_pipe_two(t_env *env);
 void				free_pipe_fork(t_env *env, int i, int pipe);
+void				free_cmd(t_cmd *cmd);
 /*
 **	Echo
 */

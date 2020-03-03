@@ -6,16 +6,17 @@
 /*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/26 02:55:11 by thverney          #+#    #+#             */
-/*   Updated: 2020/03/03 08:00:29 by thverney         ###   ########.fr       */
+/*   Updated: 2020/03/03 08:11:36 by thverney         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// void	free_one_flags(t_env *env)
-// {
-
-// }
+void	free_cmd(t_cmd *cmd)
+{
+	free(cmd);
+	cmd = NULL;
+}
 
 void	free_flags(t_env *env)
 {
@@ -39,7 +40,6 @@ void	free_flags(t_env *env)
 	}
 	free(env->flags);
 	env->flags = NULL;
-
 }
 
 void	free_pipe_fork(t_env *env, int i, int pipe)
