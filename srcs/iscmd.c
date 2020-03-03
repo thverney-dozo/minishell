@@ -6,7 +6,7 @@
 /*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/01/28 16:08:15 by anloubie          #+#    #+#             */
-/*   Updated: 2020/03/03 08:05:44 by thverney         ###   ########.fr       */
+/*   Updated: 2020/03/03 13:56:19 by thverney         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,12 @@ void	ft_is_exit_here(t_env *env)
 		env->flags[env->x] = split_wh_sp(env->av_pipe[env->x]);
 		if (!(env->av_pipe[env->x + 1]))
 			if (!ft_strcmp(env->flags[env->x][0], "exit\0"))
-				exit(0);
+			{
+				if (env->flags[env->x][1])
+					exit(ft_atoi(env->flags[env->x][1]));
+				else
+					exit(0);
+			}
 		env->x++;
 	}
 	env->flags[env->x] = 0;
