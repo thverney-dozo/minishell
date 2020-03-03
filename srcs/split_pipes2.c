@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_pipes2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: anloubie <anloubie@student.42.fr>          +#+  +:+       +#+        */
+/*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/23 01:02:17 by thverney          #+#    #+#             */
-/*   Updated: 2020/02/26 16:00:48 by anloubie         ###   ########.fr       */
+/*   Updated: 2020/03/03 13:12:48 by thverney         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ int		split_pipe_line_two(int i, t_env *env)
 	if (env->line[i] == '$' && (env->line[i + 1] == ' '
 	|| env->line[i + 1] == '\\'))
 		fill_triple_string(env, env->j, '2', env->line[i]);
-	else if (env->line[i] == '$' && !nbslash(env->line, i) && i++)
+	else if (env->line[i] == '$' && !nbslash(env->line, i) && ++i)
 	{
 		env->j += replace_word(env, env->line + i,
 		&(env->pipe[0][env->t][env->j]), &(env->pipe[1][env->t][env->j]));

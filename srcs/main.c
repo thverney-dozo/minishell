@@ -6,7 +6,7 @@
 /*   By: thverney <thverney@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/02/12 16:54:21 by anloubie          #+#    #+#             */
-/*   Updated: 2020/03/03 07:48:01 by thverney         ###   ########.fr       */
+/*   Updated: 2020/03/03 13:13:43 by thverney         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,7 @@ int		main(int ac, char **av, char **envi)
 	env->var = ft_lstvar(env);
 	env->fd_red = 1;
 	env->ret_gnl = 0;
+	env->ret = 0;
 	env->join = NULL;
 	env->count_redir = 0;
 	g_env.is_join = 1;
